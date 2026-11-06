@@ -116,8 +116,22 @@ def page_url(lang: str, *parts: str) -> str:
     return DOMAIN + path
 
 
+
 def other_lang(lang: str) -> str:
     return "en" if lang == "ar" else "ar"
+
+
+def public_stores(stores: list[dict]) -> list[dict]:
+    """Stores marked example stay in data/ but are hidden from public pages/sitemap."""
+    return [s for s in stores if not s.get("example")]
+
+
+def alternate_path(lang: str, canonical_path: str) -> str:
+    """Absolute site path for the same page in the other language."""
+    if lang == "ar":
+        return "/en/" if canonical_path == "/" else "/en" + canonical_path
+    rest = canonical_path[3:] if canonical_path.startswith("/en") else canonical_path
+    return rest if rest else "/"
 
 
 def t(lang: str, ar: str, en: str) -> str:
@@ -212,6 +226,9 @@ def render_head(
 <link rel="alternate" hreflang="en" href="{esc(hreflang_en)}">
 <link rel="alternate" hreflang="x-default" href="{esc(hreflang_ar)}">
 <meta name="theme-color" content="#0d9488">
+<link rel="icon" href="{esc(asset_prefix(lang, depth) + "assets/favicon.svg")}" type="image/svg+xml">
+<link rel="icon" href="{esc(asset_prefix(lang, depth) + "assets/favicon-32.png")}" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="{esc(asset_prefix(lang, depth) + "assets/apple-touch-icon.png")}" sizes="180x180">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(description)}">
 <meta property="og:url" content="{esc(canon)}">
@@ -219,11 +236,11 @@ def render_head(
 <meta property="og:site_name" content="{esc(SITE_NAME_AR if lang == "ar" else SITE_NAME_EN)}">
 <meta property="og:locale" content="{"ar_SA" if lang == "ar" else "en_US"}">
 <meta property="og:locale:alternate" content="{"en_US" if lang == "ar" else "ar_SA"}">
-<meta property="og:image" content="{esc(DOMAIN + "/assets/og-default.svg")}">
+<meta property="og:image" content="{esc(DOMAIN + "/assets/og-default.png")}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(description)}">
-<meta name="twitter:image" content="{esc(DOMAIN + "/assets/og-default.svg")}">
+<meta name="twitter:image" content="{esc(DOMAIN + "/assets/og-default.png")}">
 <link rel="stylesheet" href="{esc(css)}">
 {chr(10).join(blocks)}
 </head>
@@ -231,19 +248,22 @@ def render_head(
 """
 
 
-def render_header(lang: str, depth: int) -> str:
+def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
     root = asset_prefix(lang, depth)
     loc = lang_prefix(depth)
+    switch_href = alternate_path(lang, canonical_path)
     if lang == "ar":
-        switch_href, switch_label = f"{root}en/", "English"
+        switch_label = "English"
         brand_tail = "كوبونات"
         nav = ("الرئيسية", "المتاجر", "التصنيفات", "المواسم", "للمسوقين")
     else:
-        switch_href, switch_label = root, "العربية"
+        switch_label = "العربية"
         brand_tail = "Coupons"
         nav = ("Home", "Stores", "Categories", "Seasons", "Marketers")
     home, stores, cats, seasons, marketers = nav
-    return f"""<header class="site-header">
+    skip = t(lang, "تخطّي إلى المحتوى", "Skip to content")
+    return f"""<a class="skip-link" href="#main">{esc(skip)}</a>
+<header class="site-header">
   <div class="container header-inner">
     <a class="logo" href="{esc(loc + "index.html")}"><span>ye7ia</span> {esc(brand_tail)}</a>
     <nav class="nav" aria-label="Main">
@@ -257,6 +277,7 @@ def render_header(lang: str, depth: int) -> str:
   </div>
 </header>
 """
+
 
 
 def render_footer(lang: str, depth: int) -> str:
@@ -359,8 +380,22 @@ def coupon_card(lang: str, coupon: dict, store: dict | None = None, depth: int =
         sname = store["name_ar"] if lang == "ar" else store["name_en"]
         loc = lang_prefix(depth)
         store_line = f'<p class="muted"><a href="{esc(loc)}stores/{esc(store["slug"])}/">{esc(sname)}</a></p>'
-    label_copy = t(lang, "انسخ وتسوّق", "Copy & Shop")
+    label_copy = t(lang, "نسخ الكود", "Copy code")
     label_done = t(lang, "تم النسخ!", "Copied!")
+    label_shop = t(lang, "تسوّق الآن", "Shop now")
+    shop_url = coupon.get("affiliate_url") or "#"
+    verified_line = ""
+    vd = (coupon.get("verified_date") or "")[:10]
+    if vd:
+        verified_line = (
+            f'<p class="muted coupon-verified">{esc(t(lang, f"آخر تحقق: {vd}", f"Last verified: {vd}"))}</p>'
+        )
+    shop_btn = ""
+    if shop_url and shop_url != "#":
+        shop_btn = (
+            f'<a class="btn btn-secondary" href="{esc(shop_url)}" target="_blank" '
+            f'rel="noopener noreferrer sponsored">{esc(label_shop)}</a>'
+        )
     return f"""<article class="coupon">
   <div class="coupon-top">
     <div>
@@ -370,14 +405,15 @@ def coupon_card(lang: str, coupon: dict, store: dict | None = None, depth: int =
   </div>
   <h3 class="coupon-title">{esc(title)}</h3>
   {store_line}
+  {verified_line}
   <div class="coupon-actions">
     <div class="code-box" aria-label="code">{esc(coupon.get("code") or "")}</div>
     <button type="button" class="btn"
-      data-copy-shop
+      data-copy
       data-code="{esc(coupon.get("code") or "")}"
-      data-url="{esc(coupon.get("affiliate_url") or "#")}"
       data-label-copy="{esc(label_copy)}"
       data-label-done="{esc(label_done)}">{esc(label_copy)}</button>
+    {shop_btn}
   </div>
 </article>
 """
@@ -478,13 +514,14 @@ def wrap_page(
 ) -> str:
     return (
         render_head(lang, title, description, canonical_path, depth, jsonld)
-        + render_header(lang, depth)
+        + render_header(lang, depth, canonical_path)
         + body
         + render_footer(lang, depth)
     )
 
 
 def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: Path, depth: int) -> None:
+    stores = public_stores(stores)
     flat = sort_coupons(all_coupons_flat(stores))
     today_codes = [c for c in flat if is_verified_today(c.get("verified_date") or "")][:8] or flat[:6]
     if lang == "ar":
@@ -495,7 +532,8 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         season_label = "عرض موسمي: تصفّح أكواد الجمعة البيضاء ورمضان واليوم الوطني"
         top_stores, today_label = "أبرز المتاجر", "أكواد محدثة"
         cats_label, countries_label = "تصفح حسب التصنيف", "حسب الدولة"
-        example_note = "البيانات الحالية أمثلة تجريبية للتوضيح — استبدلها بمتاجر وأكواد حقيقية قبل الإطلاق."
+        empty_stores = "ما فيه متاجر بعد — قريب نضيف أكواد حقيقية."
+        empty_codes = "ما فيه أكواد معروضة حالياً."
         canon = "/"
     else:
         title = f"Saudi Discount Codes {YEAR} | {SITE_NAME_EN}"
@@ -505,11 +543,22 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         season_label = "Seasonal: browse White Friday, Ramadan, and National Day codes"
         top_stores, today_label = "Top stores", "Recently verified codes"
         cats_label, countries_label = "Browse by category", "By country"
-        example_note = "Current data is EXAMPLE placeholder content — replace with real stores and codes before launch."
+        empty_stores = "No stores yet — real codes will appear here soon."
+        empty_codes = "No codes to show right now."
         canon = "/en/"
 
-    store_cards = "\n".join(store_card(lang, s, categories, depth) for s in stores)
-    coupon_cards = "\n".join(coupon_card(lang, c, c.get("_store"), depth) for c in today_codes)
+    if stores:
+        store_cards = "\n".join(store_card(lang, s, categories, depth) for s in stores)
+        stores_block = f'<div class="grid">{store_cards}</div>'
+    else:
+        stores_block = f'<p class="muted empty-state">{esc(empty_stores)}</p>'
+
+    if today_codes:
+        coupon_cards = "\n".join(coupon_card(lang, c, c.get("_store"), depth) for c in today_codes)
+        coupons_block = f'<div class="grid">{coupon_cards}</div>'
+    else:
+        coupons_block = f'<p class="muted empty-state">{esc(empty_codes)}</p>'
+
     cat_cards = []
     for c in categories:
         name = c["name_ar"] if lang == "ar" else c["name_en"]
@@ -525,16 +574,15 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
   <h1>{esc(h1)}</h1>
   <p>{esc(lead)}</p>
 </div></section>
-<main class="container">
-  <div class="example-banner">{esc(example_note)}</div>
+<main id="main" class="container">
   <a class="season-banner" href="seasons/">{esc(season_label)} →</a>
   <section class="section">
     <div class="section-head"><h2>{esc(top_stores)}</h2></div>
-    <div class="grid">{store_cards}</div>
+    {stores_block}
   </section>
   <section class="section">
     <div class="section-head"><h2>{esc(today_label)}</h2></div>
-    <div class="grid">{coupon_cards}</div>
+    {coupons_block}
   </section>
   <section class="section">
     <div class="section-head"><h2>{esc(cats_label)}</h2></div>
@@ -546,6 +594,7 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
   </section>
 </main>
 """
+    search_path = "/stores/?q={search_term_string}" if lang == "ar" else "/en/stores/?q={search_term_string}"
     web = {
         "@context": "https://schema.org",
         "@type": "WebSite",
@@ -553,16 +602,22 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         "url": page_url(lang),
         "inLanguage": "ar-SA" if lang == "ar" else "en",
         "description": desc,
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {"@type": "EntryPoint", "urlTemplate": DOMAIN + search_path},
+            "query-input": "required name=search_term_string",
+        },
     }
     org = {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": SITE_NAME_AR if lang == "ar" else SITE_NAME_EN,
         "url": DOMAIN + "/",
-        "logo": DOMAIN + "/assets/og-default.svg",
+        "logo": DOMAIN + "/assets/icon-512.png",
         "description": desc,
     }
     write(out_dir / "index.html", wrap_page(lang, depth, title, desc, canon, body, [web, org]))
+
 
 
 def build_store(lang: str, store: dict, stores: list[dict], categories: list[dict], out_dir: Path, depth: int) -> None:
@@ -611,9 +666,10 @@ def build_store(lang: str, store: dict, stores: list[dict], categories: list[dic
             )
 
     cat_slug = store.get("category") or ""
-    peers = [s for s in stores if s.get("slug") != store.get("slug") and s.get("category") == cat_slug]
+    pub = public_stores(stores)
+    peers = [s for s in pub if s.get("slug") != store.get("slug") and s.get("category") == cat_slug]
     if not peers:
-        peers = [s for s in stores if s.get("slug") != store.get("slug")]
+        peers = [s for s in pub if s.get("slug") != store.get("slug")]
     peers = peers[:4]
     related_html = ""
     if peers:
@@ -625,7 +681,7 @@ def build_store(lang: str, store: dict, stores: list[dict], categories: list[dic
   </section>"""
 
     body = f"""{bc}
-<main class="container">
+<main id="main" class="container">
   <h1>{esc(t(lang, f"كود خصم {name}", f"{name} discount codes"))}</h1>
   {example}
   <p>{esc(desc)}</p>
@@ -656,6 +712,7 @@ def build_store(lang: str, store: dict, stores: list[dict], categories: list[dic
 
 
 def build_stores_index(lang: str, stores: list[dict], categories: list[dict], out_dir: Path, depth: int) -> None:
+    stores = public_stores(stores)
     loc = lang_prefix(depth)
     if lang == "ar":
         title, desc, canon, h1 = (
@@ -673,8 +730,12 @@ def build_stores_index(lang: str, stores: list[dict], categories: list[dict], ou
             "All stores",
         )
         bc = render_breadcrumbs([("Home", f"{loc}index.html"), ("Stores", None)])
-    cards = "\n".join(store_card(lang, s, categories, depth) for s in stores)
-    body = f"""{bc}<main class="container"><h1>{esc(h1)}</h1><div class="grid">{cards}</div></main>"""
+    if stores:
+        cards = "\n".join(store_card(lang, s, categories, depth) for s in stores)
+        grid = f'<div class="grid">{cards}</div>'
+    else:
+        grid = f'<p class="muted empty-state">{esc(t(lang, "ما فيه متاجر بعد — قريب نضيف أكواد حقيقية.", "No stores yet — real codes will appear here soon."))}</p>'
+    body = f"""{bc}<main id="main" class="container"><h1>{esc(h1)}</h1>{grid}</main>"""
     write(out_dir / "stores" / "index.html", wrap_page(lang, depth, title, desc, canon, body))
 
 
@@ -682,7 +743,7 @@ def build_category(lang: str, cat: dict, stores: list[dict], categories: list[di
     loc = lang_prefix(depth)
     name = cat["name_ar"] if lang == "ar" else cat["name_en"]
     desc = cat["description_ar"] if lang == "ar" else cat["description_en"]
-    filtered = [s for s in stores if s.get("category") == cat["slug"]]
+    filtered = [s for s in public_stores(stores) if s.get("category") == cat["slug"]]
     if lang == "ar":
         title, canon = f"أكواد خصم {name} السعودية {YEAR}", f"/categories/{cat['slug']}/"
         bc = render_breadcrumbs([("الرئيسية", f"{loc}index.html"), ("التصنيفات", f"{loc}categories/"), (name, None)])
@@ -692,7 +753,7 @@ def build_category(lang: str, cat: dict, stores: list[dict], categories: list[di
     cards = "\n".join(store_card(lang, s, categories, depth) for s in filtered) or (
         f'<p class="muted">{esc(t(lang, "لا متاجر في هذا التصنيف بعد.", "No stores in this category yet."))}</p>'
     )
-    body = f"""{bc}<main class="container"><h1>{esc(cat.get("icon",""))} {esc(name)}</h1><p>{esc(desc)}</p><div class="grid" style="margin-top:1.2rem">{cards}</div></main>"""
+    body = f"""{bc}<main id="main" class="container"><h1>{esc(cat.get("icon",""))} {esc(name)}</h1><p>{esc(desc)}</p><div class="grid" style="margin-top:1.2rem">{cards}</div></main>"""
     write(out_dir / "categories" / cat["slug"] / "index.html", wrap_page(lang, depth, title, desc, canon, body))
 
 
@@ -721,14 +782,14 @@ def build_categories_index(lang: str, categories: list[dict], out_dir: Path, dep
         cards.append(
             f'<article class="card"><a href="{esc(c["slug"])}/"><h3>{esc(c.get("icon",""))} {esc(name)}</h3><p>{esc(d)}</p></a></article>'
         )
-    body = f"""{bc}<main class="container"><h1>{esc(h1)}</h1><div class="grid">{"".join(cards)}</div></main>"""
+    body = f"""{bc}<main id="main" class="container"><h1>{esc(h1)}</h1><div class="grid">{"".join(cards)}</div></main>"""
     write(out_dir / "categories" / "index.html", wrap_page(lang, depth, title, desc, canon, body))
 
 
 def build_country(lang: str, country: dict, stores: list[dict], categories: list[dict], out_dir: Path, depth: int) -> None:
     loc = lang_prefix(depth)
     name = country["name_ar"] if lang == "ar" else country["name_en"]
-    filtered = [s for s in stores if country["slug"] in (s.get("countries") or [])]
+    filtered = [s for s in public_stores(stores) if country["slug"] in (s.get("countries") or [])]
     if lang == "ar":
         title = f"أكواد خصم {name} {YEAR}"
         desc = f"أكواد خصم وكوبونات للمتسوقين في {name}."
@@ -744,7 +805,7 @@ def build_country(lang: str, country: dict, stores: list[dict], categories: list
     cards = "\n".join(store_card(lang, s, categories, depth) for s in filtered) or (
         f'<p class="muted">{esc(t(lang, "لا متاجر لهذه الدولة بعد.", "No stores for this country yet."))}</p>'
     )
-    body = f"""{bc}<main class="container"><h1>{esc(country["flag"])} {esc(h1)}</h1><div class="grid" style="margin-top:1.2rem">{cards}</div></main>"""
+    body = f"""{bc}<main id="main" class="container"><h1>{esc(country["flag"])} {esc(h1)}</h1><div class="grid" style="margin-top:1.2rem">{cards}</div></main>"""
     write(out_dir / "countries" / country["slug"] / "index.html", wrap_page(lang, depth, title, desc, canon, body))
 
 
@@ -770,7 +831,7 @@ def build_countries_index(lang: str, out_dir: Path, depth: int) -> None:
         f'<article class="card"><a href="{esc(c["slug"])}/"><h3>{esc(c["flag"])} {esc(c["name_ar"] if lang == "ar" else c["name_en"])}</h3></a></article>'
         for c in COUNTRIES
     ]
-    body = f"""{bc}<main class="container"><h1>{esc(h1)}</h1><div class="grid">{"".join(cards)}</div></main>"""
+    body = f"""{bc}<main id="main" class="container"><h1>{esc(h1)}</h1><div class="grid">{"".join(cards)}</div></main>"""
     write(out_dir / "countries" / "index.html", wrap_page(lang, depth, title, desc, canon, body))
 
 
@@ -778,7 +839,7 @@ def build_season(lang: str, season: dict, stores: list[dict], out_dir: Path, dep
     loc = lang_prefix(depth)
     name = season["name_ar"] if lang == "ar" else season["name_en"]
     blurb = season["blurb_ar"] if lang == "ar" else season["blurb_en"]
-    flat = sort_coupons(all_coupons_flat(stores))[:12]
+    flat = sort_coupons(all_coupons_flat(public_stores(stores)))[:12]
     if lang == "ar":
         title, canon = f"أكواد خصم {name} السعودية {YEAR}", f"/seasons/{season['slug']}/"
         bc = render_breadcrumbs([("الرئيسية", f"{loc}index.html"), ("المواسم", f"{loc}seasons/"), (name, None)])
@@ -787,17 +848,25 @@ def build_season(lang: str, season: dict, stores: list[dict], out_dir: Path, dep
         bc = render_breadcrumbs([("Home", f"{loc}index.html"), ("Seasons", f"{loc}seasons/"), (name, None)])
     note = t(
         lang,
-        "صفحة موسمية دائمة — حدّث الأكواد من ملف البيانات عند اقتراب الموسم. الأكواد أدناه من البيانات الحالية (قد تكون أمثلة).",
-        "Evergreen seasonal page — update codes in the data file as the season approaches. Codes below come from current data (may be examples).",
+        "صفحة موسمية دائمة — نحدّث الأكواد من ملف البيانات عند اقتراب الموسم.",
+        "Evergreen seasonal page — we update codes in the data file as the season approaches.",
     )
-    cards = "\n".join(coupon_card(lang, c, c.get("_store"), depth) for c in flat)
-    body = f"""{bc}<main class="container">
+    if flat:
+        cards = "\n".join(coupon_card(lang, c, c.get("_store"), depth) for c in flat)
+        grid = f'<div class="grid" style="margin-top:1.2rem">{cards}</div>'
+    else:
+        grid = (
+            f'<p class="muted empty-state" style="margin-top:1.2rem">'
+            f'{esc(t(lang, "ما فيه أكواد لهذا الموسم حالياً.", "No codes for this season yet."))}</p>'
+        )
+    body = f"""{bc}<main id="main" class="container">
   <h1>{esc(name)}</h1>
   <p>{esc(blurb)}</p>
-  <div class="example-banner">{esc(note)}</div>
-  <div class="grid" style="margin-top:1.2rem">{cards}</div>
+  <p class="muted">{esc(note)}</p>
+  {grid}
 </main>"""
     write(out_dir / "seasons" / season["slug"] / "index.html", wrap_page(lang, depth, title, blurb, canon, body))
+
 
 
 def build_seasons_index(lang: str, out_dir: Path, depth: int) -> None:
@@ -825,7 +894,7 @@ def build_seasons_index(lang: str, out_dir: Path, depth: int) -> None:
         cards.append(
             f'<article class="card"><a href="{esc(s["slug"])}/"><h3>{esc(name)}</h3><p>{esc(blurb)}</p></a></article>'
         )
-    body = f"""{bc}<main class="container"><h1>{esc(h1)}</h1><div class="grid">{"".join(cards)}</div></main>"""
+    body = f"""{bc}<main id="main" class="container"><h1>{esc(h1)}</h1><div class="grid">{"".join(cards)}</div></main>"""
     write(out_dir / "seasons" / "index.html", wrap_page(lang, depth, title, desc, canon, body))
 
 
@@ -970,14 +1039,14 @@ def build_static_page(lang: str, page: str, out_dir: Path, depth: int) -> None:
     else:
         canon = f"/en/{page}/"
         bc = render_breadcrumbs([("Home", f"{loc}index.html"), (title.split("|")[0].strip(), None)])
-    body = f"""{bc}<main class="container"><article class="prose">{inner}</article></main>"""
+    body = f"""{bc}<main id="main" class="container"><article class="prose">{inner}</article></main>"""
     write(out_dir / page / "index.html", wrap_page(lang, depth, title, desc, canon, body))
 
 
 def build_404(out_dir: Path) -> None:
     title = "الصفحة غير موجودة | 404"
     desc = "الصفحة المطلوبة غير موجودة."
-    body = """<main class="container not-found">
+    body = """<main id="main" class="container not-found">
   <h1>404</h1>
   <p>الصفحة غير موجودة / Page not found</p>
   <p><a class="btn" href="/">العودة للرئيسية</a>
@@ -987,7 +1056,7 @@ def build_404(out_dir: Path) -> None:
     write(
         out_dir / "404.html",
         render_head("ar", title, desc, "/404.html", 0, None)
-        + render_header("ar", 0)
+        + render_header("ar", 0, "/")
         + body
         + render_footer("ar", 0),
     )
@@ -1002,6 +1071,7 @@ def build_cname(out_dir: Path) -> None:
 
 
 def build_sitemap(out_dir: Path, stores: list[dict], categories: list[dict]) -> None:
+    stores = public_stores(stores)
     urls: list[str] = []
 
     def add(path: str) -> None:
@@ -1048,7 +1118,17 @@ def build_sitemap(out_dir: Path, stores: list[dict], categories: list[dict]) -> 
 def copy_assets(out_dir: Path) -> None:
     dest = out_dir / "assets"
     ensure_dir(dest)
-    for name in ("style.css", "app.js", "og-default.svg"):
+    for name in (
+        "style.css",
+        "app.js",
+        "og-default.svg",
+        "og-default.png",
+        "favicon.svg",
+        "favicon.ico",
+        "favicon-32.png",
+        "apple-touch-icon.png",
+        "icon-512.png",
+    ):
         src = ASSETS_SRC / name
         dst = dest / name
         if not src.is_file():
@@ -1063,19 +1143,20 @@ def copy_assets(out_dir: Path) -> None:
 
 def build_lang_tree(lang: str, stores: list[dict], categories: list[dict], out_dir: Path) -> None:
     home_depth, list_depth, item_depth = 0, 1, 2
-    build_home(lang, stores, categories, out_dir, home_depth)
-    build_stores_index(lang, stores, categories, out_dir, list_depth)
-    for s in stores:
-        build_store(lang, s, stores, categories, out_dir, item_depth)
+    visible = public_stores(stores)
+    build_home(lang, visible, categories, out_dir, home_depth)
+    build_stores_index(lang, visible, categories, out_dir, list_depth)
+    for s in visible:
+        build_store(lang, s, visible, categories, out_dir, item_depth)
     build_categories_index(lang, categories, out_dir, list_depth)
     for c in categories:
-        build_category(lang, c, stores, categories, out_dir, item_depth)
+        build_category(lang, c, visible, categories, out_dir, item_depth)
     build_countries_index(lang, out_dir, list_depth)
     for c in COUNTRIES:
-        build_country(lang, c, stores, categories, out_dir, item_depth)
+        build_country(lang, c, visible, categories, out_dir, item_depth)
     build_seasons_index(lang, out_dir, list_depth)
     for s in SEASONS:
-        build_season(lang, s, stores, out_dir, item_depth)
+        build_season(lang, s, visible, out_dir, item_depth)
     for p in STATIC_PAGES:
         build_static_page(lang, p, out_dir, list_depth)
 

@@ -25,12 +25,11 @@
   }
 
   document.addEventListener("click", function (e) {
-    var btn = e.target.closest("[data-copy-shop]");
+    var btn = e.target.closest("[data-copy]");
     if (!btn) return;
     e.preventDefault();
     var code = btn.getAttribute("data-code") || "";
-    var url = btn.getAttribute("data-url") || "#";
-    var labelCopy = btn.getAttribute("data-label-copy") || "Copy & Shop";
+    var labelCopy = btn.getAttribute("data-label-copy") || "Copy code";
     var labelDone = btn.getAttribute("data-label-done") || "Copied!";
 
     copyText(code).then(function () {
@@ -41,13 +40,7 @@
         btn.textContent = original || labelCopy;
         btn.classList.remove("copied");
       }, 1800);
-      if (url && url !== "#") {
-        window.open(url, "_blank", "noopener,noreferrer");
-      }
     }).catch(function () {
-      if (url && url !== "#") {
-        window.open(url, "_blank", "noopener,noreferrer");
-      }
       alert(code);
     });
   });
