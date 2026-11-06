@@ -216,7 +216,14 @@ def render_head(
 <meta property="og:description" content="{esc(description)}">
 <meta property="og:url" content="{esc(canon)}">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="{esc(SITE_NAME_AR if lang == "ar" else SITE_NAME_EN)}">
 <meta property="og:locale" content="{"ar_SA" if lang == "ar" else "en_US"}">
+<meta property="og:locale:alternate" content="{"en_US" if lang == "ar" else "ar_SA"}">
+<meta property="og:image" content="{esc(DOMAIN + "/assets/og-default.svg")}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(title)}">
+<meta name="twitter:description" content="{esc(description)}">
+<meta name="twitter:image" content="{esc(DOMAIN + "/assets/og-default.svg")}">
 <link rel="stylesheet" href="{esc(css)}">
 {chr(10).join(blocks)}
 </head>
@@ -547,10 +554,18 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         "inLanguage": "ar-SA" if lang == "ar" else "en",
         "description": desc,
     }
-    write(out_dir / "index.html", wrap_page(lang, depth, title, desc, canon, body, [web]))
+    org = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": SITE_NAME_AR if lang == "ar" else SITE_NAME_EN,
+        "url": DOMAIN + "/",
+        "logo": DOMAIN + "/assets/og-default.svg",
+        "description": desc,
+    }
+    write(out_dir / "index.html", wrap_page(lang, depth, title, desc, canon, body, [web, org]))
 
 
-def build_store(lang: str, store: dict, categories: list[dict], out_dir: Path, depth: int) -> None:
+def build_store(lang: str, store: dict, stores: list[dict], categories: list[dict], out_dir: Path, depth: int) -> None:
     loc = lang_prefix(depth)
     name = store["name_ar"] if lang == "ar" else store["name_en"]
     desc = store["description_ar"] if lang == "ar" else store["description_en"]
@@ -595,6 +610,20 @@ def build_store(lang: str, store: dict, categories: list[dict], out_dir: Path, d
                 f'<a class="chip" href="{esc(loc)}countries/{esc(cs)}/">{esc(co["flag"] + " " + n)}</a>'
             )
 
+    cat_slug = store.get("category") or ""
+    peers = [s for s in stores if s.get("slug") != store.get("slug") and s.get("category") == cat_slug]
+    if not peers:
+        peers = [s for s in stores if s.get("slug") != store.get("slug")]
+    peers = peers[:4]
+    related_html = ""
+    if peers:
+        related_cards = "\n".join(store_card(lang, s, categories, depth) for s in peers)
+        related_title = t(lang, "متاجر مشابهة", "Related stores")
+        related_html = f"""  <section class="section related-stores">
+    <div class="section-head"><h2>{esc(related_title)}</h2></div>
+    <div class="grid">{related_cards}</div>
+  </section>"""
+
     body = f"""{bc}
 <main class="container">
   <h1>{esc(t(lang, f"كود خصم {name}", f"{name} discount codes"))}</h1>
@@ -607,6 +636,7 @@ def build_store(lang: str, store: dict, categories: list[dict], out_dir: Path, d
     <div class="grid">{coupons_html or empty}</div>
   </section>
   {faq_html}
+{related_html}
 </main>
 """
     jsonld: list[dict] = [
@@ -1018,9 +1048,12 @@ def build_sitemap(out_dir: Path, stores: list[dict], categories: list[dict]) -> 
 def copy_assets(out_dir: Path) -> None:
     dest = out_dir / "assets"
     ensure_dir(dest)
-    for name in ("style.css", "app.js"):
+    for name in ("style.css", "app.js", "og-default.svg"):
         src = ASSETS_SRC / name
         dst = dest / name
+        if not src.is_file():
+            print(f"  skip missing assets/{name}")
+            continue
         if src.resolve() == dst.resolve():
             print(f"  assets/{name} already in place")
             continue
@@ -1033,7 +1066,7 @@ def build_lang_tree(lang: str, stores: list[dict], categories: list[dict], out_d
     build_home(lang, stores, categories, out_dir, home_depth)
     build_stores_index(lang, stores, categories, out_dir, list_depth)
     for s in stores:
-        build_store(lang, s, categories, out_dir, item_depth)
+        build_store(lang, s, stores, categories, out_dir, item_depth)
     build_categories_index(lang, categories, out_dir, list_depth)
     for c in categories:
         build_category(lang, c, stores, categories, out_dir, item_depth)
