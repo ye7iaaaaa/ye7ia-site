@@ -32,43 +32,26 @@ COUNTRIES = [
     {"slug": "om", "name_ar": "عُمان", "name_en": "Oman", "flag": "🇴🇲"},
 ]
 
-SEASONS = [
-    {
-        "slug": "white-friday",
-        "name_ar": "الجمعة البيضاء",
-        "name_en": "White Friday",
-        "blurb_ar": "تجميعة أكواد خصم وعروض الجمعة البيضاء للمتسوقين في السعودية والخليج.",
-        "blurb_en": "White Friday discount codes and deals for shoppers in Saudi Arabia and the GCC.",
-    },
-    {
-        "slug": "ramadan",
-        "name_ar": "رمضان",
-        "name_en": "Ramadan",
-        "blurb_ar": "أكواد خصم وعروض رمضان — وفر وأنت تتسوق للمستلزمات والهدايا.",
-        "blurb_en": "Ramadan discount codes — save while shopping for essentials and gifts.",
-    },
-    {
-        "slug": "11-11",
-        "name_ar": "عروض ١١.١١",
-        "name_en": "11.11 Sale",
-        "blurb_ar": "أكواد خصم عروض ١١.١١ من أشهر المتاجر في المنطقة.",
-        "blurb_en": "11.11 sale discount codes from popular stores in the region.",
-    },
-    {
-        "slug": "saudi-national-day",
-        "name_ar": "اليوم الوطني السعودي",
-        "name_en": "Saudi National Day",
-        "blurb_ar": "عروض وأكواد خصم بمناسبة اليوم الوطني السعودي.",
-        "blurb_en": "Deals and discount codes for Saudi National Day.",
-    },
-    {
-        "slug": "founding-day",
-        "name_ar": "يوم التأسيس",
-        "name_en": "Founding Day",
-        "blurb_ar": "أكواد خصم وعروض يوم التأسيس في السعودية.",
-        "blurb_en": "Founding Day discount codes and offers in Saudi Arabia.",
-    },
-]
+# Loaded from data/seasons.json in main() — includes start/end for live chips.
+SEASONS: list[dict] = []
+
+REQUIRED_STORE_FIELDS = (
+    "slug",
+    "name_ar",
+    "name_en",
+    "category",
+    "countries",
+    "description_ar",
+    "description_en",
+)
+REQUIRED_COUPON_FIELDS = (
+    "code",
+    "title_ar",
+    "title_en",
+    "verified_date",
+    "expires",
+    "affiliate_url",
+)
 
 STATIC_PAGES = [
     "about",
@@ -131,6 +114,61 @@ def other_lang(lang: str) -> str:
 def public_stores(stores: list[dict]) -> list[dict]:
     """Stores marked example stay in data/ but are hidden from public pages/sitemap."""
     return [s for s in stores if not s.get("example")]
+
+
+def load_seasons() -> list[dict]:
+    """Season metadata + start/end windows from data/seasons.json (end date exclusive)."""
+    return load_json(DATA / "seasons.json")
+
+
+def season_is_live(season: dict, today: str | None = None) -> bool:
+    """True when today is in [start, end). Missing dates => not live (no chip)."""
+    day = today or TODAY
+    start = (season.get("start") or "")[:10]
+    end = (season.get("end") or "")[:10]
+    if not start or not end:
+        return False
+    return start <= day < end
+
+
+def live_seasons(seasons: list[dict] | None = None) -> list[dict]:
+    return [s for s in (seasons if seasons is not None else SEASONS) if season_is_live(s)]
+
+
+def featured_live_season(seasons: list[dict] | None = None) -> dict | None:
+    """Prefer White Friday while live; otherwise first live season."""
+    live = live_seasons(seasons)
+    for s in live:
+        if s.get("slug") == "white-friday":
+            return s
+    return live[0] if live else None
+
+
+def validate_stores(stores: list[dict]) -> None:
+    """Fail the build if non-example stores/coupons miss required fields. Examples skipped."""
+    errors: list[str] = []
+    for store in stores:
+        slug = store.get("slug") or "<missing-slug>"
+        if store.get("example"):
+            continue
+        for field in REQUIRED_STORE_FIELDS:
+            val = store.get(field)
+            if val is None or val == "" or val == []:
+                errors.append(f"store '{slug}': missing required field '{field}'")
+        if "coupons" not in store or not isinstance(store.get("coupons"), list):
+            errors.append(f"store '{slug}': missing coupons list")
+            continue
+        for idx, coupon in enumerate(store.get("coupons") or []):
+            if coupon.get("example"):
+                continue
+            label = f"store '{slug}' coupon[{idx}]"
+            for field in REQUIRED_COUPON_FIELDS:
+                val = coupon.get(field)
+                if val is None or val == "":
+                    errors.append(f"{label}: missing required field '{field}'")
+    if errors:
+        msg = "Coupon data validation failed:\n  - " + "\n  - ".join(errors)
+        raise SystemExit(msg)
 
 
 def alternate_path(lang: str, canonical_path: str) -> str:
@@ -270,6 +308,14 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
         nav = ("Home", "Stores", "Categories", "Seasons", "Marketers")
     home, stores, cats, seasons, marketers = nav
     skip = t(lang, "تخطّي إلى المحتوى", "Skip to content")
+    featured = featured_live_season()
+    season_chip = ""
+    if featured:
+        fname = featured["name_ar"] if lang == "ar" else featured["name_en"]
+        season_chip = (
+            f'<a class="nav-season-chip" href="{esc(loc + "seasons/" + featured["slug"] + "/")}">'
+            f'{esc(fname)}</a>'
+        )
     return f"""<a class="skip-link" href="#main">{esc(skip)}</a>
 <header class="site-header">
   <div class="container header-inner">
@@ -279,6 +325,7 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
       <a href="{esc(loc + "stores/")}">{esc(stores)}</a>
       <a href="{esc(loc + "categories/")}">{esc(cats)}</a>
       <a href="{esc(loc + "seasons/")}">{esc(seasons)}</a>
+      {season_chip}
       <a href="{esc(loc + "marketers/")}">{esc(marketers)}</a>
       <a class="lang-switch" href="{esc(switch_href)}" hreflang="{other_lang(lang)}">{esc(switch_label)}</a>
     </nav>
@@ -631,7 +678,7 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         desc = "أكواد خصم وكوبونات للمتاجر في السعودية والخليج. انسخ الكود وتسوّق. نحدّث الأكواد باستمرار."
         h1 = f"أكواد خصم موثوقة للمتسوقين في السعودية {YEAR}"
         lead = "وفّر على مشترياتك من أشهر المتاجر. ركّزنا أولاً على السعودية، وبعدين باقي دول الخليج."
-        season_label = "عرض موسمي: تصفّح أكواد الجمعة البيضاء ورمضان واليوم الوطني"
+        season_label_generic = "عرض موسمي: تصفّح أكواد الجمعة البيضاء ورمضان واليوم الوطني"
         top_stores, today_label = "أبرز المتاجر", "أكواد محدثة"
         cats_label, countries_label = "تصفح حسب التصنيف", "حسب الدولة"
         empty_stores = "ما فيه متاجر بعد — قريب نضيف أكواد حقيقية."
@@ -642,7 +689,7 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         desc = "Discount codes and coupons for stores in Saudi Arabia and the GCC. Copy a code and shop."
         h1 = f"Trusted discount codes for Saudi shoppers {YEAR}"
         lead = "Save on popular stores. We focus on Saudi Arabia first, then the wider GCC."
-        season_label = "Seasonal: browse White Friday, Ramadan, and National Day codes"
+        season_label_generic = "Seasonal: browse White Friday, Ramadan, and National Day codes"
         top_stores, today_label = "Top stores", "Recently verified codes"
         cats_label, countries_label = "Browse by category", "By country"
         empty_stores = "No stores yet — real codes will appear here soon."
@@ -682,12 +729,27 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         biz_p = "Feature your store, publish an exclusive code, or book a banner — contact for pricing."
         biz_contact = "Contact us"
         biz_partners = "Partnership & advertising packages"
+    featured = featured_live_season()
+    if featured and featured.get("slug") == "white-friday":
+        season_href = f"seasons/{featured['slug']}/"
+        season_label = t(
+            lang,
+            "الجمعة البيضاء: تصفّح أكواد الخصم الموسمية",
+            "White Friday: browse seasonal discount codes",
+        )
+    elif featured:
+        fname = featured["name_ar"] if lang == "ar" else featured["name_en"]
+        season_href = f"seasons/{featured['slug']}/"
+        season_label = t(lang, f"موسم نشط: {fname}", f"Live season: {fname}")
+    else:
+        season_href = "seasons/"
+        season_label = season_label_generic
     body = f"""<section class="hero"><div class="container">
   <h1>{esc(h1)}</h1>
   <p>{esc(lead)}</p>
 </div></section>
 <main id="main" class="container">
-  <a class="season-banner" href="seasons/">{esc(season_label)} →</a>
+  <a class="season-banner" href="{esc(season_href)}">{esc(season_label)} →</a>
   <section class="section">
     <div class="section-head"><h2>{esc(top_stores)}</h2></div>
     {stores_block}
@@ -730,14 +792,8 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
             "query-input": "required name=search_term_string",
         },
     }
-    org = {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": SITE_NAME_AR if lang == "ar" else SITE_NAME_EN,
-        "url": DOMAIN + "/",
-        "logo": DOMAIN + "/assets/icon-512.png",
-        "description": desc,
-    }
+    org = org_contactpoint_jsonld(lang)
+    org["description"] = desc
     write(out_dir / "index.html", wrap_page(lang, depth, title, desc, canon, body, [web, org]))
 
 
@@ -860,17 +916,22 @@ def build_stores_index(lang: str, stores: list[dict], categories: list[dict], ou
         search_ph = "Store name…"
         no_match = "No matching stores."
         home_label, stores_label = "Home", "Stores"
-    if stores:
-        cards = "\n".join(store_card(lang, s, categories, depth) for s in stores)
-        grid = f'<div class="grid" id="store-grid">{cards}</div>'
-    else:
-        grid = f'<p class="muted empty-state">{esc(t(lang, "ما فيه متاجر بعد — قريب نضيف أكواد حقيقية.", "No stores yet — real codes will appear here soon."))}</p>'
+    empty_yet = t(
+        lang,
+        "ما فيه متاجر بعد — قريب نضيف أكواد حقيقية.",
+        "No stores yet — real codes will appear here soon.",
+    )
+    cards = "\n".join(store_card(lang, s, categories, depth) for s in stores) if stores else ""
+    # Always render #store-grid so client search (?q=) can initialize even with zero stores.
+    grid = f'<div class="grid" id="store-grid">{cards}</div>'
+    empty_initial = "" if stores else empty_yet
+    empty_hidden = "hidden" if stores else ""
     search = f"""<form class="store-search" role="search" action="" method="get">
   <label class="store-search-label" for="store-q">{esc(search_label)}</label>
   <input id="store-q" name="q" type="search" enterkeyhint="search" autocomplete="off"
-    placeholder="{esc(search_ph)}" data-no-match="{esc(no_match)}">
+    placeholder="{esc(search_ph)}" data-no-match="{esc(no_match)}" data-empty-yet="{esc(empty_yet)}">
 </form>
-<p id="store-search-empty" class="muted empty-state" hidden>{esc(no_match)}</p>"""
+<p id="store-search-empty" class="muted empty-state" {empty_hidden}>{esc(empty_initial or no_match)}</p>"""
     body = f"""{bc}<main id="main" class="container"><h1>{esc(h1)}</h1>{search}{grid}</main>"""
     jsonld = [
         breadcrumb_jsonld(
@@ -1053,12 +1114,25 @@ def build_seasons_index(lang: str, out_dir: Path, depth: int) -> None:
             "Seasons & sales",
         )
         bc = render_breadcrumbs([("Home", f"{loc}index.html"), ("Seasons", None)])
+    featured = featured_live_season()
+    live_badge = t(lang, "مباشر الآن", "Live now")
+    # Feature live seasons first (White Friday preferred via featured_live_season order).
+    ordered = sorted(
+        SEASONS,
+        key=lambda s: (
+            0 if featured and s.get("slug") == featured.get("slug") else 1,
+            0 if season_is_live(s) else 1,
+        ),
+    )
     cards = []
-    for s in SEASONS:
+    for s in ordered:
         name = s["name_ar"] if lang == "ar" else s["name_en"]
         blurb = s["blurb_ar"] if lang == "ar" else s["blurb_en"]
+        badge = ""
+        if season_is_live(s):
+            badge = f'<span class="chip chip-live">{esc(live_badge)}</span>'
         cards.append(
-            f'<article class="card"><a href="{esc(s["slug"])}/"><h3>{esc(name)}</h3><p>{esc(blurb)}</p></a></article>'
+            f'<article class="card"><a href="{esc(s["slug"])}/"><h3>{esc(name)} {badge}</h3><p>{esc(blurb)}</p></a></article>'
         )
     body = f"""{bc}<main id="main" class="container"><h1>{esc(h1)}</h1><div class="grid">{"".join(cards)}</div></main>"""
     write(out_dir / "seasons" / "index.html", wrap_page(lang, depth, title, desc, canon, body))
@@ -1545,9 +1619,12 @@ def clean_generated(out_dir: Path) -> None:
 
 
 def main() -> None:
+    global SEASONS
     print("Building ye7ia coupon site…")
     stores = load_json(DATA / "coupons.json")
     categories = load_json(DATA / "categories.json")
+    SEASONS = load_seasons()
+    validate_stores(stores)
     out = ROOT
     clean_generated(out)
     copy_assets(out)

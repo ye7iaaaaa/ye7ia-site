@@ -111,6 +111,23 @@ summary:focus-visible {
   text-decoration: none;
 }
 .nav a:hover { color: var(--primary-dark); }
+.nav-season-chip {
+  background: linear-gradient(90deg, #c2410c, #f59e0b);
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.nav-season-chip:hover { filter: brightness(1.08); text-decoration: none; }
+.chip-live {
+  background: #fff7ed;
+  border-color: #f59e0b;
+  color: #9a3412;
+  margin-inline-start: 0.35rem;
+  vertical-align: middle;
+}
 .lang-switch {
   background: var(--primary-soft);
   color: var(--primary-dark);

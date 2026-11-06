@@ -1,0 +1,33 @@
+{
+  "_comment": "Copy this object into data/coupons.json. Set example to false (or omit it) for a real store. See data/ONBOARDING.md.",
+  "slug": "your-store-slug",
+  "name_ar": "اسم المتجر بالعربي",
+  "name_en": "Store Name EN",
+  "category": "fashion",
+  "countries": ["sa"],
+  "description_ar": "وصف قصير للمتجر وللعروض المتاحة للمتسوقين في السعودية.",
+  "description_en": "Short store description aimed at shoppers in Saudi Arabia.",
+  "website": "https://www.example.com/",
+  "affiliate_url": "https://www.example.com/?ref=ye7ia",
+  "example": false,
+  "faq": [
+    {
+      "q_ar": "كيف أستخدم كود الخصم؟",
+      "a_ar": "انسخ الكود، اضغط «تسوّق الآن»، وألصقه في خانة الكوبون عند الدفع.",
+      "q_en": "How do I use the discount code?",
+      "a_en": "Copy the code, click Shop Now, and paste it in the coupon field at checkout."
+    }
+  ],
+  "coupons": [
+    {
+      "code": "REALCODE",
+      "title_ar": "عنوان العرض بالعربي",
+      "title_en": "Offer title in English",
+      "discount": "10%",
+      "verified_date": "2026-11-07",
+      "expires": "2026-12-31",
+      "exclusive": false,
+      "affiliate_url": "https://www.example.com/?ref=ye7ia&c=REALCODE"
+    }
+  ]
+}

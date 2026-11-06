@@ -1,3 +1,4 @@
+2026-11-07 01:10 Cairo — Batch 4: White Friday live chip/banner (data/seasons.json start/end auto-hide); store onboarding pack (store-template.json + ONBOARDING.md) + build validation for non-example coupons; stores #store-grid always present for ?q= empty state; home Organization ContactPoint email.
 2026-11-07 00:15 Cairo — Batch 3: lightweight cookie consent; WCAG polish (footer headings, focus styles, reduced-motion); WebPage/Breadcrumb schema across pages; ContactPage+Organization ContactPoint on partners/contact; /favicon.ico at root; stores ?q= client filter (keeps SearchAction); Qatar/Bahrain/Oman country pages; /brands/+/advertise/ → /partners/ redirects; data/affiliate-programs.md from public official join requirements only.
 # Changelog
 

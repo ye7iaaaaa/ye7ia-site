@@ -71,7 +71,8 @@
     var empty = document.getElementById("store-search-empty");
     if (!input || !grid) return;
     var cards = Array.prototype.slice.call(grid.querySelectorAll("[data-store-card]"));
-    if (!cards.length) return;
+    var noMatch = input.getAttribute("data-no-match") || "";
+    var emptyYet = input.getAttribute("data-empty-yet") || noMatch;
 
     function apply(q) {
       var term = (q || "").trim().toLowerCase();
@@ -82,7 +83,14 @@
         card.hidden = !ok;
         if (ok) shown += 1;
       });
-      if (empty) empty.hidden = shown !== 0 || !term;
+      if (!empty) return;
+      if (!cards.length) {
+        empty.hidden = false;
+        empty.textContent = term ? noMatch : emptyYet;
+        return;
+      }
+      empty.hidden = shown !== 0 || !term;
+      if (!empty.hidden) empty.textContent = noMatch;
     }
 
     var params = new URLSearchParams(window.location.search);
