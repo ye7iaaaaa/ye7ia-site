@@ -1,3 +1,4 @@
+2026-11-07 00:15 Cairo — Batch 3: lightweight cookie consent; WCAG polish (footer headings, focus styles, reduced-motion); WebPage/Breadcrumb schema across pages; ContactPage+Organization ContactPoint on partners/contact; /favicon.ico at root; stores ?q= client filter (keeps SearchAction); Qatar/Bahrain/Oman country pages; /brands/+/advertise/ → /partners/ redirects; data/affiliate-programs.md from public official join requirements only.
 # Changelog
 
 2026-11-06 23:13 Cairo — Batch 2: Partners/Advertise, Contact, Terms pages; privacy cookies; packages without prices + media kit; business CTA on home/footer; marketers linked to real partners@ye7ia.is-a.si mailto (ImprovMX catch-all verified).

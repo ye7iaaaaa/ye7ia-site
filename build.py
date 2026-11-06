@@ -27,6 +27,9 @@ COUNTRIES = [
     {"slug": "sa", "name_ar": "السعودية", "name_en": "Saudi Arabia", "flag": "🇸🇦"},
     {"slug": "ae", "name_ar": "الإمارات", "name_en": "United Arab Emirates", "flag": "🇦🇪"},
     {"slug": "kw", "name_ar": "الكويت", "name_en": "Kuwait", "flag": "🇰🇼"},
+    {"slug": "qa", "name_ar": "قطر", "name_en": "Qatar", "flag": "🇶🇦"},
+    {"slug": "bh", "name_ar": "البحرين", "name_en": "Bahrain", "flag": "🇧🇭"},
+    {"slug": "om", "name_ar": "عُمان", "name_en": "Oman", "flag": "🇴🇲"},
 ]
 
 SEASONS = [
@@ -233,6 +236,7 @@ def render_head(
 <link rel="icon" href="{esc(asset_prefix(lang, depth) + "assets/favicon.svg")}" type="image/svg+xml">
 <link rel="icon" href="{esc(asset_prefix(lang, depth) + "assets/favicon-32.png")}" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="{esc(asset_prefix(lang, depth) + "assets/apple-touch-icon.png")}" sizes="180x180">
+<link rel="shortcut icon" href="{esc(asset_prefix(lang, depth) + "favicon.ico")}">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(description)}">
 <meta property="og:url" content="{esc(canon)}">
@@ -301,6 +305,9 @@ def render_footer(lang: str, depth: int) -> str:
             ("countries/sa/", "السعودية"),
             ("countries/ae/", "الإمارات"),
             ("countries/kw/", "الكويت"),
+            ("countries/qa/", "قطر"),
+            ("countries/bh/", "البحرين"),
+            ("countries/om/", "عُمان"),
         ]
         note = "موقع أكواد خصم مستقل. قد نحصل على عمولة عند استخدام بعض الروابط دون أي تكلفة إضافية عليك."
         brand = SITE_NAME_AR
@@ -322,6 +329,9 @@ def render_footer(lang: str, depth: int) -> str:
             ("countries/sa/", "Saudi Arabia"),
             ("countries/ae/", "UAE"),
             ("countries/kw/", "Kuwait"),
+            ("countries/qa/", "Qatar"),
+            ("countries/bh/", "Bahrain"),
+            ("countries/om/", "Oman"),
         ]
         note = "Independent coupon site. We may earn a commission when you use some links, at no extra cost to you."
         brand = SITE_NAME_EN
@@ -337,17 +347,17 @@ def render_footer(lang: str, depth: int) -> str:
   <div class="container">
     <div class="footer-grid">
       <div>
-        <h4>{esc(brand)}</h4>
+        <p class="footer-heading">{esc(brand)}</p>
         <p class="muted" style="color:#94a3b8">{esc(note)}</p>
       </div>
       <div>
-        <h4>{esc(links_label)}</h4>
+        <p class="footer-heading">{esc(links_label)}</p>
         <ul>
 {items}
         </ul>
       </div>
       <div class="footer-biz">
-        <h4>{esc(biz_title)}</h4>
+        <p class="footer-heading">{esc(biz_title)}</p>
         <p class="muted" style="color:#94a3b8">{esc(biz_text)}</p>
         <p><a class="btn" href="{esc(loc + "contact/")}">{esc(biz_cta)}</a>
         <a class="btn btn-secondary" href="{esc(loc + "partners/")}">{esc(biz_more)}</a></p>
@@ -357,6 +367,12 @@ def render_footer(lang: str, depth: int) -> str:
     <p class="footer-note">© {YEAR} ye7ia.is-a.si</p>
   </div>
 </footer>
+<div id="cookie-banner" class="cookie-banner" hidden role="dialog" aria-live="polite" aria-label="cookies">
+  <div class="cookie-banner-inner">
+    <p>{esc(t(lang, "نستخدم تخزيناً محلياً بسيطاً لتفضيلات الصفحة (مثل نسخ الكود). راجع سياسة الخصوصية.", "We use simple local storage for page preferences (such as copying a code). See our privacy policy."))} <a href="{esc(loc + "privacy/")}">{esc(t(lang, "الخصوصية", "Privacy"))}</a></p>
+    <button type="button" class="btn" id="cookie-accept">{esc(t(lang, "حسناً", "OK"))}</button>
+  </div>
+</div>
 <script src="{esc(root + "assets/app.js")}" defer></script>
 </body>
 </html>
@@ -456,7 +472,17 @@ def store_card(lang: str, store: dict, categories: list[dict], depth: int) -> st
     example = f'<span class="chip">{esc(t(lang, "مثال", "EXAMPLE"))}</span>' if store.get("example") else ""
     href = f'{loc}stores/{store["slug"]}/'
     short = desc if len(desc) <= 120 else desc[:120] + "…"
-    return f"""<article class="card store-card">
+    search_blob = " ".join(
+        [
+            store.get("name_ar") or "",
+            store.get("name_en") or "",
+            store.get("slug") or "",
+            store.get("description_ar") or "",
+            store.get("description_en") or "",
+            cat_name,
+        ]
+    ).lower()
+    return f"""<article class="card store-card" data-store-card data-search="{esc(search_blob)}">
   <a href="{esc(href)}">
     <h3>{esc(name)}</h3>
     <p>{esc(short)}</p>
@@ -478,6 +504,52 @@ def breadcrumb_jsonld(items: list[tuple[str, str]]) -> dict:
             {"@type": "ListItem", "position": i + 1, "name": name, "item": url}
             for i, (name, url) in enumerate(items)
         ],
+    }
+
+
+def webpage_jsonld(lang: str, title: str, description: str, canonical_path: str) -> dict:
+    return {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": title,
+        "description": description,
+        "url": DOMAIN + canonical_path,
+        "inLanguage": "ar-SA" if lang == "ar" else "en",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": SITE_NAME_AR if lang == "ar" else SITE_NAME_EN,
+            "url": DOMAIN + "/",
+        },
+    }
+
+
+def org_contactpoint_jsonld(lang: str) -> dict:
+    return {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": SITE_NAME_AR if lang == "ar" else SITE_NAME_EN,
+        "url": DOMAIN + "/",
+        "logo": DOMAIN + "/assets/icon-512.png",
+        "email": CONTACT_EMAIL,
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "email": CONTACT_EMAIL,
+            "availableLanguage": ["ar", "en"],
+            "url": page_url(lang, "contact"),
+        },
+    }
+
+
+def contactpage_jsonld(lang: str, title: str, description: str, canonical_path: str) -> dict:
+    return {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": title,
+        "description": description,
+        "url": DOMAIN + canonical_path,
+        "inLanguage": "ar-SA" if lang == "ar" else "en",
+        "mainEntity": org_contactpoint_jsonld(lang),
     }
 
 
@@ -539,8 +611,11 @@ def wrap_page(
     body: str,
     jsonld: list[dict] | None = None,
 ) -> str:
+    blocks = list(jsonld or [])
+    if not any(isinstance(b, dict) and b.get("@type") in ("WebPage", "ContactPage") for b in blocks):
+        blocks.insert(0, webpage_jsonld(lang, title, description, canonical_path))
     return (
-        render_head(lang, title, description, canonical_path, depth, jsonld)
+        render_head(lang, title, description, canonical_path, depth, blocks)
         + render_header(lang, depth, canonical_path)
         + body
         + render_footer(lang, depth)
@@ -769,6 +844,10 @@ def build_stores_index(lang: str, stores: list[dict], categories: list[dict], ou
             "جميع المتاجر",
         )
         bc = render_breadcrumbs([("الرئيسية", f"{loc}index.html"), ("المتاجر", None)])
+        search_label = "ابحث عن متجر"
+        search_ph = "اسم المتجر…"
+        no_match = "ما لقينا متاجر مطابقة."
+        home_label, stores_label = "الرئيسية", "المتاجر"
     else:
         title, desc, canon, h1 = (
             f"All stores | Saudi discount codes {YEAR}",
@@ -777,13 +856,31 @@ def build_stores_index(lang: str, stores: list[dict], categories: list[dict], ou
             "All stores",
         )
         bc = render_breadcrumbs([("Home", f"{loc}index.html"), ("Stores", None)])
+        search_label = "Search stores"
+        search_ph = "Store name…"
+        no_match = "No matching stores."
+        home_label, stores_label = "Home", "Stores"
     if stores:
         cards = "\n".join(store_card(lang, s, categories, depth) for s in stores)
-        grid = f'<div class="grid">{cards}</div>'
+        grid = f'<div class="grid" id="store-grid">{cards}</div>'
     else:
         grid = f'<p class="muted empty-state">{esc(t(lang, "ما فيه متاجر بعد — قريب نضيف أكواد حقيقية.", "No stores yet — real codes will appear here soon."))}</p>'
-    body = f"""{bc}<main id="main" class="container"><h1>{esc(h1)}</h1>{grid}</main>"""
-    write(out_dir / "stores" / "index.html", wrap_page(lang, depth, title, desc, canon, body))
+    search = f"""<form class="store-search" role="search" action="" method="get">
+  <label class="store-search-label" for="store-q">{esc(search_label)}</label>
+  <input id="store-q" name="q" type="search" enterkeyhint="search" autocomplete="off"
+    placeholder="{esc(search_ph)}" data-no-match="{esc(no_match)}">
+</form>
+<p id="store-search-empty" class="muted empty-state" hidden>{esc(no_match)}</p>"""
+    body = f"""{bc}<main id="main" class="container"><h1>{esc(h1)}</h1>{search}{grid}</main>"""
+    jsonld = [
+        breadcrumb_jsonld(
+            [
+                (home_label, page_url(lang)),
+                (stores_label, page_url(lang, "stores")),
+            ]
+        )
+    ]
+    write(out_dir / "stores" / "index.html", wrap_page(lang, depth, title, desc, canon, body, jsonld))
 
 
 def build_category(lang: str, cat: dict, stores: list[dict], categories: list[dict], out_dir: Path, depth: int) -> None:
@@ -801,7 +898,18 @@ def build_category(lang: str, cat: dict, stores: list[dict], categories: list[di
         f'<p class="muted">{esc(t(lang, "لا متاجر في هذا التصنيف بعد.", "No stores in this category yet."))}</p>'
     )
     body = f"""{bc}<main id="main" class="container"><h1>{esc(cat.get("icon",""))} {esc(name)}</h1><p>{esc(desc)}</p><div class="grid" style="margin-top:1.2rem">{cards}</div></main>"""
-    write(out_dir / "categories" / cat["slug"] / "index.html", wrap_page(lang, depth, title, desc, canon, body))
+    home_label = "الرئيسية" if lang == "ar" else "Home"
+    cats_label = "التصنيفات" if lang == "ar" else "Categories"
+    jsonld = [
+        breadcrumb_jsonld(
+            [
+                (home_label, page_url(lang)),
+                (cats_label, page_url(lang, "categories")),
+                (name, DOMAIN + canon),
+            ]
+        )
+    ]
+    write(out_dir / "categories" / cat["slug"] / "index.html", wrap_page(lang, depth, title, desc, canon, body, jsonld))
 
 
 def build_categories_index(lang: str, categories: list[dict], out_dir: Path, depth: int) -> None:
@@ -853,7 +961,18 @@ def build_country(lang: str, country: dict, stores: list[dict], categories: list
         f'<p class="muted">{esc(t(lang, "لا متاجر لهذه الدولة بعد.", "No stores for this country yet."))}</p>'
     )
     body = f"""{bc}<main id="main" class="container"><h1>{esc(country["flag"])} {esc(h1)}</h1><div class="grid" style="margin-top:1.2rem">{cards}</div></main>"""
-    write(out_dir / "countries" / country["slug"] / "index.html", wrap_page(lang, depth, title, desc, canon, body))
+    home_label = "الرئيسية" if lang == "ar" else "Home"
+    countries_label = "الدول" if lang == "ar" else "Countries"
+    jsonld = [
+        breadcrumb_jsonld(
+            [
+                (home_label, page_url(lang)),
+                (countries_label, page_url(lang, "countries")),
+                (name, DOMAIN + canon),
+            ]
+        )
+    ]
+    write(out_dir / "countries" / country["slug"] / "index.html", wrap_page(lang, depth, title, desc, canon, body, jsonld))
 
 
 def build_countries_index(lang: str, out_dir: Path, depth: int) -> None:
@@ -1230,14 +1349,28 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 def build_static_page(lang: str, page: str, out_dir: Path, depth: int) -> None:
     title, desc, inner = static_content(page, lang)
     loc = lang_prefix(depth)
+    short = title.split("|")[0].strip()
     if lang == "ar":
         canon = f"/{page}/"
-        bc = render_breadcrumbs([("الرئيسية", f"{loc}index.html"), (title.split("|")[0].strip(), None)])
+        bc = render_breadcrumbs([("الرئيسية", f"{loc}index.html"), (short, None)])
+        home_label = "الرئيسية"
     else:
         canon = f"/en/{page}/"
-        bc = render_breadcrumbs([("Home", f"{loc}index.html"), (title.split("|")[0].strip(), None)])
+        bc = render_breadcrumbs([("Home", f"{loc}index.html"), (short, None)])
+        home_label = "Home"
     body = f"""{bc}<main id="main" class="container"><article class="prose">{inner}</article></main>"""
-    write(out_dir / page / "index.html", wrap_page(lang, depth, title, desc, canon, body))
+    jsonld: list[dict] = [
+        breadcrumb_jsonld(
+            [
+                (home_label, page_url(lang)),
+                (short, DOMAIN + canon),
+            ]
+        )
+    ]
+    if page in ("partners", "contact"):
+        jsonld.append(contactpage_jsonld(lang, title, desc, canon))
+        jsonld.append(org_contactpoint_jsonld(lang))
+    write(out_dir / page / "index.html", wrap_page(lang, depth, title, desc, canon, body, jsonld))
 
 
 def build_404(out_dir: Path) -> None:
@@ -1336,6 +1469,43 @@ def copy_assets(out_dir: Path) -> None:
             continue
         shutil.copy2(src, dst)
         print(f"  copied assets/{name}")
+    # Browsers request /favicon.ico at site root
+    ico_src = ASSETS_SRC / "favicon.ico"
+    if ico_src.is_file():
+        shutil.copy2(ico_src, out_dir / "favicon.ico")
+        print("  copied /favicon.ico")
+
+
+def build_redirects(out_dir: Path) -> None:
+    """/brands/ and /advertise/ → /partners/ (AR + EN), meta refresh + canonical."""
+    targets = (
+        (out_dir / "brands", "/partners/", "ar", "شركاء وإعلان"),
+        (out_dir / "advertise", "/partners/", "ar", "شركاء وإعلان"),
+        (out_dir / "en" / "brands", "/en/partners/", "en", "Partners & advertise"),
+        (out_dir / "en" / "advertise", "/en/partners/", "en", "Partners & advertise"),
+    )
+    for dest_dir, target_path, lang, label in targets:
+        ensure_dir(dest_dir)
+        canon = DOMAIN + target_path
+        html_lang = "ar" if lang == "ar" else "en"
+        dir_attr = "rtl" if lang == "ar" else "ltr"
+        msg = "جاري التحويل…" if lang == "ar" else "Redirecting…"
+        content = f"""<!DOCTYPE html>
+<html lang="{html_lang}" dir="{dir_attr}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{esc(msg)} | {esc(label)}</title>
+<meta http-equiv="refresh" content="0;url={esc(target_path)}">
+<link rel="canonical" href="{esc(canon)}">
+<meta name="robots" content="noindex, follow">
+</head>
+<body>
+<p><a href="{esc(target_path)}">{esc(label)}</a></p>
+</body>
+</html>
+"""
+        write(dest_dir / "index.html", content)
 
 
 def build_lang_tree(lang: str, stores: list[dict], categories: list[dict], out_dir: Path) -> None:
@@ -1362,13 +1532,13 @@ def clean_generated(out_dir: Path) -> None:
     for name in (
         "stores", "categories", "countries", "seasons", "en",
         "about", "how-we-verify", "privacy", "affiliate-disclosure", "marketers",
-        "partners", "contact", "terms",
+        "partners", "contact", "terms", "brands", "advertise",
     ):
         p = out_dir / name
         if p.is_dir():
             shutil.rmtree(p)
             print(f"  cleaned {name}/")
-    for name in ("index.html", "404.html", "robots.txt", "sitemap.xml", "CNAME"):
+    for name in ("index.html", "404.html", "robots.txt", "sitemap.xml", "CNAME", "favicon.ico"):
         p = out_dir / name
         if p.is_file():
             p.unlink()
@@ -1387,6 +1557,7 @@ def main() -> None:
     build_lang_tree("ar", stores, categories, out)
     ensure_dir(out / "en")
     build_lang_tree("en", stores, categories, out / "en")
+    build_redirects(out)
     build_sitemap(out, stores, categories)
     print("Done.")
 

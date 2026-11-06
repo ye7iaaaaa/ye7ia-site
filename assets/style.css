@@ -396,3 +396,89 @@ summary:focus-visible {
   .coupon-actions { flex-direction: column; align-items: stretch; }
   .btn, .code-box { width: 100%; justify-content: center; }
 }
+
+/* Footer headings (WCAG: not fake h4) */
+.site-footer .footer-heading {
+  margin: 0 0 0.6rem;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.site-footer h4 { display: none; }
+
+/* Store search */
+.store-search {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0 0 1.25rem;
+  max-width: 28rem;
+}
+.store-search-label {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.store-search input[type="search"] {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+  background: var(--surface);
+  color: var(--text);
+}
+.store-search input[type="search"]:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Cookie banner — fixed, compact, no layout shift of main content */
+.cookie-banner {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 80;
+  padding: 0.75rem 1rem;
+  background: rgba(15, 23, 42, 0.96);
+  color: #e2e8f0;
+  box-shadow: 0 -6px 20px rgba(15, 23, 42, 0.2);
+}
+.cookie-banner[hidden] { display: none !important; }
+.cookie-banner-inner {
+  width: min(100%, var(--max));
+  margin-inline: auto;
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.cookie-banner p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  max-width: 46rem;
+}
+.cookie-banner a { color: #5eead4; text-decoration: underline; }
+.cookie-banner .btn {
+  flex-shrink: 0;
+  background: #14b8a6;
+  color: #0f172a;
+}
+.cookie-banner .btn:hover { background: #2dd4bf; }
+.cookie-banner .btn:focus-visible {
+  outline: 3px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+/* Prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .related-stores .card { transition: none; }
+}
