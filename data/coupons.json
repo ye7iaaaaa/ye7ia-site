@@ -1,0 +1,123 @@
+[
+  {
+    "slug": "example-fashion",
+    "name_ar": "متجر أزياء تجريبي",
+    "name_en": "Example Fashion Store",
+    "category": "fashion",
+    "countries": ["sa", "ae", "kw"],
+    "description_ar": "هذا متجر تجريبي للتوضيح فقط — استبدله بمتجر حقيقي. يعرض كيف تظهر صفحة المتجر وأكواد الخصم.",
+    "description_en": "This is an EXAMPLE store for demonstration only — replace it with a real store. Shows how a store page and discount codes look.",
+    "example": true,
+    "faq": [
+      {
+        "q_ar": "كيف أستخدم كود الخصم؟",
+        "a_ar": "انسخ الكود، اضغط «تسوّق الآن»، وألصقه في خانة الكوبون عند الدفع.",
+        "q_en": "How do I use the discount code?",
+        "a_en": "Copy the code, click Shop Now, and paste it in the coupon field at checkout."
+      },
+      {
+        "q_ar": "هل الكود يشتغل في السعودية؟",
+        "a_ar": "نعم، الأكواد المعروضة هنا مخصصة للمتسوقين في السعودية ودول الخليج حسب المتجر.",
+        "q_en": "Does the code work in Saudi Arabia?",
+        "a_en": "Yes — codes shown here are aimed at shoppers in Saudi Arabia and the GCC, depending on the store."
+      }
+    ],
+    "coupons": [
+      {
+        "code": "EXAMPLE10",
+        "title_ar": "خصم ١٠٪ على أول طلب (تجريبي)",
+        "title_en": "10% off first order (example)",
+        "discount": "10%",
+        "verified_date": "2026-11-06",
+        "expires": "2026-12-31",
+        "exclusive": true,
+        "affiliate_url": "https://example.com/?ref=ye7ia",
+        "example": true
+      },
+      {
+        "code": "SAUDI20",
+        "title_ar": "خصم ٢٠٪ للمتسوقين في السعودية (تجريبي)",
+        "title_en": "20% off for Saudi shoppers (example)",
+        "discount": "20%",
+        "verified_date": "2026-11-05",
+        "expires": "2026-11-30",
+        "exclusive": false,
+        "affiliate_url": "https://example.com/?ref=ye7ia&c=saudi20",
+        "example": true
+      }
+    ]
+  },
+  {
+    "slug": "example-tech",
+    "name_ar": "متجر تقنية تجريبي",
+    "name_en": "Example Tech Store",
+    "category": "electronics",
+    "countries": ["sa", "ae"],
+    "description_ar": "متجر تجريبي للإلكترونيات — استبدله بمتجر حقيقي قبل النشر.",
+    "description_en": "Example electronics store — replace with a real store before publishing.",
+    "example": true,
+    "faq": [
+      {
+        "q_ar": "هل فيه شحن للسعودية؟",
+        "a_ar": "هذا مثال فقط. عند إضافة متجر حقيقي، وضّح سياسة الشحن من صفحة المتجر الرسمية.",
+        "q_en": "Is there shipping to Saudi Arabia?",
+        "a_en": "This is an example only. When you add a real store, state shipping policy from the official store page."
+      }
+    ],
+    "coupons": [
+      {
+        "code": "TECH15",
+        "title_ar": "خصم ١٥٪ على الإلكترونيات (تجريبي)",
+        "title_en": "15% off electronics (example)",
+        "discount": "15%",
+        "verified_date": "2026-11-06",
+        "expires": "2027-01-15",
+        "exclusive": false,
+        "affiliate_url": "https://example.com/tech?ref=ye7ia",
+        "example": true
+      },
+      {
+        "code": "LAPTOP50",
+        "title_ar": "خصم ٥٠ ريال على اللابتوب (تجريبي)",
+        "title_en": "SAR 50 off laptops (example)",
+        "discount": "50 SAR",
+        "verified_date": "2026-11-04",
+        "expires": "2026-12-15",
+        "exclusive": true,
+        "affiliate_url": "https://example.com/tech?ref=ye7ia&c=laptop50",
+        "example": true
+      }
+    ]
+  },
+  {
+    "slug": "example-beauty",
+    "name_ar": "متجر تجميل تجريبي",
+    "name_en": "Example Beauty Store",
+    "category": "beauty",
+    "countries": ["sa", "ae", "kw"],
+    "description_ar": "متجر تجريبي للتجميل والعناية — بيانات وهمية للتوضيح فقط.",
+    "description_en": "Example beauty store — placeholder data for demonstration only.",
+    "example": true,
+    "faq": [
+      {
+        "q_ar": "هل الأكواد حصرية؟",
+        "a_ar": "الأكواد المعلّمة بـ «حصري» تكون عبر شراكة الموقع. هذا المثال للتوضيح.",
+        "q_en": "Are the codes exclusive?",
+        "a_en": "Codes marked Exclusive come via site partnerships. This example is for illustration."
+      }
+    ],
+    "coupons": [
+      {
+        "code": "BEAUTY25",
+        "title_ar": "خصم ٢٥٪ على منتجات العناية (تجريبي)",
+        "title_en": "25% off skincare (example)",
+        "discount": "25%",
+        "verified_date": "2026-11-06",
+        "expires": "2026-12-31",
+        "exclusive": true,
+        "affiliate_url": "https://example.com/beauty?ref=ye7ia",
+        "example": true
+      }
+    ]
+  }
+]

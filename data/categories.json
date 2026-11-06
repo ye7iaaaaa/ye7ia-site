@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "fashion",
+    "name_ar": "أزياء وموضة",
+    "name_en": "Fashion",
+    "icon": "👗",
+    "description_ar": "أكواد خصم على الملابس والأحذية والإكسسوارات في السعودية ودول الخليج.",
+    "description_en": "Discount codes for clothing, shoes, and accessories across Saudi Arabia and the GCC."
+  },
+  {
+    "slug": "electronics",
+    "name_ar": "إلكترونيات وتقنية",
+    "name_en": "Electronics",
+    "icon": "📱",
+    "description_ar": "كوبونات جوالات ولابتوبات وأجهزة منزلية ذكية.",
+    "description_en": "Coupons for phones, laptops, and smart home devices."
+  },
+  {
+    "slug": "beauty",
+    "name_ar": "تجميل وعناية",
+    "name_en": "Beauty",
+    "icon": "💄",
+    "description_ar": "أكواد خصم لمستحضرات التجميل والعناية بالبشرة والشعر.",
+    "description_en": "Discount codes for cosmetics, skincare, and hair care."
+  },
+  {
+    "slug": "food",
+    "name_ar": "مطاعم وتوصيل",
+    "name_en": "Food & Delivery",
+    "icon": "🍔",
+    "description_ar": "كوبونات توصيل طعام ومطاعم في السعودية والخليج.",
+    "description_en": "Food delivery and restaurant coupons in Saudi Arabia and the GCC."
+  },
+  {
+    "slug": "home",
+    "name_ar": "منزل وأثاث",
+    "name_en": "Home & Furniture",
+    "icon": "🏠",
+    "description_ar": "خصومات على الأثاث والديكور ومستلزمات المنزل.",
+    "description_en": "Discounts on furniture, décor, and home essentials."
+  },
+  {
+    "slug": "travel",
+    "name_ar": "سفر وفنادق",
+    "name_en": "Travel",
+    "icon": "✈️",
+    "description_ar": "أكواد خصم لحجز الفنادق والطيران والرحلات.",
+    "description_en": "Discount codes for hotels, flights, and trips."
+  }
+]
