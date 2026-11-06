@@ -19,6 +19,7 @@ ASSETS_SRC = ROOT / "assets"
 SITE_NAME_AR = "يحيى كوبونات"
 SITE_NAME_EN = "ye7ia Coupons"
 DOMAIN = "https://ye7ia.is-a.si"
+CONTACT_EMAIL = "partners@ye7ia.is-a.si"
 YEAR = 2026
 TODAY = date.today().isoformat()
 
@@ -72,6 +73,9 @@ STATIC_PAGES = [
     "privacy",
     "affiliate-disclosure",
     "marketers",
+    "partners",
+    "contact",
+    "terms",
 ]
 
 
@@ -283,13 +287,17 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
 def render_footer(lang: str, depth: int) -> str:
     root = asset_prefix(lang, depth)
     loc = lang_prefix(depth)
+    mail = CONTACT_EMAIL
     if lang == "ar":
         links = [
             ("about/", "من نحن"),
             ("how-we-verify/", "كيف نتحقق من الأكواد"),
             ("privacy/", "الخصوصية"),
+            ("terms/", "الشروط"),
             ("affiliate-disclosure/", "الإفصاح عن العمولات"),
             ("marketers/", "للمسوقين"),
+            ("partners/", "شركاء وإعلان"),
+            ("contact/", "تواصل"),
             ("countries/sa/", "السعودية"),
             ("countries/ae/", "الإمارات"),
             ("countries/kw/", "الكويت"),
@@ -297,13 +305,20 @@ def render_footer(lang: str, depth: int) -> str:
         note = "موقع أكواد خصم مستقل. قد نحصل على عمولة عند استخدام بعض الروابط دون أي تكلفة إضافية عليك."
         brand = SITE_NAME_AR
         links_label = "روابط"
+        biz_title = "للمتاجر والشركاء"
+        biz_text = "عرض متجرك، كود حصري، أو بانر إعلاني — تواصل للتسعير."
+        biz_cta = "تواصل معنا"
+        biz_more = "باقات الشراكة"
     else:
         links = [
             ("about/", "About"),
             ("how-we-verify/", "How we verify"),
             ("privacy/", "Privacy"),
+            ("terms/", "Terms"),
             ("affiliate-disclosure/", "Affiliate disclosure"),
             ("marketers/", "For marketers"),
+            ("partners/", "Partners & advertise"),
+            ("contact/", "Contact"),
             ("countries/sa/", "Saudi Arabia"),
             ("countries/ae/", "UAE"),
             ("countries/kw/", "Kuwait"),
@@ -311,6 +326,10 @@ def render_footer(lang: str, depth: int) -> str:
         note = "Independent coupon site. We may earn a commission when you use some links, at no extra cost to you."
         brand = SITE_NAME_EN
         links_label = "Links"
+        biz_title = "For stores & partners"
+        biz_text = "Feature your store, an exclusive code, or a banner — contact for pricing."
+        biz_cta = "Contact us"
+        biz_more = "Partnership packages"
     items = "\n".join(
         f'      <li><a href="{esc(loc + href)}">{esc(label)}</a></li>' for href, label in links
     )
@@ -327,6 +346,13 @@ def render_footer(lang: str, depth: int) -> str:
 {items}
         </ul>
       </div>
+      <div class="footer-biz">
+        <h4>{esc(biz_title)}</h4>
+        <p class="muted" style="color:#94a3b8">{esc(biz_text)}</p>
+        <p><a class="btn" href="{esc(loc + "contact/")}">{esc(biz_cta)}</a>
+        <a class="btn btn-secondary" href="{esc(loc + "partners/")}">{esc(biz_more)}</a></p>
+        <p class="muted" style="color:#94a3b8;margin-top:0.6rem"><a href="mailto:{esc(mail)}">{esc(mail)}</a></p>
+      </div>
     </div>
     <p class="footer-note">© {YEAR} ye7ia.is-a.si</p>
   </div>
@@ -335,6 +361,7 @@ def render_footer(lang: str, depth: int) -> str:
 </body>
 </html>
 """
+
 
 
 def render_breadcrumbs(crumbs: list[tuple[str, str | None]]) -> str:
@@ -570,6 +597,16 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         f'<article class="card"><a href="countries/{esc(c["slug"])}/"><h3>{esc(c["flag"])} {esc(c["name_ar"] if lang == "ar" else c["name_en"])}</h3></a></article>'
         for c in COUNTRIES
     ]
+    if lang == "ar":
+        biz_h = "متجر أو علامة تجارية؟"
+        biz_p = "أبرز متجرك، انشر كوداً حصرياً، أو احجز بانر — تواصل للتسعير."
+        biz_contact = "تواصل معنا"
+        biz_partners = "باقات الشراكة والإعلان"
+    else:
+        biz_h = "Store or brand?"
+        biz_p = "Feature your store, publish an exclusive code, or book a banner — contact for pricing."
+        biz_contact = "Contact us"
+        biz_partners = "Partnership & advertising packages"
     body = f"""<section class="hero"><div class="container">
   <h1>{esc(h1)}</h1>
   <p>{esc(lead)}</p>
@@ -591,6 +628,16 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
   <section class="section">
     <div class="section-head"><h2>{esc(countries_label)}</h2></div>
     <div class="grid">{"".join(country_cards)}</div>
+  </section>
+  <section class="section business-cta">
+    <div class="business-cta-inner">
+      <h2>{esc(biz_h)}</h2>
+      <p>{esc(biz_p)}</p>
+      <p>
+        <a class="btn" href="contact/">{esc(biz_contact)}</a>
+        <a class="btn btn-secondary" href="partners/">{esc(biz_partners)}</a>
+      </p>
+    </div>
   </section>
 </main>
 """
@@ -899,6 +946,7 @@ def build_seasons_index(lang: str, out_dir: Path, depth: int) -> None:
 
 
 def static_content(page: str, lang: str) -> tuple[str, str, str]:
+    mail = CONTACT_EMAIL
     if page == "about":
         if lang == "ar":
             return (
@@ -907,7 +955,8 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
                 f"""<h1>من نحن</h1>
 <p><strong>{SITE_NAME_AR}</strong> موقع مستقل لتجميع أكواد الخصم والكوبونات، موجّه أولاً للمتسوقين في السعودية، ثم باقي دول الخليج، وللمسوقين اللي يدورون مصادر موثوقة للكوبونات.</p>
 <p>ما نبيع منتجات — نساعدكم توصلون لكود خصم وتستخدمونه عند المتجر مباشرة.</p>
-<p>المحتوى يُدار يدوياً: نضيف المتاجر والأكواد بعد مراجعتها. شوف صفحة <a href="../how-we-verify/">كيف نتحقق من الأكواد</a>.</p>""",
+<p>المحتوى يُدار يدوياً: نضيف المتاجر والأكواد بعد مراجعتها. شوف صفحة <a href="../how-we-verify/">كيف نتحقق من الأكواد</a>.</p>
+<p>للمتاجر والشركاء: <a href="../partners/">باقات الشراكة</a> أو <a href="../contact/">تواصل معنا</a>.</p>""",
             )
         return (
             f"About | {SITE_NAME_EN}",
@@ -915,7 +964,8 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
             f"""<h1>About</h1>
 <p><strong>{SITE_NAME_EN}</strong> is an independent discount-code site aimed first at shoppers in Saudi Arabia, then the wider GCC, and at marketers looking for reliable coupon sources.</p>
 <p>We do not sell products — we help you find a code and use it at the store.</p>
-<p>Content is managed manually. See <a href="../how-we-verify/">how we verify codes</a>.</p>""",
+<p>Content is managed manually. See <a href="../how-we-verify/">how we verify codes</a>.</p>
+<p>For stores and partners: <a href="../partners/">partnership packages</a> or <a href="../contact/">contact us</a>.</p>""",
         )
     if page == "how-we-verify":
         if lang == "ar":
@@ -949,21 +999,29 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
         if lang == "ar":
             return (
                 f"الخصوصية | {SITE_NAME_AR}",
-                "سياسة الخصوصية لموقع أكواد الخصم.",
-                """<h1>الخصوصية</h1>
-<p>الموقع صفحات ثابتة. ما نطلب إنشاء حساب للتصفح.</p>
-<p>قد تُستخدم روابط عمولة؛ عند الضغط عليها تنتقل لمتجر خارجي بسياسته الخاصة.</p>
-<p>لو أُضيف لاحقاً تحليلات أو أدوات قياس، سنوضّحها هنا.</p>
-<p>للتواصل: عبر النطاق <strong>ye7ia.is-a.si</strong>.</p>""",
+                "سياسة الخصوصية وملفات تعريف الارتباط لموقع أكواد الخصم.",
+                f"""<h1>الخصوصية وملفات تعريف الارتباط</h1>
+<p>الموقع صفحات ثابتة. ما نطلب إنشاء حساب للتصفح، وما نبيع بياناتك.</p>
+<h2>ملفات تعريف الارتباط (Cookies)</h2>
+<p>قد يستخدم المتصفح تخزيناً محلياً بسيطاً لوظائف الصفحة (مثل نسخ الكود). حالياً ما نضع ملفات تعريف ارتباط تتبّع أو إعلانات طرف ثالث.</p>
+<p>لو أُضيف لاحقاً تحليلات أو أدوات قياس، سنوضّح أنواع الكوكيز والغرض منها هنا قبل التفعيل.</p>
+<h2>روابط العمولة</h2>
+<p>قد تُستخدم روابط عمولة؛ عند الضغط عليها تنتقل لمتجر خارجي بسياسته الخاصة لجمع البيانات. راجع أيضاً <a href="../affiliate-disclosure/">الإفصاح عن العمولات</a> و<a href="../terms/">الشروط</a>.</p>
+<h2>التواصل</h2>
+<p>للاستفسارات: <a href="mailto:{mail}">{mail}</a> — أو صفحة <a href="../contact/">تواصل</a>.</p>""",
             )
         return (
             f"Privacy | {SITE_NAME_EN}",
-            "Privacy policy for the coupon site.",
-            """<h1>Privacy</h1>
-<p>This site is static. You do not need an account to browse.</p>
-<p>We may use affiliate links; clicking them takes you to a third-party store with its own policy.</p>
-<p>If analytics are added later, we will disclose them here.</p>
-<p>Contact via <strong>ye7ia.is-a.si</strong>.</p>""",
+            "Privacy and cookies policy for the coupon site.",
+            f"""<h1>Privacy & cookies</h1>
+<p>This site is static. You do not need an account to browse, and we do not sell your data.</p>
+<h2>Cookies</h2>
+<p>Your browser may use simple local storage for page features (for example copying a code). We do not currently set tracking or third-party advertising cookies.</p>
+<p>If analytics or measurement tools are added later, we will disclose cookie types and purposes here before enabling them.</p>
+<h2>Affiliate links</h2>
+<p>We may use affiliate links; clicking them takes you to a third-party store with its own data policy. See also our <a href="../affiliate-disclosure/">affiliate disclosure</a> and <a href="../terms/">terms</a>.</p>
+<h2>Contact</h2>
+<p>Questions: <a href="mailto:{mail}">{mail}</a> — or the <a href="../contact/">contact</a> page.</p>""",
         )
     if page == "affiliate-disclosure":
         if lang == "ar":
@@ -973,7 +1031,8 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
                 """<h1>الإفصاح عن العمولات</h1>
 <p>بعض الروابط في هذا الموقع روابط تسويق بالعمولة. إذا اشتريت عبرها، قد نحصل على عمولة بدون ما تدفع زيادة.</p>
 <p>هذا يساعدنا نغطي تشغيل الموقع. اختيار المتجر والشراء قرارك أنت.</p>
-<p>ما نبالغ في وصف الخصم، وما نعرض إحصائيات وهمية.</p>""",
+<p>ما نبالغ في وصف الخصم، وما نعرض إحصائيات وهمية.</p>
+<p>للتفاصيل القانونية الأوسع شوف <a href="../terms/">الشروط</a> و<a href="../privacy/">الخصوصية</a>.</p>""",
             )
         return (
             f"Affiliate disclosure | {SITE_NAME_EN}",
@@ -981,14 +1040,15 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
             """<h1>Affiliate disclosure</h1>
 <p>Some links on this site are affiliate links. If you buy through them, we may earn a commission at no extra cost to you.</p>
 <p>That helps keep the site running. Choosing a store and buying is your decision.</p>
-<p>We do not invent fake savings stats.</p>""",
+<p>We do not invent fake savings stats.</p>
+<p>For broader legal detail see our <a href="../terms/">terms</a> and <a href="../privacy/">privacy</a> pages.</p>""",
         )
     if page == "marketers":
         if lang == "ar":
             return (
                 f"للمسوقين | {SITE_NAME_AR}",
                 "صفحة للمسوقين بالعمولة والناشرين المهتمين بأكواد الخصم في السعودية والخليج.",
-                """<h1>للمسوقين والناشرين</h1>
+                f"""<h1>للمسوقين والناشرين</h1>
 <p>إذا كنت مسوّق بالعمولة أو عندك موقع/قناة وتدور مصادر أكواد خصم تستهدف السعودية والخليج، هالصفحة لك.</p>
 <h2>ليش الموقع؟</h2>
 <ul>
@@ -1003,13 +1063,13 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 <li>Boostiny</li>
 <li>Awin / Impact / Amazon Associates (حسب المتجر)</li>
 </ul>
-<p>تواصل لإضافة متجرك أو عرض كود حصري عبر النطاق ye7ia.is-a.si.</p>
+<p>لإضافة متجر، عرض كود حصري، أو باقات الإعلان: راجع <a href="../partners/">شركاء وإعلان</a> أو راسلنا على <a href="mailto:{mail}">{mail}</a> عبر صفحة <a href="../contact/">تواصل</a>.</p>
 <p class="muted">ملاحظة: القائمة أعلاه أسماء شبكات معروفة وليست إعلان مدفوع.</p>""",
             )
         return (
             f"For marketers | {SITE_NAME_EN}",
             "For affiliate marketers and publishers interested in GCC discount codes.",
-            """<h1>For marketers & publishers</h1>
+            f"""<h1>For marketers & publishers</h1>
 <p>If you are an affiliate marketer or publisher looking for Saudi/GCC coupon inventory, this page is for you.</p>
 <h2>Why this site</h2>
 <ul>
@@ -1024,10 +1084,147 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 <li>Boostiny</li>
 <li>Awin / Impact / Amazon Associates (depending on the merchant)</li>
 </ul>
-<p>Contact via ye7ia.is-a.si to add a store or offer an exclusive code.</p>
+<p>To add a store, offer an exclusive code, or discuss advertising packages: see <a href="../partners/">Partners &amp; advertise</a> or email <a href="mailto:{mail}">{mail}</a> via the <a href="../contact/">contact</a> page.</p>
 <p class="muted">Network names above are well-known options, not paid placements.</p>""",
         )
+    if page == "partners":
+        if lang == "ar":
+            return (
+                f"شركاء وإعلان | {SITE_NAME_AR}",
+                "باقات الشراكة والإعلان للمتاجر والعلامات: تميّز، كود حصري، بانر — تواصل للتسعير.",
+                f"""<h1>شركاء وإعلان</h1>
+<p>نستقبل طلبات المتاجر والعلامات اللي تبي تظهر لجمهور مهتم بأكواد الخصم في السعودية والخليج. التواصل عبر البريد فقط: <a href="mailto:{mail}">{mail}</a>.</p>
+<h2>الباقات</h2>
+<div class="packages">
+<article class="package-card">
+<h3>تميّز المتجر (Featured)</h3>
+<p>إبراز متجرك في الصفحة الرئيسية وصفحات التصنيف ذات الصلة، مع وصف واضح وروابط تسوّق.</p>
+<p class="package-price"><a href="../contact/">تواصل للتسعير</a></p>
+</article>
+<article class="package-card">
+<h3>كود حصري (Exclusive code)</h3>
+<p>نشر كود خاص بالموقع مع تمييز واضح وتاريخ تحقق، مناسب للحملات الموسمية أو الإطلاقات.</p>
+<p class="package-price"><a href="../contact/">تواصل للتسعير</a></p>
+</article>
+<article class="package-card">
+<h3>بانر (Banner)</h3>
+<p>مساحة بانر تحريرية على صفحات مختارة (رئيسية / مواسم / تصنيفات) حسب الاتفاق.</p>
+<p class="package-price"><a href="../contact/">تواصل للتسعير</a></p>
+</article>
+</div>
+<h2>الوسائط (Media kit)</h2>
+<ul>
+<li>الجمهور المستهدف: متسوقون في السعودية أولاً، ثم دول الخليج.</li>
+<li>اللغات: عربي (لهجة سعودية واضحة) + إنجليزي.</li>
+<li>المحتوى: صفحات متاجر، تصنيفات، دول، ومواسم (الجمعة البيضاء، رمضان، وغيرها).</li>
+<li>الشكل: موقع ثابت سريع، مناسب للجوال، مع بيانات منظمة لمحركات البحث.</li>
+<li>ما نقدّم أرقاماً وهمية عن الزيارات أو نسب التحويل — نشارك تفاصيل حقيقية عند الحاجة بعد التواصل.</li>
+</ul>
+<p><a class="btn" href="../contact/">تواصل معنا</a> <a class="btn btn-secondary" href="../marketers/">صفحة المسوقين</a></p>""",
+            )
+        return (
+            f"Partners & advertise | {SITE_NAME_EN}",
+            "Partnership and advertising packages for stores and brands — contact for pricing.",
+            f"""<h1>Partners &amp; advertise</h1>
+<p>We welcome stores and brands that want to reach shoppers looking for discount codes in Saudi Arabia and the GCC. Email only: <a href="mailto:{mail}">{mail}</a>.</p>
+<h2>Packages</h2>
+<div class="packages">
+<article class="package-card">
+<h3>Featured store</h3>
+<p>Highlight your store on the home page and relevant category pages, with a clear description and shopping links.</p>
+<p class="package-price"><a href="../contact/">Contact for pricing</a></p>
+</article>
+<article class="package-card">
+<h3>Exclusive code</h3>
+<p>Publish a site-exclusive code with clear labeling and a verified date — useful for seasonal campaigns or launches.</p>
+<p class="package-price"><a href="../contact/">Contact for pricing</a></p>
+</article>
+<article class="package-card">
+<h3>Banner</h3>
+<p>Editorial banner placements on selected pages (home / seasons / categories) by agreement.</p>
+<p class="package-price"><a href="../contact/">Contact for pricing</a></p>
+</article>
+</div>
+<h2>Media kit</h2>
+<ul>
+<li>Audience focus: shoppers in Saudi Arabia first, then the wider GCC.</li>
+<li>Languages: Arabic (clear Saudi tone) + English.</li>
+<li>Inventory: store, category, country, and seasonal pages (White Friday, Ramadan, and more).</li>
+<li>Format: fast static site, mobile-friendly, with structured data for search.</li>
+<li>We do not publish invented traffic or conversion figures — real details can be shared after you reach out.</li>
+</ul>
+<p><a class="btn" href="../contact/">Contact us</a> <a class="btn btn-secondary" href="../marketers/">Marketers page</a></p>""",
+        )
+    if page == "contact":
+        if lang == "ar":
+            return (
+                f"تواصل | {SITE_NAME_AR}",
+                "تواصل مع يحيى كوبونات للشراكات والإعلان وأكواد الخصم.",
+                f"""<h1>تواصل معنا</h1>
+<p>للاستفسارات عن الشراكة، الإعلان، أو إضافة متجر/كود:</p>
+<p><a class="btn" href="mailto:{mail}">{mail}</a></p>
+<ul>
+<li>اذكر اسم المتجر أو العلامة.</li>
+<li>وضّح نوع الطلب: تميّز / كود حصري / بانر / غير ذلك.</li>
+<li>أرفق أي تفاصيل مفيدة عن الحملة أو الفترة المطلوبة.</li>
+</ul>
+<p>نراجع الرسائل يدوياً ونرد في أقرب فرصة. شوف أيضاً <a href="../partners/">باقات الشراكة</a> و<a href="../marketers/">صفحة المسوقين</a>.</p>
+<p class="muted">التواصل حالياً عبر البريد الإلكتروني فقط.</p>""",
+            )
+        return (
+            f"Contact | {SITE_NAME_EN}",
+            "Contact ye7ia Coupons for partnerships, advertising, and discount codes.",
+            f"""<h1>Contact us</h1>
+<p>For partnership, advertising, or adding a store/code:</p>
+<p><a class="btn" href="mailto:{mail}">{mail}</a></p>
+<ul>
+<li>Include the store or brand name.</li>
+<li>Say what you need: Featured / Exclusive code / Banner / other.</li>
+<li>Add any useful campaign or timing details.</li>
+</ul>
+<p>We review messages manually and reply as soon as we can. See also <a href="../partners/">partnership packages</a> and the <a href="../marketers/">marketers</a> page.</p>
+<p class="muted">Contact is by email only for now.</p>""",
+        )
+    if page == "terms":
+        if lang == "ar":
+            return (
+                f"الشروط | {SITE_NAME_AR}",
+                "شروط الاستخدام: صلاحية الأكواد، العمولات، وملفات تعريف الارتباط.",
+                f"""<h1>الشروط</h1>
+<p>باستخدامك موقع <strong>ye7ia.is-a.si</strong> فأنت توافق على هذه الشروط. الموقع يقدّم معلومات عن أكواد خصم بشكل مستقل ولا يبيع المنتجات مباشرة.</p>
+<h2>صلاحية الأكواد</h2>
+<p>نراجع الأكواد قدر الإمكان ونحدّث تواريخ التحقق، لكن ما نضمن إن كل كود يشتغل لكل مستخدم في كل وقت. الشروط تختلف حسب السلة، الدولة، الحساب، والعروض لدى المتجر. قرار الشراء واستخدام الكود مسؤوليتك.</p>
+<h2>الإفصاح عن العمولات</h2>
+<p>بعض الروابط روابط تسويق بالعمولة؛ قد نحصل على عمولة إذا اشتريت عبرها بدون تكلفة إضافية عليك. التفاصيل في <a href="../affiliate-disclosure/">الإفصاح عن العمولات</a>.</p>
+<h2>ملفات تعريف الارتباط</h2>
+<p>راجع <a href="../privacy/">سياسة الخصوصية وملفات تعريف الارتباط</a> لمعرفة ما نستخدمه حالياً وما سنفصح عنه إذا أُضيفت أدوات قياس لاحقاً.</p>
+<h2>المحتوى والملكية</h2>
+<p>أسماء المتاجر والعلامات ملك لأصحابها. المحتوى التحريري على الموقع لنا ما لم يُذكر غير ذلك. يُمنع نسخ المحتوى بشكل مضلّل أو إعادة نشر أكواد حصرية دون إذن.</p>
+<h2>إخلاء المسؤولية</h2>
+<p>الموقع يُقدَّم «كما هو». لا نتحمّل مسؤولية أخطاء العرض، انتهاء العروض، أو سياسات المتاجر الخارجية.</p>
+<h2>التواصل</h2>
+<p><a href="mailto:{mail}">{mail}</a> — <a href="../contact/">صفحة التواصل</a>.</p>""",
+            )
+        return (
+            f"Terms | {SITE_NAME_EN}",
+            "Terms of use: code validity, commissions, and cookies.",
+            f"""<h1>Terms</h1>
+<p>By using <strong>ye7ia.is-a.si</strong> you agree to these terms. The site provides independent discount-code information and does not sell products directly.</p>
+<h2>Code validity</h2>
+<p>We review codes where possible and update verification dates, but we do not guarantee that every code will work for every shopper at every time. Terms vary by cart, country, account, and the merchant’s own offers. Purchasing and using a code is your responsibility.</p>
+<h2>Commission disclosure</h2>
+<p>Some links are affiliate links; we may earn a commission if you buy through them, at no extra cost to you. See the <a href="../affiliate-disclosure/">affiliate disclosure</a>.</p>
+<h2>Cookies</h2>
+<p>See our <a href="../privacy/">privacy &amp; cookies policy</a> for what we use today and what we will disclose if measurement tools are added later.</p>
+<h2>Content &amp; ownership</h2>
+<p>Store and brand names belong to their owners. Editorial content on this site is ours unless stated otherwise. Do not copy content misleadingly or republish exclusive codes without permission.</p>
+<h2>Disclaimer</h2>
+<p>The site is provided “as is”. We are not liable for display errors, expired offers, or third-party store policies.</p>
+<h2>Contact</h2>
+<p><a href="mailto:{mail}">{mail}</a> — <a href="../contact/">contact page</a>.</p>""",
+        )
     raise ValueError(page)
+
 
 
 def build_static_page(lang: str, page: str, out_dir: Path, depth: int) -> None:
@@ -1165,6 +1362,7 @@ def clean_generated(out_dir: Path) -> None:
     for name in (
         "stores", "categories", "countries", "seasons", "en",
         "about", "how-we-verify", "privacy", "affiliate-disclosure", "marketers",
+        "partners", "contact", "terms",
     ):
         p = out_dir / name
         if p.is_dir():

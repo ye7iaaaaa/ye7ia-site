@@ -1,4 +1,5 @@
 # Changelog
 
+2026-11-06 23:13 Cairo — Batch 2: Partners/Advertise, Contact, Terms pages; privacy cookies; packages without prices + media kit; business CTA on home/footer; marketers linked to real partners@ye7ia.is-a.si mailto (ImprovMX catch-all verified).
 2026-11-06 23:10 Cairo — Batch 1 additions: hide example stores from home/sitemap (clean empty state; data kept); same-page language switch; favicon/apple-touch/og/twitter; contrast+skip-link+focus-visible; separate copy-code button + shop via target=_blank link; home Organization+SearchAction schema.
 2026-11-06 22:04 Cairo — Related stores on store pages; Twitter/OG image + Organization schema.
