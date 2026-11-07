@@ -8,10 +8,12 @@ from __future__ import annotations
 
 import html
 import json
+import re
 import shutil
 from datetime import date
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
@@ -149,14 +151,20 @@ PLACEHOLDER_HOST_MARKERS = ("example.com", "example.org", "localhost")
 
 
 def _is_https_url(url: str) -> bool:
-    return isinstance(url, str) and url.startswith("https://")
+    if not isinstance(url, str) or not url:
+        return False
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return False
+    return parsed.scheme == "https" and bool(parsed.hostname)
 
 
 def _is_iso_date(value: str) -> bool:
-    if not isinstance(value, str) or len(value) < 10:
+    if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
         return False
     try:
-        date.fromisoformat(value[:10])
+        date.fromisoformat(value)
         return True
     except ValueError:
         return False
