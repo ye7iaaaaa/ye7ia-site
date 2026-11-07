@@ -366,8 +366,10 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
         fname = featured["name_ar"] if lang == "ar" else featured["name_en"]
         start = esc((featured.get("start") or "")[:10])
         end = esc((featured.get("end") or "")[:10])
+        aria = esc(t(lang, f"موسم حي: {fname}", f"Live season: {fname}"))
         season_chip = (
             f'<a class="nav-season-chip" href="{esc(loc + "seasons/" + featured["slug"] + "/")}" '
+            f'aria-label="{aria}" '
             f'data-season-start="{start}" data-season-end="{end}">'
             f'{esc(fname)}</a>'
         )
@@ -756,6 +758,22 @@ def wrap_page(
     )
 
 
+
+def empty_state_block(lang: str, depth: int, message: str) -> str:
+    """Soft empty UX with real CTAs (browse categories + partners)."""
+    loc = lang_prefix(depth)
+    cats_label = t(lang, "تصفّح التصنيفات", "Browse categories")
+    partners_label = t(lang, "للمتاجر والشركاء", "For stores & partners")
+    return (
+        f'<div class="empty-state">'
+        f'<p class="muted">{esc(message)}</p>'
+        f'<div class="empty-state-actions">'
+        f'<a class="btn" href="{esc(loc + "categories/")}">{esc(cats_label)}</a>'
+        f'<a class="btn btn-secondary" href="{esc(loc + "partners/")}">{esc(partners_label)}</a>'
+        f'</div></div>'
+    )
+
+
 def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: Path, depth: int) -> None:
     stores = public_stores(stores)
     flat = sort_coupons(all_coupons_flat(stores))
@@ -768,7 +786,7 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         season_label_generic = "عرض موسمي: تصفّح أكواد الجمعة البيضاء ورمضان واليوم الوطني"
         top_stores, today_label = "أبرز المتاجر", "أكواد محدثة"
         cats_label, countries_label = "تصفح حسب التصنيف", "حسب الدولة"
-        empty_stores = "ما فيه متاجر بعد — قريب نضيف أكواد حقيقية."
+        empty_stores = "ما فيه متاجر معروضة حالياً."
         empty_codes = "ما فيه أكواد معروضة حالياً."
         canon = "/"
     else:
@@ -779,7 +797,7 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         season_label_generic = "Seasonal: browse White Friday, Ramadan, and National Day codes"
         top_stores, today_label = "Top stores", "Recently verified codes"
         cats_label, countries_label = "Browse by category", "By country"
-        empty_stores = "No stores yet — real codes will appear here soon."
+        empty_stores = "No stores listed yet."
         empty_codes = "No codes to show right now."
         canon = "/en/"
 
@@ -787,7 +805,7 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         store_cards = "\n".join(store_card(lang, s, categories, depth) for s in stores)
         stores_block = f'<div class="grid">{store_cards}</div>'
     else:
-        stores_block = f'<p class="muted empty-state">{esc(empty_stores)}</p>'
+        stores_block = empty_state_block(lang, depth, empty_stores)
 
     if today_codes:
         coupon_cards = "\n".join(coupon_card(lang, c, c.get("_store"), depth) for c in today_codes)
@@ -838,8 +856,11 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         season_start = ""
         season_end = ""
     season_attrs = ""
-    if season_start and season_end:
+    if season_start and season_end and featured:
+        fname = featured["name_ar"] if lang == "ar" else featured["name_en"]
+        banner_aria = esc(t(lang, f"موسم حي: {fname}", f"Live season: {fname}"))
         season_attrs = (
+            f' aria-label="{banner_aria}"'
             f' data-season-start="{esc(season_start)}" data-season-end="{esc(season_end)}"'
         )
     body = f"""<section class="hero"><div class="container">
@@ -1016,8 +1037,8 @@ def build_stores_index(lang: str, stores: list[dict], categories: list[dict], ou
         home_label, stores_label = "Home", "Stores"
     empty_yet = t(
         lang,
-        "ما فيه متاجر بعد — قريب نضيف أكواد حقيقية.",
-        "No stores yet — real codes will appear here soon.",
+        "ما فيه متاجر معروضة حالياً.",
+        "No stores listed yet.",
     )
     cards = "\n".join(store_card(lang, s, categories, depth) for s in stores) if stores else ""
     # Always render #store-grid (empty message lives inside) so client search (?q=) works with zero stores.
@@ -1056,10 +1077,16 @@ def build_category(lang: str, cat: dict, stores: list[dict], categories: list[di
     else:
         title, canon = f"{name} discount codes Saudi Arabia {YEAR}", f"/en/categories/{cat['slug']}/"
         bc = render_breadcrumbs([("Home", f"{loc}index.html"), ("Categories", f"{loc}categories/"), (name, None)])
-    cards = "\n".join(store_card(lang, s, categories, depth) for s in filtered) or (
-        f'<p class="muted">{esc(t(lang, "لا متاجر في هذا التصنيف بعد.", "No stores in this category yet."))}</p>'
-    )
-    body = f"""{bc}<main id="main" class="container"><h1>{esc(cat.get("icon",""))} {esc(name)}</h1><p>{esc(desc)}</p><div class="grid" style="margin-top:1.2rem">{cards}</div></main>"""
+    if filtered:
+        cards = "\n".join(store_card(lang, s, categories, depth) for s in filtered)
+        content = f'<div class="grid grid-spaced">{cards}</div>'
+    else:
+        content = empty_state_block(
+            lang,
+            depth,
+            t(lang, "ما فيه متاجر في هذا التصنيف حالياً.", "No stores in this category yet."),
+        )
+    body = f"""{bc}<main id="main" class="container"><h1>{esc(cat.get("icon",""))} {esc(name)}</h1><p>{esc(desc)}</p>{content}</main>"""
     home_label = "الرئيسية" if lang == "ar" else "Home"
     cats_label = "التصنيفات" if lang == "ar" else "Categories"
     jsonld = [
@@ -1119,10 +1146,16 @@ def build_country(lang: str, country: dict, stores: list[dict], categories: list
         canon = f"/en/countries/{country['slug']}/"
         h1 = f"{name} discount codes"
         bc = render_breadcrumbs([("Home", f"{loc}index.html"), ("Countries", f"{loc}countries/"), (name, None)])
-    cards = "\n".join(store_card(lang, s, categories, depth) for s in filtered) or (
-        f'<p class="muted">{esc(t(lang, "لا متاجر لهذه الدولة بعد.", "No stores for this country yet."))}</p>'
-    )
-    body = f"""{bc}<main id="main" class="container"><h1>{esc(country["flag"])} {esc(h1)}</h1><div class="grid" style="margin-top:1.2rem">{cards}</div></main>"""
+    if filtered:
+        cards = "\n".join(store_card(lang, s, categories, depth) for s in filtered)
+        content = f'<div class="grid grid-spaced">{cards}</div>'
+    else:
+        content = empty_state_block(
+            lang,
+            depth,
+            t(lang, "ما فيه متاجر لهذه الدولة حالياً.", "No stores for this country yet."),
+        )
+    body = f"""{bc}<main id="main" class="container"><h1>{esc(country["flag"])} {esc(h1)}</h1>{content}</main>"""
     home_label = "الرئيسية" if lang == "ar" else "Home"
     countries_label = "الدول" if lang == "ar" else "Countries"
     jsonld = [
@@ -1190,27 +1223,30 @@ def build_season(
     )
     if flat:
         cards = "\n".join(coupon_card(lang, c, c.get("_store"), depth) for c in flat)
-        grid = f'<div class="grid" style="margin-top:1.2rem">{cards}</div>'
+        grid = f'<div class="grid grid-spaced">{cards}</div>'
     else:
-        grid = (
-            f'<p class="muted empty-state" style="margin-top:1.2rem">'
-            f'{esc(t(lang, "ما فيه أكواد لهذا الموسم حالياً.", "No codes for this season yet."))}</p>'
+        grid = empty_state_block(
+            lang,
+            depth,
+            t(lang, "ما فيه أكواد لهذا الموسم حالياً.", "No codes for this season yet."),
         )
-    related_cards = []
+    related_items = []
     list_items: list[tuple[str, str]] = []
     for c in categories:
         cname = c["name_ar"] if lang == "ar" else c["name_en"]
         href = f"{loc}categories/{c['slug']}/"
-        related_cards.append(
-            f'<article class="card"><a href="{esc(href)}"><h3>{esc(c.get("icon", ""))} {esc(cname)}</h3></a></article>'
+        icon = c.get("icon", "")
+        label = f"{icon} {cname}".strip() if icon else cname
+        related_items.append(
+            f'<li><a class="related-cat-link" href="{esc(href)}">{esc(label)}</a></li>'
         )
         list_items.append((cname, page_url(lang, "categories", c["slug"])))
     related = ""
-    if related_cards:
+    if related_items:
         related = (
-            f'<section class="section" style="margin-top:1.5rem">'
-            f'<div class="section-head"><h2>{esc(related_h)}</h2></div>'
-            f'<div class="grid">{"".join(related_cards)}</div></section>'
+            f'<section class="section related-categories" aria-labelledby="season-related-heading">'
+            f'<div class="section-head"><h2 id="season-related-heading">{esc(related_h)}</h2></div>'
+            f'<ul class="related-cat-list">{"".join(related_items)}</ul></section>'
         )
     body = f"""{bc}<main id="main" class="container">
   <h1>{esc(name)}</h1>

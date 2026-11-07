@@ -83,6 +83,11 @@
       if (today < start || today >= end) {
         el.hidden = true;
         el.setAttribute("aria-hidden", "true");
+        el.setAttribute("tabindex", "-1");
+      } else {
+        el.hidden = false;
+        el.removeAttribute("aria-hidden");
+        el.removeAttribute("tabindex");
       }
     });
   }
