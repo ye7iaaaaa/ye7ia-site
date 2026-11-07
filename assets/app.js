@@ -51,14 +51,14 @@
     var accept = document.getElementById("cookie-accept");
     if (!banner || !accept) return;
     try {
-      if (localStorage.getItem("ye7ia_cookie_ok") === "1") return;
+      if (localStorage.getItem("promoaty_cookie_ok") === "1") return;
     } catch (err) {
       return;
     }
     banner.hidden = false;
     accept.addEventListener("click", function () {
       try {
-        localStorage.setItem("ye7ia_cookie_ok", "1");
+        localStorage.setItem("promoaty_cookie_ok", "1");
       } catch (err) {}
       banner.hidden = true;
     });

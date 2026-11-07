@@ -1,10 +1,94 @@
 [
   {
+    "slug": "iherb",
+    "name_ar": "آي هيرب",
+    "name_en": "iHerb",
+    "category": "beauty",
+    "countries": [
+      "sa",
+      "ae",
+      "kw",
+      "qa",
+      "bh",
+      "om",
+      "eg"
+    ],
+    "description_ar": "آي هيرب متجر مكملات غذائية ومنتجات عناية وصحة يشحن لدول الخليج ومصر. كود ترحيبي رسمي للعملاء الجدد.",
+    "description_en": "iHerb sells supplements, beauty and wellness products and ships to the GCC and Egypt. Official welcome code for new customers.",
+    "website": "https://www.iherb.com",
+    "faq": [
+      {
+        "q_ar": "كيف أستخدم كود iHerb؟",
+        "a_ar": "انسخ الكود، افتح المتجر من الرابط الرسمي، وألصقه في خانة الكوبون قبل الدفع. راجع الشروط عند الدفع.",
+        "q_en": "How do I use the iHerb code?",
+        "a_en": "Copy the code, open the store via the official link, and paste it in the coupon box before paying. Check the terms at checkout."
+      }
+    ],
+    "coupons": [
+      {
+        "code": "NEW20",
+        "title_ar": "خصم ٢٠٪ على أول طلب للعملاء الجدد",
+        "title_en": "20% off your first order (new customers)",
+        "discount": "20%",
+        "verified_date": "2026-11-07",
+        "expires": null,
+        "exclusive": false,
+        "affiliate_url": "https://www.iherb.com",
+        "source_url": "https://information.iherb.com/hc/en-us/articles/40675330600724-New-Customer-Discount-Information",
+        "terms_ar": "للعملاء الجدد فقط، استخدام مرة وحدة، قبل الشحن والضرائب، وفيه منتجات وماركات مستثناة.",
+        "terms_en": "New customers only, one-time use, applied before shipping and taxes; exclusions apply."
+      }
+    ]
+  },
+  {
+    "slug": "namshi",
+    "name_ar": "نمشي",
+    "name_en": "Namshi",
+    "category": "fashion",
+    "countries": [
+      "sa",
+      "ae",
+      "kw",
+      "bh",
+      "eg"
+    ],
+    "description_ar": "نمشي متجر أزياء وأحذية وجمال في الخليج ومصر. كود رسمي لأول طلب من تطبيق نمشي.",
+    "description_en": "Namshi is a fashion, shoes and beauty store in the GCC and Egypt. Official first-order code for the Namshi app.",
+    "website": "https://www.namshi.com",
+    "faq": [
+      {
+        "q_ar": "كيف أستخدم كود Namshi؟",
+        "a_ar": "انسخ الكود، افتح المتجر من الرابط الرسمي، وألصقه في خانة الكوبون قبل الدفع. راجع الشروط عند الدفع.",
+        "q_en": "How do I use the Namshi code?",
+        "a_en": "Copy the code, open the store via the official link, and paste it in the coupon box before paying. Check the terms at checkout."
+      }
+    ],
+    "coupons": [
+      {
+        "code": "اولى",
+        "title_ar": "خصم ٢٠٪ على أول طلب من التطبيق (بحد أقصى ٧٥ ريال/درهم)",
+        "title_en": "20% off your first app order (max 75 SAR/AED)",
+        "discount": "20%",
+        "verified_date": "2026-11-07",
+        "expires": null,
+        "exclusive": false,
+        "affiliate_url": "https://www.namshi.com",
+        "source_url": "https://help.namshi.com/portal/ar/kb/articles/شروط-وأحكام-شراء-namshi-first-18-7-2024",
+        "terms_ar": "على تطبيق نمشي فقط، أول طلب ولمرة وحدة، حد أدنى ١٠٠ درهم أو ما يعادله، ويلزم رقم جوال مؤكد من الإمارات أو السعودية أو الكويت أو البحرين أو مصر.",
+        "terms_en": "Namshi app only, first order, once; minimum order 100 AED or equivalent; requires a verified phone number from UAE, KSA, Kuwait, Bahrain or Egypt."
+      }
+    ]
+  },
+  {
     "slug": "example-fashion",
     "name_ar": "متجر أزياء تجريبي",
     "name_en": "Example Fashion Store",
     "category": "fashion",
-    "countries": ["sa", "ae", "kw"],
+    "countries": [
+      "sa",
+      "ae",
+      "kw"
+    ],
     "description_ar": "هذا متجر تجريبي للتوضيح فقط — استبدله بمتجر حقيقي. يعرض كيف تظهر صفحة المتجر وأكواد الخصم.",
     "description_en": "This is an EXAMPLE store for demonstration only — replace it with a real store. Shows how a store page and discount codes look.",
     "example": true,
@@ -52,7 +136,10 @@
     "name_ar": "متجر تقنية تجريبي",
     "name_en": "Example Tech Store",
     "category": "electronics",
-    "countries": ["sa", "ae"],
+    "countries": [
+      "sa",
+      "ae"
+    ],
     "description_ar": "متجر تجريبي للإلكترونيات — استبدله بمتجر حقيقي قبل النشر.",
     "description_en": "Example electronics store — replace with a real store before publishing.",
     "example": true,
@@ -94,7 +181,11 @@
     "name_ar": "متجر تجميل تجريبي",
     "name_en": "Example Beauty Store",
     "category": "beauty",
-    "countries": ["sa", "ae", "kw"],
+    "countries": [
+      "sa",
+      "ae",
+      "kw"
+    ],
     "description_ar": "متجر تجريبي للتجميل والعناية — بيانات وهمية للتوضيح فقط.",
     "description_en": "Example beauty store — placeholder data for demonstration only.",
     "example": true,

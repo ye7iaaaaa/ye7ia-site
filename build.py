@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ye7ia coupon site — dependency-free static site generator.
+Promoaty coupon site — dependency-free static site generator.
 Reads data/coupons.json + data/categories.json, writes HTML to site root.
 Run: python3 build.py
 """
@@ -18,9 +18,11 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 ASSETS_SRC = ROOT / "assets"
-SITE_NAME_AR = "يحيى كوبونات"
-SITE_NAME_EN = "ye7ia Coupons"
+SITE_NAME_AR = "برومواتي"
+SITE_NAME_EN = "Promoaty"
+# Base URL: the ONE place to change when the Promoaty domain is live (CNAME stays until DOMAIN LIVE).
 DOMAIN = "https://ye7ia.is-a.si"
+CNAME_HOST = DOMAIN.split("://", 1)[1]
 CONTACT_EMAIL = "partners@ye7ia.is-a.si"
 YEAR = 2026
 TODAY = date.today().isoformat()
@@ -32,10 +34,16 @@ COUNTRIES = [
     {"slug": "qa", "name_ar": "قطر", "name_en": "Qatar", "flag": "🇶🇦"},
     {"slug": "bh", "name_ar": "البحرين", "name_en": "Bahrain", "flag": "🇧🇭"},
     {"slug": "om", "name_ar": "عُمان", "name_en": "Oman", "flag": "🇴🇲"},
+    {"slug": "eg", "name_ar": "مصر", "name_en": "Egypt", "flag": "🇪🇬"},
 ]
+
+
+def mail_label(lang: str) -> str:
+    return "راسلنا بالبريد" if lang == "ar" else "Email us"
 
 # Loaded from data/seasons.json in main() — includes start/end for live chips.
 SEASONS: list[dict] = []
+CATEGORIES: list[dict] = []
 
 REQUIRED_STORE_FIELDS = (
     "slug",
@@ -51,7 +59,6 @@ REQUIRED_COUPON_FIELDS = (
     "title_ar",
     "title_en",
     "verified_date",
-    "expires",
     "affiliate_url",
 )
 
@@ -205,6 +212,8 @@ def validate_stores(stores: list[dict]) -> None:
                 val = coupon.get(field)
                 if val is None or val == "":
                     errors.append(f"{label}: missing required field '{field}'")
+            if coupon.get("expires") in (None, "") and not _is_iso_date(coupon.get("verified_date") or ""):
+                errors.append(f"{label}: 'expires' may be null only when 'verified_date' is an ISO date")
             code = (coupon.get("code") or "").strip().upper()
             if code in PLACEHOLDER_CODES:
                 errors.append(f"{label}: placeholder code '{coupon.get('code')}' is not allowed")
@@ -360,11 +369,11 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
     switch_href = alternate_path(lang, canonical_path)
     if lang == "ar":
         switch_label = "English"
-        brand_tail = "كوبونات"
+        brand_tail = SITE_NAME_AR
         nav = ("الرئيسية", "المتاجر", "التصنيفات", "المواسم", "للمسوقين")
     else:
         switch_label = "العربية"
-        brand_tail = "Coupons"
+        brand_tail = SITE_NAME_EN
         nav = ("Home", "Stores", "Categories", "Seasons", "Marketers")
     home, stores, cats, seasons, marketers = nav
     skip = t(lang, "تخطّي إلى المحتوى", "Skip to content")
@@ -384,7 +393,7 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
     return f"""<a class="skip-link" href="#main">{esc(skip)}</a>
 <header class="site-header">
   <div class="container header-inner">
-    <a class="logo" href="{esc(loc + "index.html")}"><span>ye7ia</span> {esc(brand_tail)}</a>
+    <a class="logo" href="{esc(loc + "index.html")}">{esc(brand_tail)}</a>
     <nav class="nav" aria-label="Main">
       <a href="{esc(loc + "index.html")}">{esc(home)}</a>
       <a href="{esc(loc + "stores/")}">{esc(stores)}</a>
@@ -396,6 +405,31 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
     </nav>
   </div>
 </header>
+{render_subnav(lang, depth, canonical_path)}"""
+
+
+def render_subnav(lang: str, depth: int, canonical_path: str = "/") -> str:
+    """Compact country switcher + category nav shown under the header on every page."""
+    loc = lang_prefix(depth)
+    cur = canonical_path
+    def link(href: str, label: str) -> str:
+        path = ("/" if lang == "ar" else "/en/") + href
+        current = ' aria-current="page"' if cur == path else ""
+        return f'<a class="chip" href="{esc(loc + href)}"{current}>{esc(label)}</a>'
+    countries = "".join(
+        link(f"countries/{c['slug']}/", f"{c['flag']} {c['name_ar'] if lang == 'ar' else c['name_en']}")
+        for c in COUNTRIES
+    )
+    cats = "".join(
+        link(f"categories/{c['slug']}/", f"{c.get('icon', '')} {c['name_ar'] if lang == 'ar' else c['name_en']}".strip())
+        for c in CATEGORIES
+    )
+    return f"""<div class="subnav">
+  <div class="container">
+    <nav class="subnav-row" aria-label="{esc(t(lang, "الدولة", "Country"))}"><span class="subnav-label">{esc(t(lang, "الدولة:", "Country:"))}</span>{countries}</nav>
+    <nav class="subnav-row" aria-label="{esc(t(lang, "التصنيفات", "Categories"))}"><span class="subnav-label">{esc(t(lang, "التصنيف:", "Category:"))}</span>{cats}</nav>
+  </div>
+</div>
 """
 
 
@@ -414,12 +448,6 @@ def render_footer(lang: str, depth: int) -> str:
             ("marketers/", "للمسوقين"),
             ("partners/", "شركاء وإعلان"),
             ("contact/", "تواصل"),
-            ("countries/sa/", "السعودية"),
-            ("countries/ae/", "الإمارات"),
-            ("countries/kw/", "الكويت"),
-            ("countries/qa/", "قطر"),
-            ("countries/bh/", "البحرين"),
-            ("countries/om/", "عُمان"),
         ]
         note = "موقع أكواد خصم مستقل. قد نحصل على عمولة عند استخدام بعض الروابط دون أي تكلفة إضافية عليك."
         brand = SITE_NAME_AR
@@ -438,12 +466,6 @@ def render_footer(lang: str, depth: int) -> str:
             ("marketers/", "For marketers"),
             ("partners/", "Partners & advertise"),
             ("contact/", "Contact"),
-            ("countries/sa/", "Saudi Arabia"),
-            ("countries/ae/", "UAE"),
-            ("countries/kw/", "Kuwait"),
-            ("countries/qa/", "Qatar"),
-            ("countries/bh/", "Bahrain"),
-            ("countries/om/", "Oman"),
         ]
         note = "Independent coupon site. We may earn a commission when you use some links, at no extra cost to you."
         brand = SITE_NAME_EN
@@ -473,10 +495,10 @@ def render_footer(lang: str, depth: int) -> str:
         <p class="muted" style="color:#94a3b8">{esc(biz_text)}</p>
         <p><a class="btn" href="{esc(loc + "contact/")}">{esc(biz_cta)}</a>
         <a class="btn btn-secondary" href="{esc(loc + "partners/")}">{esc(biz_more)}</a></p>
-        <p class="muted" style="color:#94a3b8;margin-top:0.6rem"><a href="mailto:{esc(mail)}">{esc(mail)}</a></p>
+        <p class="muted" style="color:#94a3b8;margin-top:0.6rem"><a href="mailto:{esc(mail)}">{esc(mail_label(lang))}</a></p>
       </div>
     </div>
-    <p class="footer-note">© {YEAR} ye7ia.is-a.si</p>
+    <p class="footer-note">© {YEAR} {esc(SITE_NAME_AR if lang == "ar" else SITE_NAME_EN)}</p>
   </div>
 </footer>
 <div id="cookie-banner" class="cookie-banner" hidden role="dialog" aria-live="polite" aria-label="cookies">
@@ -543,7 +565,16 @@ def coupon_card(lang: str, coupon: dict, store: dict | None = None, depth: int =
     vd = (coupon.get("verified_date") or "")[:10]
     if vd:
         verified_line = (
-            f'<p class="muted coupon-verified">{esc(t(lang, f"آخر تحقق: {vd}", f"Last verified: {vd}"))}</p>'
+            f'<p class="muted coupon-verified">{esc(t(lang, f"آخر فحص: {vd}", f"Last checked: {vd}"))}</p>'
+        )
+    terms = coupon.get("terms_ar") if lang == "ar" else coupon.get("terms_en")
+    if terms:
+        verified_line += f'<p class="muted coupon-terms">{esc(terms)}</p>'
+    src = coupon.get("source_url")
+    if src:
+        verified_line += (
+            f'<p class="muted coupon-source"><a href="{esc(src)}" target="_blank" rel="noopener noreferrer">'
+            f'{esc(t(lang, "المصدر الرسمي للعرض", "Official offer source"))}</a></p>'
         )
     shop_btn = ""
     if shop_url and shop_url != "#":
@@ -642,11 +673,9 @@ def org_contactpoint_jsonld(lang: str) -> dict:
         "name": SITE_NAME_AR if lang == "ar" else SITE_NAME_EN,
         "url": DOMAIN + "/",
         "logo": DOMAIN + "/assets/icon-512.png",
-        "email": CONTACT_EMAIL,
         "contactPoint": {
             "@type": "ContactPoint",
             "contactType": "sales",
-            "email": CONTACT_EMAIL,
             "availableLanguage": ["ar", "en"],
             "url": page_url(lang, "contact"),
         },
@@ -888,10 +917,6 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
   <section class="section">
     <div class="section-head"><h2>{esc(cats_label)}</h2></div>
     <div class="grid">{"".join(cat_cards)}</div>
-  </section>
-  <section class="section">
-    <div class="section-head"><h2>{esc(countries_label)}</h2></div>
-    <div class="grid">{"".join(country_cards)}</div>
   </section>
   <section class="section business-cta">
     <div class="business-cta-inner">
@@ -1403,7 +1428,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 <h2>روابط العمولة</h2>
 <p>قد تُستخدم روابط عمولة؛ عند الضغط عليها تنتقل لمتجر خارجي بسياسته الخاصة لجمع البيانات. راجع أيضاً <a href="../affiliate-disclosure/">الإفصاح عن العمولات</a> و<a href="../terms/">الشروط</a>.</p>
 <h2>التواصل</h2>
-<p>للاستفسارات: <a href="mailto:{mail}">{mail}</a> — أو صفحة <a href="../contact/">تواصل</a>.</p>""",
+<p>للاستفسارات: <a href="mailto:{mail}">{mail_label(lang)}</a> — أو صفحة <a href="../contact/">تواصل</a>.</p>""",
             )
         return (
             f"Privacy | {SITE_NAME_EN}",
@@ -1416,7 +1441,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 <h2>Affiliate links</h2>
 <p>We may use affiliate links; clicking them takes you to a third-party store with its own data policy. See also our <a href="../affiliate-disclosure/">affiliate disclosure</a> and <a href="../terms/">terms</a>.</p>
 <h2>Contact</h2>
-<p>Questions: <a href="mailto:{mail}">{mail}</a> — or the <a href="../contact/">contact</a> page.</p>""",
+<p>Questions: <a href="mailto:{mail}">{mail_label(lang)}</a> — or the <a href="../contact/">contact</a> page.</p>""",
         )
     if page == "affiliate-disclosure":
         if lang == "ar":
@@ -1458,7 +1483,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 <li>Boostiny</li>
 <li>Awin / Impact / Amazon Associates (حسب المتجر)</li>
 </ul>
-<p>لإضافة متجر، عرض كود حصري، أو باقات الإعلان: راجع <a href="../partners/">شركاء وإعلان</a> أو راسلنا على <a href="mailto:{mail}">{mail}</a> عبر صفحة <a href="../contact/">تواصل</a>.</p>
+<p>لإضافة متجر، عرض كود حصري، أو باقات الإعلان: راجع <a href="../partners/">شركاء وإعلان</a> أو راسلنا على <a href="mailto:{mail}">{mail_label(lang)}</a> عبر صفحة <a href="../contact/">تواصل</a>.</p>
 <p class="muted">ملاحظة: القائمة أعلاه أسماء شبكات معروفة وليست إعلان مدفوع.</p>""",
             )
         return (
@@ -1479,7 +1504,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 <li>Boostiny</li>
 <li>Awin / Impact / Amazon Associates (depending on the merchant)</li>
 </ul>
-<p>To add a store, offer an exclusive code, or discuss advertising packages: see <a href="../partners/">Partners &amp; advertise</a> or email <a href="mailto:{mail}">{mail}</a> via the <a href="../contact/">contact</a> page.</p>
+<p>To add a store, offer an exclusive code, or discuss advertising packages: see <a href="../partners/">Partners &amp; advertise</a> or email <a href="mailto:{mail}">{mail_label(lang)}</a> via the <a href="../contact/">contact</a> page.</p>
 <p class="muted">Network names above are well-known options, not paid placements.</p>""",
         )
     if page == "partners":
@@ -1488,7 +1513,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
                 f"شركاء وإعلان | {SITE_NAME_AR}",
                 "باقات الشراكة والإعلان للمتاجر والعلامات: تميّز، كود حصري، بانر — تواصل للتسعير.",
                 f"""<h1>شركاء وإعلان</h1>
-<p>نستقبل طلبات المتاجر والعلامات اللي تبي تظهر لجمهور مهتم بأكواد الخصم في السعودية والخليج. التواصل عبر البريد فقط: <a href="mailto:{mail}">{mail}</a>.</p>
+<p>نستقبل طلبات المتاجر والعلامات اللي تبي تظهر لجمهور مهتم بأكواد الخصم في السعودية والخليج. التواصل عبر البريد فقط: <a href="mailto:{mail}">{mail_label(lang)}</a>.</p>
 <h2>الباقات</h2>
 <div class="packages">
 <article class="package-card">
@@ -1521,7 +1546,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
             f"Partners & advertise | {SITE_NAME_EN}",
             "Partnership and advertising packages for stores and brands — contact for pricing.",
             f"""<h1>Partners &amp; advertise</h1>
-<p>We welcome stores and brands that want to reach shoppers looking for discount codes in Saudi Arabia and the GCC. Email only: <a href="mailto:{mail}">{mail}</a>.</p>
+<p>We welcome stores and brands that want to reach shoppers looking for discount codes in Saudi Arabia and the GCC. Email only: <a href="mailto:{mail}">{mail_label(lang)}</a>.</p>
 <h2>Packages</h2>
 <div class="packages">
 <article class="package-card">
@@ -1554,10 +1579,10 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
         if lang == "ar":
             return (
                 f"تواصل | {SITE_NAME_AR}",
-                "تواصل مع يحيى كوبونات للشراكات والإعلان وأكواد الخصم.",
+                "تواصل مع برومواتي للشراكات والإعلان وأكواد الخصم.",
                 f"""<h1>تواصل معنا</h1>
 <p>للاستفسارات عن الشراكة، الإعلان، أو إضافة متجر/كود:</p>
-<p><a class="btn" href="mailto:{mail}">{mail}</a></p>
+<p><a class="btn" href="mailto:{mail}">{mail_label(lang)}</a></p>
 <ul>
 <li>اذكر اسم المتجر أو العلامة.</li>
 <li>وضّح نوع الطلب: تميّز / كود حصري / بانر / غير ذلك.</li>
@@ -1568,10 +1593,10 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
             )
         return (
             f"Contact | {SITE_NAME_EN}",
-            "Contact ye7ia Coupons for partnerships, advertising, and discount codes.",
+            "Contact Promoaty for partnerships, advertising, and discount codes.",
             f"""<h1>Contact us</h1>
 <p>For partnership, advertising, or adding a store/code:</p>
-<p><a class="btn" href="mailto:{mail}">{mail}</a></p>
+<p><a class="btn" href="mailto:{mail}">{mail_label(lang)}</a></p>
 <ul>
 <li>Include the store or brand name.</li>
 <li>Say what you need: Featured / Exclusive code / Banner / other.</li>
@@ -1586,7 +1611,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
                 f"الشروط | {SITE_NAME_AR}",
                 "شروط الاستخدام: صلاحية الأكواد، العمولات، وملفات تعريف الارتباط.",
                 f"""<h1>الشروط</h1>
-<p>باستخدامك موقع <strong>ye7ia.is-a.si</strong> فأنت توافق على هذه الشروط. الموقع يقدّم معلومات عن أكواد خصم بشكل مستقل ولا يبيع المنتجات مباشرة.</p>
+<p>باستخدامك موقع <strong>برومواتي</strong> فأنت توافق على هذه الشروط. الموقع يقدّم معلومات عن أكواد خصم بشكل مستقل ولا يبيع المنتجات مباشرة.</p>
 <h2>صلاحية الأكواد</h2>
 <p>نراجع الأكواد قدر الإمكان ونحدّث تواريخ التحقق، لكن ما نضمن إن كل كود يشتغل لكل مستخدم في كل وقت. الشروط تختلف حسب السلة، الدولة، الحساب، والعروض لدى المتجر. قرار الشراء واستخدام الكود مسؤوليتك.</p>
 <h2>الإفصاح عن العمولات</h2>
@@ -1598,13 +1623,13 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 <h2>إخلاء المسؤولية</h2>
 <p>الموقع يُقدَّم «كما هو». لا نتحمّل مسؤولية أخطاء العرض، انتهاء العروض، أو سياسات المتاجر الخارجية.</p>
 <h2>التواصل</h2>
-<p><a href="mailto:{mail}">{mail}</a> — <a href="../contact/">صفحة التواصل</a>.</p>""",
+<p><a href="mailto:{mail}">{mail_label(lang)}</a> — <a href="../contact/">صفحة التواصل</a>.</p>""",
             )
         return (
             f"Terms | {SITE_NAME_EN}",
             "Terms of use: code validity, commissions, and cookies.",
             f"""<h1>Terms</h1>
-<p>By using <strong>ye7ia.is-a.si</strong> you agree to these terms. The site provides independent discount-code information and does not sell products directly.</p>
+<p>By using <strong>Promoaty</strong> you agree to these terms. The site provides independent discount-code information and does not sell products directly.</p>
 <h2>Code validity</h2>
 <p>We review codes where possible and update verification dates, but we do not guarantee that every code will work for every shopper at every time. Terms vary by cart, country, account, and the merchant’s own offers. Purchasing and using a code is your responsibility.</p>
 <h2>Commission disclosure</h2>
@@ -1616,7 +1641,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 <h2>Disclaimer</h2>
 <p>The site is provided “as is”. We are not liable for display errors, expired offers, or third-party store policies.</p>
 <h2>Contact</h2>
-<p><a href="mailto:{mail}">{mail}</a> — <a href="../contact/">contact page</a>.</p>""",
+<p><a href="mailto:{mail}">{mail_label(lang)}</a> — <a href="../contact/">contact page</a>.</p>""",
         )
     raise ValueError(page)
 
@@ -1673,7 +1698,7 @@ def build_robots(out_dir: Path) -> None:
 
 
 def build_cname(out_dir: Path) -> None:
-    write(out_dir / "CNAME", "ye7ia.is-a.si\n")
+    write(out_dir / "CNAME", CNAME_HOST + "\n")
 
 
 def build_sitemap(out_dir: Path, stores: list[dict], categories: list[dict]) -> None:
@@ -1821,11 +1846,12 @@ def clean_generated(out_dir: Path) -> None:
 
 
 def main() -> None:
-    global SEASONS
-    print("Building ye7ia coupon site…")
+    global SEASONS, CATEGORIES
+    print("Building Promoaty coupon site…")
     stores = load_json(DATA / "coupons.json")
     categories = load_json(DATA / "categories.json")
     SEASONS = load_seasons()
+    CATEGORIES = categories
     validate_stores(stores)
     out = ROOT
     clean_generated(out)
