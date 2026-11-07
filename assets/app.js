@@ -64,6 +64,29 @@
     });
   }
 
+  function todayISO() {
+    var d = new Date();
+    var y = d.getFullYear();
+    var m = String(d.getMonth() + 1).padStart(2, "0");
+    var day = String(d.getDate()).padStart(2, "0");
+    return y + "-" + m + "-" + day;
+  }
+
+  // Hide season chip/banner after end date (or before start) without a rebuild.
+  function initSeasonWindows() {
+    var today = todayISO();
+    var nodes = document.querySelectorAll("[data-season-start][data-season-end]");
+    Array.prototype.forEach.call(nodes, function (el) {
+      var start = (el.getAttribute("data-season-start") || "").slice(0, 10);
+      var end = (el.getAttribute("data-season-end") || "").slice(0, 10);
+      if (!start || !end) return;
+      if (today < start || today >= end) {
+        el.hidden = true;
+        el.setAttribute("aria-hidden", "true");
+      }
+    });
+  }
+
   // Stores page: honor ?q= and filter cards client-side
   function initStoreSearch() {
     var input = document.getElementById("store-q");
@@ -111,10 +134,12 @@
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       initCookieBanner();
+      initSeasonWindows();
       initStoreSearch();
     });
   } else {
     initCookieBanner();
+    initSeasonWindows();
     initStoreSearch();
   }
 })();

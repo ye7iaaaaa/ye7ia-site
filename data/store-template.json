@@ -1,5 +1,5 @@
 {
-  "_comment": "Copy this object into data/coupons.json. Set example to false (or omit it) for a real store. See data/ONBOARDING.md.",
+  "_comment": "Copy this object into data/coupons.json. Keep example:true until the store is real and every placeholder is replaced. See data/ONBOARDING.md.",
   "slug": "your-store-slug",
   "name_ar": "اسم المتجر بالعربي",
   "name_en": "Store Name EN",
@@ -9,7 +9,7 @@
   "description_en": "Short store description aimed at shoppers in Saudi Arabia.",
   "website": "https://www.example.com/",
   "affiliate_url": "https://www.example.com/?ref=ye7ia",
-  "example": false,
+  "example": true,
   "faq": [
     {
       "q_ar": "كيف أستخدم كود الخصم؟",
@@ -27,7 +27,8 @@
       "verified_date": "2026-11-07",
       "expires": "2026-12-31",
       "exclusive": false,
-      "affiliate_url": "https://www.example.com/?ref=ye7ia&c=REALCODE"
+      "affiliate_url": "https://www.example.com/?ref=ye7ia&c=REALCODE",
+      "source_url": "https://www.example.com/offers"
     }
   ]
 }

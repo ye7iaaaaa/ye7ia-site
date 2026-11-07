@@ -144,8 +144,31 @@ def featured_live_season(seasons: list[dict] | None = None) -> dict | None:
     return live[0] if live else None
 
 
+PLACEHOLDER_CODES = {"REALCODE", "YOURCODE", "CODEHERE", "EXAMPLE", "TESTCODE"}
+PLACEHOLDER_HOST_MARKERS = ("example.com", "example.org", "localhost")
+
+
+def _is_https_url(url: str) -> bool:
+    return isinstance(url, str) and url.startswith("https://")
+
+
+def _is_iso_date(value: str) -> bool:
+    if not isinstance(value, str) or len(value) < 10:
+        return False
+    try:
+        date.fromisoformat(value[:10])
+        return True
+    except ValueError:
+        return False
+
+
+def _url_is_placeholder(url: str) -> bool:
+    low = (url or "").lower()
+    return any(m in low for m in PLACEHOLDER_HOST_MARKERS)
+
+
 def validate_stores(stores: list[dict]) -> None:
-    """Fail the build if non-example stores/coupons miss required fields. Examples skipped."""
+    """Fail the build if non-example stores/coupons miss fields, use bad URLs/dates, or placeholders."""
     errors: list[str] = []
     for store in stores:
         slug = store.get("slug") or "<missing-slug>"
@@ -155,6 +178,14 @@ def validate_stores(stores: list[dict]) -> None:
             val = store.get(field)
             if val is None or val == "" or val == []:
                 errors.append(f"store '{slug}': missing required field '{field}'")
+        for url_field in ("website", "affiliate_url"):
+            val = store.get(url_field)
+            if val in (None, ""):
+                continue
+            if not _is_https_url(val):
+                errors.append(f"store '{slug}': '{url_field}' must be an https:// URL")
+            elif _url_is_placeholder(val):
+                errors.append(f"store '{slug}': '{url_field}' still uses a placeholder host")
         if "coupons" not in store or not isinstance(store.get("coupons"), list):
             errors.append(f"store '{slug}': missing coupons list")
             continue
@@ -166,6 +197,27 @@ def validate_stores(stores: list[dict]) -> None:
                 val = coupon.get(field)
                 if val is None or val == "":
                     errors.append(f"{label}: missing required field '{field}'")
+            code = (coupon.get("code") or "").strip().upper()
+            if code in PLACEHOLDER_CODES:
+                errors.append(f"{label}: placeholder code '{coupon.get('code')}' is not allowed")
+            for date_field in ("verified_date", "expires"):
+                val = coupon.get(date_field)
+                if val in (None, ""):
+                    continue
+                if not _is_iso_date(val):
+                    errors.append(f"{label}: '{date_field}' must be ISO YYYY-MM-DD")
+            aff = coupon.get("affiliate_url")
+            if aff not in (None, ""):
+                if not _is_https_url(aff):
+                    errors.append(f"{label}: 'affiliate_url' must be an https:// URL")
+                elif _url_is_placeholder(aff):
+                    errors.append(f"{label}: 'affiliate_url' still uses a placeholder host")
+            src = coupon.get("source_url")
+            if src not in (None, ""):
+                if not _is_https_url(src):
+                    errors.append(f"{label}: 'source_url' must be an https:// URL")
+                elif _url_is_placeholder(src):
+                    errors.append(f"{label}: 'source_url' still uses a placeholder host")
     if errors:
         msg = "Coupon data validation failed:\n  - " + "\n  - ".join(errors)
         raise SystemExit(msg)
@@ -312,8 +364,11 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
     season_chip = ""
     if featured:
         fname = featured["name_ar"] if lang == "ar" else featured["name_en"]
+        start = esc((featured.get("start") or "")[:10])
+        end = esc((featured.get("end") or "")[:10])
         season_chip = (
-            f'<a class="nav-season-chip" href="{esc(loc + "seasons/" + featured["slug"] + "/")}">'
+            f'<a class="nav-season-chip" href="{esc(loc + "seasons/" + featured["slug"] + "/")}" '
+            f'data-season-start="{start}" data-season-end="{end}">'
             f'{esc(fname)}</a>'
         )
     return f"""<a class="skip-link" href="#main">{esc(skip)}</a>
@@ -600,6 +655,38 @@ def contactpage_jsonld(lang: str, title: str, description: str, canonical_path: 
     }
 
 
+def collection_page_jsonld(
+    lang: str,
+    title: str,
+    description: str,
+    canonical_path: str,
+    list_items: list[tuple[str, str]] | None = None,
+) -> dict:
+    """CollectionPage; optional ItemList of real existing page URLs only (never invented deals)."""
+    data: dict[str, Any] = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": title,
+        "description": description,
+        "url": DOMAIN + canonical_path,
+        "inLanguage": "ar-SA" if lang == "ar" else "en",
+    }
+    if list_items:
+        data["mainEntity"] = {
+            "@type": "ItemList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": i + 1,
+                    "name": name,
+                    "url": url,
+                }
+                for i, (name, url) in enumerate(list_items)
+            ],
+        }
+    return data
+
+
 def faq_jsonld(faq: list[dict], lang: str) -> dict | None:
     entities = []
     for item in faq or []:
@@ -737,19 +824,30 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
             "الجمعة البيضاء: تصفّح أكواد الخصم الموسمية",
             "White Friday: browse seasonal discount codes",
         )
+        season_start = (featured.get("start") or "")[:10]
+        season_end = (featured.get("end") or "")[:10]
     elif featured:
         fname = featured["name_ar"] if lang == "ar" else featured["name_en"]
         season_href = f"seasons/{featured['slug']}/"
         season_label = t(lang, f"موسم نشط: {fname}", f"Live season: {fname}")
+        season_start = (featured.get("start") or "")[:10]
+        season_end = (featured.get("end") or "")[:10]
     else:
         season_href = "seasons/"
         season_label = season_label_generic
+        season_start = ""
+        season_end = ""
+    season_attrs = ""
+    if season_start and season_end:
+        season_attrs = (
+            f' data-season-start="{esc(season_start)}" data-season-end="{esc(season_end)}"'
+        )
     body = f"""<section class="hero"><div class="container">
   <h1>{esc(h1)}</h1>
   <p>{esc(lead)}</p>
 </div></section>
 <main id="main" class="container">
-  <a class="season-banner" href="{esc(season_href)}">{esc(season_label)} →</a>
+  <a class="season-banner" href="{esc(season_href)}"{season_attrs}>{esc(season_label)} →</a>
   <section class="section">
     <div class="section-head"><h2>{esc(top_stores)}</h2></div>
     {stores_block}
@@ -922,16 +1020,19 @@ def build_stores_index(lang: str, stores: list[dict], categories: list[dict], ou
         "No stores yet — real codes will appear here soon.",
     )
     cards = "\n".join(store_card(lang, s, categories, depth) for s in stores) if stores else ""
-    # Always render #store-grid so client search (?q=) can initialize even with zero stores.
-    grid = f'<div class="grid" id="store-grid">{cards}</div>'
+    # Always render #store-grid (empty message lives inside) so client search (?q=) works with zero stores.
     empty_initial = "" if stores else empty_yet
     empty_hidden = "hidden" if stores else ""
+    empty = (
+        f'<p id="store-search-empty" class="muted empty-state" {empty_hidden}>'
+        f"{esc(empty_initial or no_match)}</p>"
+    )
+    grid = f'<div class="grid" id="store-grid">{cards}{empty}</div>'
     search = f"""<form class="store-search" role="search" action="" method="get">
   <label class="store-search-label" for="store-q">{esc(search_label)}</label>
   <input id="store-q" name="q" type="search" enterkeyhint="search" autocomplete="off"
     placeholder="{esc(search_ph)}" data-no-match="{esc(no_match)}" data-empty-yet="{esc(empty_yet)}">
-</form>
-<p id="store-search-empty" class="muted empty-state" {empty_hidden}>{esc(empty_initial or no_match)}</p>"""
+</form>"""
     body = f"""{bc}<main id="main" class="container"><h1>{esc(h1)}</h1>{search}{grid}</main>"""
     jsonld = [
         breadcrumb_jsonld(
@@ -1062,7 +1163,14 @@ def build_countries_index(lang: str, out_dir: Path, depth: int) -> None:
     write(out_dir / "countries" / "index.html", wrap_page(lang, depth, title, desc, canon, body))
 
 
-def build_season(lang: str, season: dict, stores: list[dict], out_dir: Path, depth: int) -> None:
+def build_season(
+    lang: str,
+    season: dict,
+    stores: list[dict],
+    categories: list[dict],
+    out_dir: Path,
+    depth: int,
+) -> None:
     loc = lang_prefix(depth)
     name = season["name_ar"] if lang == "ar" else season["name_en"]
     blurb = season["blurb_ar"] if lang == "ar" else season["blurb_en"]
@@ -1070,9 +1178,11 @@ def build_season(lang: str, season: dict, stores: list[dict], out_dir: Path, dep
     if lang == "ar":
         title, canon = f"أكواد خصم {name} السعودية {YEAR}", f"/seasons/{season['slug']}/"
         bc = render_breadcrumbs([("الرئيسية", f"{loc}index.html"), ("المواسم", f"{loc}seasons/"), (name, None)])
+        home_label, seasons_label, related_h = "الرئيسية", "المواسم", "تصفّح حسب التصنيف"
     else:
         title, canon = f"{name} discount codes Saudi Arabia {YEAR}", f"/en/seasons/{season['slug']}/"
         bc = render_breadcrumbs([("Home", f"{loc}index.html"), ("Seasons", f"{loc}seasons/"), (name, None)])
+        home_label, seasons_label, related_h = "Home", "Seasons", "Browse by category"
     note = t(
         lang,
         "صفحة موسمية دائمة — نحدّث الأكواد من ملف البيانات عند اقتراب الموسم.",
@@ -1086,13 +1196,43 @@ def build_season(lang: str, season: dict, stores: list[dict], out_dir: Path, dep
             f'<p class="muted empty-state" style="margin-top:1.2rem">'
             f'{esc(t(lang, "ما فيه أكواد لهذا الموسم حالياً.", "No codes for this season yet."))}</p>'
         )
+    related_cards = []
+    list_items: list[tuple[str, str]] = []
+    for c in categories:
+        cname = c["name_ar"] if lang == "ar" else c["name_en"]
+        href = f"{loc}categories/{c['slug']}/"
+        related_cards.append(
+            f'<article class="card"><a href="{esc(href)}"><h3>{esc(c.get("icon", ""))} {esc(cname)}</h3></a></article>'
+        )
+        list_items.append((cname, page_url(lang, "categories", c["slug"])))
+    related = ""
+    if related_cards:
+        related = (
+            f'<section class="section" style="margin-top:1.5rem">'
+            f'<div class="section-head"><h2>{esc(related_h)}</h2></div>'
+            f'<div class="grid">{"".join(related_cards)}</div></section>'
+        )
     body = f"""{bc}<main id="main" class="container">
   <h1>{esc(name)}</h1>
   <p>{esc(blurb)}</p>
   <p class="muted">{esc(note)}</p>
   {grid}
+  {related}
 </main>"""
-    write(out_dir / "seasons" / season["slug"] / "index.html", wrap_page(lang, depth, title, blurb, canon, body))
+    jsonld = [
+        breadcrumb_jsonld(
+            [
+                (home_label, page_url(lang)),
+                (seasons_label, page_url(lang, "seasons")),
+                (name, page_url(lang, "seasons", season["slug"])),
+            ]
+        ),
+        collection_page_jsonld(lang, title, blurb, canon, list_items or None),
+    ]
+    write(
+        out_dir / "seasons" / season["slug"] / "index.html",
+        wrap_page(lang, depth, title, blurb, canon, body, jsonld),
+    )
 
 
 
@@ -1135,7 +1275,25 @@ def build_seasons_index(lang: str, out_dir: Path, depth: int) -> None:
             f'<article class="card"><a href="{esc(s["slug"])}/"><h3>{esc(name)} {badge}</h3><p>{esc(blurb)}</p></a></article>'
         )
     body = f"""{bc}<main id="main" class="container"><h1>{esc(h1)}</h1><div class="grid">{"".join(cards)}</div></main>"""
-    write(out_dir / "seasons" / "index.html", wrap_page(lang, depth, title, desc, canon, body))
+    home_label = "الرئيسية" if lang == "ar" else "Home"
+    seasons_label = "المواسم" if lang == "ar" else "Seasons"
+    list_items = [
+        (
+            (s["name_ar"] if lang == "ar" else s["name_en"]),
+            page_url(lang, "seasons", s["slug"]),
+        )
+        for s in ordered
+    ]
+    jsonld = [
+        breadcrumb_jsonld(
+            [
+                (home_label, page_url(lang)),
+                (seasons_label, page_url(lang, "seasons")),
+            ]
+        ),
+        collection_page_jsonld(lang, title, desc, canon, list_items),
+    ]
+    write(out_dir / "seasons" / "index.html", wrap_page(lang, depth, title, desc, canon, body, jsonld))
 
 
 def static_content(page: str, lang: str) -> tuple[str, str, str]:
@@ -1597,7 +1755,7 @@ def build_lang_tree(lang: str, stores: list[dict], categories: list[dict], out_d
         build_country(lang, c, visible, categories, out_dir, item_depth)
     build_seasons_index(lang, out_dir, list_depth)
     for s in SEASONS:
-        build_season(lang, s, visible, out_dir, item_depth)
+        build_season(lang, s, visible, categories, out_dir, item_depth)
     for p in STATIC_PAGES:
         build_static_page(lang, p, out_dir, list_depth)
 
