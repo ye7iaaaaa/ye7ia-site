@@ -383,10 +383,9 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
         fname = featured["name_ar"] if lang == "ar" else featured["name_en"]
         start = esc((featured.get("start") or "")[:10])
         end = esc((featured.get("end") or "")[:10])
-        aria = esc(t(lang, f"موسم حي: {fname}", f"Live season: {fname}"))
+        # Visible link text already names the season — no aria-label (avoids redundant a11y name).
         season_chip = (
             f'<a class="nav-season-chip" href="{esc(loc + "seasons/" + featured["slug"] + "/")}" '
-            f'aria-label="{aria}" '
             f'data-season-start="{start}" data-season-end="{end}">'
             f'{esc(fname)}</a>'
         )
@@ -894,10 +893,8 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         season_end = ""
     season_attrs = ""
     if season_start and season_end and featured:
-        fname = featured["name_ar"] if lang == "ar" else featured["name_en"]
-        banner_aria = esc(t(lang, f"موسم حي: {fname}", f"Live season: {fname}"))
+        # Visible banner text already names the season — no aria-label.
         season_attrs = (
-            f' aria-label="{banner_aria}"'
             f' data-season-start="{esc(season_start)}" data-season-end="{esc(season_end)}"'
         )
     body = f"""<section class="hero"><div class="container">

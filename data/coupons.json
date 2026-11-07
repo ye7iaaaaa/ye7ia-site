@@ -35,8 +35,8 @@
         "exclusive": false,
         "affiliate_url": "https://www.iherb.com",
         "source_url": "https://information.iherb.com/hc/en-us/articles/40675330600724-New-Customer-Discount-Information",
-        "terms_ar": "للعملاء الجدد فقط، استخدام مرة وحدة، قبل الشحن والضرائب، وفيه منتجات وماركات مستثناة.",
-        "terms_en": "New customers only, one-time use, applied before shipping and taxes; exclusions apply."
+        "terms_ar": "لأول طلب للعملاء الجدد فقط، استخدام مرة وحدة، قبل الشحن والضرائب، وفيه منتجات وماركات مستثناة.",
+        "terms_en": "First order for new customers only, one-time use, applied before shipping and taxes; exclusions apply."
       }
     ]
   },
@@ -74,8 +74,8 @@
         "exclusive": false,
         "affiliate_url": "https://www.namshi.com",
         "source_url": "https://help.namshi.com/portal/ar/kb/articles/شروط-وأحكام-شراء-namshi-first-18-7-2024",
-        "terms_ar": "على تطبيق نمشي فقط، أول طلب ولمرة وحدة، حد أدنى ١٠٠ درهم أو ما يعادله، ويلزم رقم جوال مؤكد من الإمارات أو السعودية أو الكويت أو البحرين أو مصر.",
-        "terms_en": "Namshi app only, first order, once; minimum order 100 AED or equivalent; requires a verified phone number from UAE, KSA, Kuwait, Bahrain or Egypt."
+        "terms_ar": "على تطبيق نمشي فقط، أول طلب ولمرة وحدة، بحد أقصى ٧٥ ريال/درهم، حد أدنى ١٠٠ درهم أو ما يعادله، ويلزم رقم جوال مؤكد من الإمارات أو السعودية أو الكويت أو البحرين أو مصر.",
+        "terms_en": "Namshi app only, first order, once; max discount 75 SAR/AED; minimum order 100 AED or equivalent; requires a verified phone number from UAE, KSA, Kuwait, Bahrain or Egypt."
       }
     ]
   },
