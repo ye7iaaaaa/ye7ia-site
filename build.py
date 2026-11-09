@@ -144,7 +144,7 @@ def org_ld() -> dict:
         "url": DOMAIN + "/",
         "logo": DOMAIN + "/assets/icon-512.png",
         "email": EMAIL,
-        "description": "كوبونات وعروض رسمية من المتاجر الخليجية والعالمية، يديرها فريق متخصص في التسويق بالعمولة. Official coupons and deals from Gulf and international stores, run by an affiliate marketing team.",
+        "description": "كوبونات وعروض رسمية من المتاجر الخليجية والعالمية. Official coupons and deals from Gulf and international stores.",
         "areaServed": ["SA", "AE", "KW", "QA", "BH", "OM", "EG"],
         "contactPoint": [{"@type": "ContactPoint", "contactType": "partnerships", "email": EMAIL, "availableLanguage": ["ar", "en"]}],
     }
@@ -515,7 +515,7 @@ def band_html(lang: str) -> str:
     <div style="display:grid;gap:1rem">
       <span class="eyebrow light">{t(lang, 'للعلامات التجارية', 'For brands')}</span>
       <h2>{t(lang, 'علامتك أمام متسوقين جاهزين للشراء.', 'Put your brand in front of ready-to-buy shoppers.')}</h2>
-      <p>{t(lang, 'فريق تسويق بالعمولة يحوّل عروضك الرسمية إلى مبيعات في الخليج ومصر والأسواق العالمية. تدفع مقابل النتائج في نموذج العمولة؛ وفي النموذج الهجين تُضاف رسوم ظهور ثابتة.', 'An affiliate marketing team that turns your official offers into sales across the Gulf, Egypt and international markets. On the commission model you pay for results; the hybrid model adds a fixed placement fee.')}</p>
+      <p>{t(lang, 'كوبون منصة جديدة للتسويق بالعمولة تحوّل عروضك الرسمية إلى مبيعات في الخليج ومصر والأسواق العالمية. تدفع مقابل النتائج في نموذج العمولة؛ وفي النموذج الهجين تُضاف رسوم ظهور ثابتة.', 'Kobon is a new affiliate platform that turns your official offers into sales across the Gulf, Egypt and international markets. On the commission model you pay for results; the hybrid model adds a fixed placement fee.')}</p>
       <div class="actions"><a class="btn btn-primary" href="{L(lang, '/partners/')}">{t(lang, 'اعرف المزيد ←', 'Learn more →')}</a><a class="btn btn-outline-light mail" href="mailto:{EMAIL}">{EMAIL}</a></div>
     </div>
     <svg viewBox="0 0 320 240" aria-hidden="true">
@@ -552,14 +552,14 @@ def news_html(lang: str) -> str:
 
 HOME_FAQ = {
     "ar": [
-        ("ما هو كوبون؟", "دليل كوبونات وعروض رسمية للمتسوقين في الخليج ومصر، يشمل المتاجر المحلية والعالمية، ويديره فريق متخصص في التسويق بالعمولة."),
+        ("ما هو كوبون؟", "دليل كوبونات وعروض رسمية للمتسوقين في الخليج ومصر، يشمل المتاجر المحلية والعالمية. منصة جديدة تركز على العروض الرسمية فقط."),
         ("لماذا العروض قليلة حاليًا؟", "لأننا لا ننشر أي كود خصم مجهول المصدر. نضيف العروض فور اعتماد برامج الشركاء الرسمية مع المتاجر."),
         ("هل تشمل العروض المتاجر العالمية؟", "نعم. نعرض عروض المتاجر العالمية التي تشحن إلى الخليج وإلى دول العالم، مع توضيح الدول المشمولة في كل عرض."),
         ("هل يحصل كوبون على عمولة؟", "قد يدفع لنا المتجر عمولة عند الشراء عبر روابطنا، دون أي تكلفة إضافية عليك ودون أن يتغير السعر."),
         ("ماذا أفعل إذا لم يعمل الكود؟", "راجع شروط العرض أولًا، ثم أبلغنا من صفحة التواصل وسنراجعه خلال يوم عمل."),
     ],
     "en": [
-        ("What is Kobon?", "Kobon is a guide to official coupons and deals for shoppers in the Gulf and Egypt, covering both local and international stores. It’s run by a team that specialises in affiliate marketing."),
+        ("What is Kobon?", "Kobon is a guide to official coupons and deals for shoppers in the Gulf and Egypt, covering both local and international stores. It’s a new platform focused on official offers only."),
         ("Why are there so few offers right now?", "Because we never publish a code we can’t trace to its source. Offers go live as soon as official partner programmes with stores are approved."),
         ("Do you cover international stores?", "Yes. We list offers from international stores that ship to the Gulf and worldwide, and every offer shows which countries it covers."),
         ("Does Kobon earn a commission?", "A store may pay us a commission when you buy through our links. It costs you nothing extra and never changes the price."),
@@ -686,8 +686,8 @@ SERVICES = [
      ("المحتوى والسيو", "Content & SEO"), ("محتوى عربي وإنجليزي يجيب عن أسئلة المتسوق ويقوده إلى الشراء.", "Arabic and English content that answers shoppers’ questions and leads to checkout."),
      [("أدلة شراء ومقارنات", "Buying guides and comparisons"), ("صفحات مواسم تُنشر مبكرًا", "Season pages published early"), ("نحسّن فرص الظهور في محركات البحث وإجابات الذكاء الاصطناعي", "We improve the chance of appearing in search and AI answers")]),
     ("bg-mint", "#14B8A6", '<path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/>',
-     ("البريد والتنبيهات", "Email & alerts"), ("نوصل عروضك إلى المشتركين في التوقيت المناسب.", "We get your offers to subscribers at the right moment."),
-     [("نشرة أسبوعية بأفضل العروض", "A weekly best-offers email"), ("تنبيهات موسمية", "Seasonal alerts"), ("روابط قابلة للتتبع", "Fully trackable links")]),
+     ("البريد والتنبيهات", "Email & alerts"), ("نبلغ المتسوقين بعروضك الرسمية عند توفرها وفي المواسم.", "We notify shoppers of your official offers when available and in peak seasons."),
+     [("تنبيهات عند توفر العروض", "Alerts when offers are available"), ("تنبيهات موسمية", "Seasonal alerts"), ("روابط قابلة للتتبع", "Fully trackable links")]),
     ("bg-saffron", "#E0A100", '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5M15 19c0-2 1.5-4 4-4"/>',
      ("صنّاع المحتوى", "Creators"), ("نختار مؤثرين يناسبون جمهورك، ولكل منهم كود خصم خاص.", "We match creators to your audience, each with their own discount code."),
      [("اختيار حسب الجمهور لا عدد المتابعين", "Chosen for audience fit, not follower count"), ("كود مستقل لقياس أداء كل مؤثر", "One code per creator for clean tracking"), ("الدفع مقابل المبيعات", "Paid on sales")]),
@@ -695,14 +695,14 @@ SERVICES = [
      ("حملات المواسم", "Seasonal campaigns"), ("خطة جاهزة للجمعة البيضاء و11.11 ورمضان والعيد والأيام الوطنية.", "Ready-made plans for White Friday, 11.11, Ramadan, Eid and national days."),
      [("تقويم حملات سنوي", "An annual campaign calendar"), ("صفحات هبوط موسمية", "Seasonal landing pages"), ("تنبيهات قبل الموسم", "Pre-season alerts")]),
     ("bg-violet", "#6D5BFF", '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
-     ("تقارير شفافة", "Transparent reporting"), ("تقرير دوري بالنقرات والطلبات والمبيعات وخطوات التحسين.", "Regular reports on clicks, orders and sales, with clear next steps."),
-     [("أرقام قابلة للتحقق من مصدر التتبع", "Verifiable figures from the tracking source"), ("مقارنة أداء القنوات", "Channel-by-channel comparison"), ("توصيات عملية", "Actionable recommendations")]),
+     ("تقارير شفافة", "Transparent reporting"), ("أسبوعيًا: تقرير أداء من كوبون (نقرات واستخدام الكود). شهريًا: بيان مبيعات وعمولة من بيانات طلباتكم.", "Weekly: a Kobon performance report (clicks and code usage). Monthly: a sales & commission statement from your order data."),
+     [("تقرير أداء أسبوعي من كوبون", "Weekly Kobon performance report"), ("بيان مبيعات وعمولة شهري", "Monthly sales & commission statement"), ("توصيات عملية", "Actionable recommendations")]),
 ]
 
 MODELS = [
     ("CPS", "CPS", "عمولة على المبيعات", "Commission on sales", "نسبة من كل طلب مكتمل فقط. الأنسب لمعظم المتاجر.", "A share of completed orders only. The right fit for most stores."),
     ("CPA", "CPA", "مقابل كل إجراء", "Cost per action", "مبلغ محدد لكل تسجيل أو تثبيت تطبيق أو عميل جديد.", "A fixed fee per sign-up, app install or new customer."),
-    ("هجين", "Hybrid", "رسوم ظهور وعمولة", "Placement + commission", "ظهور مضمون في المواسم الكبرى، مع عمولة على المبيعات.", "Guaranteed visibility in peak seasons, plus commission on sales."),
+    ("هجين", "Hybrid", "رسوم ظهور وعمولة", "Placement + commission", "مكان مميز في الصفحة الرئيسية + صفحة متجرك + صفحة الفئة المناسبة لمدة 30 يومًا لكل شهر مدفوع، مع عمولة على المبيعات. لا نضمن زيارات أو مبيعات.", "A featured slot on the home page + your store page + the relevant category page for 30 days per paid month, plus commission on sales. No traffic or sales guarantee."),
     ("مباشر", "Direct", "عقد مباشر أو عبر شبكتك", "Direct contract or via your network", "بعقد مباشر أو عبر شبكة التسويق بالعمولة التي تعتمدها.", "On a direct contract, or through the affiliate network you already use."),
 ]
 
@@ -710,35 +710,41 @@ TIMELINE = [
     ("اليوم الأول", "Day one", "استلام الطلب", "Request received", "نراجع علامتك ومنتجاتك وأهدافك.", "We review your brand, products and goals."),
     ("خلال ثلاثة أيام", "Within three days", "خطة مكتوبة", "Written plan", "القنوات والعروض والجدول الزمني ومؤشرات النجاح.", "Channels, offers, timeline and success metrics."),
     ("الأسبوع الأول", "Week one", "الإطلاق", "Launch", "صفحتك وأكوادك وروابط التتبع جاهزة.", "Your page, codes and tracking links go live."),
-    ("أسبوعيًا", "Every week", "تقرير وتحسين", "Report & optimise", "أرقام واضحة وخطوات الأسبوع التالي.", "Clear numbers and next week’s plan."),
+    ("أسبوعيًا وشهريًا", "Weekly & monthly", "تقارير", "Reports", "أسبوعيًا: تقرير أداء من كوبون (نقرات واستخدام الكود). شهريًا: بيان مبيعات وعمولة من بيانات طلبات علامتكم.", "Weekly: Kobon performance report (clicks and code usage). Monthly: sales & commission statement from your brand’s order data."),
 ]
 
 RULES = [
-    ("ننشر أكوادك الرسمية فقط، ولا ننشر أي كود غير رسمي.", "We publish your official codes only, and never publish unofficial ones."),
-    ("لا نستخدم اسم علامتك في الإعلانات المدفوعة دون إذن مكتوب.", "No paid ads on your brand name without written permission."),
+    ("ننشر أكوادك الرسمية فقط.", "We publish only your official codes."),
+    ("لا ننشر أي كود لم توافق عليه علامتكم.", "We never publish a code your brand has not approved."),
+    ("لا نستخدم اسم علامتك في الإعلانات المدفوعة دون إذن مكتوب، ولا نزايد على اسم علامتك في الإعلانات.", "No paid ads or brand-name bidding on your brand without written permission."),
+    ("لا حشو لكوكيز التتبع، ولا اختطاف أو استبدال أكواد أو روابط ناشرين آخرين.", "No cookie stuffing, and no hijacking or replacing other publishers’ codes or links."),
     ("لا مؤقتات عدّ تنازلي وهمية ولا ادعاءات مبالغ فيها.", "No fake countdown timers, no inflated claims."),
     ("نلتزم بسياسات شبكتك وأنظمة كل سوق.", "We follow your network’s policies and each market’s regulations."),
-    ("التقارير وفق مصدر التتبع المتفق عليه في العقد.", "Reports follow the tracking source agreed in the contract."),
+    ("التقارير: أسبوعيًا أداء من كوبون، وشهريًا بيان مبيعات وعمولة من بيانات طلباتكم.", "Reports: weekly Kobon performance; monthly sales & commission from your order data."),
     ("نراجع معك أي محتوى عن علامتك قبل نشره عند الطلب.", "Content about your brand can be reviewed before it goes live."),
 ]
 
 PARTNER_FAQ = {
     "ar": [
-        ("هل توجد تكلفة لبدء الشراكة؟", "في نموذج العمولة لا توجد رسوم ثابتة؛ تدفع فقط عند تحقق المبيعات. وفي النموذج الهجين تُضاف رسوم ظهور ثابتة."),
+        ("هل توجد تكلفة لبدء الشراكة؟", "في نموذج العمولة لا توجد رسوم ثابتة؛ تدفع فقط عند تحقق المبيعات. وفي النموذج الهجين تُضاف رسوم ظهور ثابتة لمكان مميز لمدة 30 يومًا لكل شهر مدفوع (الرئيسية + صفحة متجرك + صفحة الفئة). لا نضمن زيارات أو مبيعات."),
+        ("كيف تُحسب مبيعات الكود (الـ attribution)؟", "لكل علامة كود كوبون فريد. تُحسب المبيعات من الطلبات التي استُخدم فيها هذا الكود، حسب تقرير طلبات المتجر أو منصته (مثل سلة أو زد أو Shopify أو منصة الأفلييت لديكم). التتبع بالرابط فقط إذا وفّرت علامتكم منصتها، وحينها تنطبق نافذة الكوكي الخاصة بها."),
         ("كيف تُحدَّد العمولة وكيف تُدفع؟", "تُحدَّد النسبة حسب الفئة وهامش الربح، وتُدفع شهريًا بعد اعتماد الطلبات غير الملغاة."),
-        ("ما منصة التتبع المستخدمة؟", "كود خاص بكوبون مع تقرير مبيعات شهري، أو منصة التتبع التي تستخدمها علامتك."),
-        ("ما مدة نافذة التتبع (cookie window)؟", "حسب منصة التتبع التي تعتمدها علامتك، ونتفق عليها كتابةً قبل الإطلاق."),
-        ("ما مدة الاتفاق وهل يمكن إنهاؤه؟", "شهري، ويمكن إنهاؤه بإشعار مكتوب."),
+        ("ما التقارير التي نستلمها؟", "أسبوعيًا: تقرير أداء من كوبون (النقرات واستخدام الكود على موقعنا). شهريًا: بيان مبيعات وعمولة مبني على بيانات طلبات علامتكم."),
+        ("ما منصة التتبع المستخدمة؟", "الأساس كود كوبون فريد مع تقرير طلبات علامتكم (سلة، زد، Shopify، أو منصة الأفلييت لديكم). التتبع بالرابط والكوكي فقط إذا وفّرتم منصتكم."),
+        ("ما مدة نافذة التتبع (cookie window)؟", "في نموذج الكود لا توجد نافذة كوكي؛ الاعتماد على استخدام الكود في الطلب. إن وفّرتم منصة روابط، تنطبق نافذة الكوكي الخاصة بمنصتكم ونتفق عليها كتابةً قبل الإطلاق."),
+        ("ما مدة الاتفاق وهل يمكن إنهاؤه؟", "شهري، ويمكن لأي طرف إنهاؤه بإشعار مكتوب قبل 14 يومًا."),
         ("هل تعملون عبر شبكات التسويق بالعمولة؟", "نعم، أو بعقد مباشر، حسب ما يناسبك."),
         ("هل تعملون مع المتاجر العالمية؟", "نعم. نعمل مع المتاجر في الخليج ومصر والعالم التي تشحن إلى المنطقة أو إلى دول العالم."),
         ("هل تعرضون علامات تجارية لا تتعاملون معها؟", "لا. لا يظهر اسم أي علامة تجارية ولا شعارها كشريك إلا بعد اتفاق رسمي."),
     ],
     "en": [
-        ("Is there a cost to get started?", "Not on the commission model: there are no fixed fees; you only pay when sales come in. The hybrid model adds a fixed placement fee."),
+        ("Is there a cost to get started?", "Not on the commission model: there are no fixed fees; you only pay when sales come in. Hybrid adds a fixed placement fee for a featured slot for 30 days per paid month (home + your store page + the relevant category page). No traffic or sales guarantee."),
+        ("How is code attribution calculated?", "Each brand gets a unique Kobon code. Sales are counted from orders where that code was used, from the store’s own order report or platform (e.g. Salla, Zid, Shopify or your affiliate platform). Link-based tracking only if you provide your own platform; then its cookie window applies."),
         ("How is commission set and paid?", "The rate depends on the category and margin, and is paid monthly after non-cancelled orders are approved."),
-        ("Which tracking platform do you use?", "A Kobon-specific code with a monthly sales report, or the tracking platform your brand already uses."),
-        ("What is the tracking window (cookie window)?", "It follows the tracking platform your brand uses, and we agree it in writing before launch."),
-        ("How long does the agreement last, and can it end?", "It’s monthly, and either side can end it with written notice."),
+        ("What reports do we receive?", "Weekly: a Kobon performance report (clicks and code usage on our site). Monthly: a sales & commission statement based on your brand’s order data."),
+        ("Which tracking platform do you use?", "By default a unique Kobon code with your order reports (Salla, Zid, Shopify or your affiliate platform). Link and cookie tracking only if you provide your own platform."),
+        ("What is the tracking window (cookie window)?", "On the code model there is no cookie window; we rely on code use at checkout. If you provide a link platform, its cookie window applies and we agree it in writing before launch."),
+        ("How long does the agreement last, and can it end?", "It’s monthly, and either side can end it with 14 days’ written notice."),
         ("Do you work through affiliate networks?", "Yes, or on a direct contract, whichever suits you."),
         ("Do you work with international stores?", "Yes. We work with stores in the Gulf, Egypt and worldwide that ship to the region or globally."),
         ("Do you feature brands you don’t work with?", "No. A brand’s trade name or its logo only appears as a partner after a formal agreement."),
@@ -798,13 +804,13 @@ def build_partners(lang: str) -> None:
 <section class="wrap founding" id="founding">
   <div class="box">
     <svg class="seal" viewBox="0 0 88 88" aria-hidden="true"><circle cx="44" cy="44" r="42" fill="#FFF6DD"/><circle cx="44" cy="44" r="34" fill="none" stroke="#E0A100" stroke-width="2" stroke-dasharray="3 5"/><path d="M44 22l6 13 14 2-10 10 2 14-12-7-12 7 2-14-10-10 14-2z" fill="#FFC233" stroke="#E0A100" stroke-width="1.5"/></svg>
-    <div><h2 style="font-size:1.4rem">{a('برنامج الشركاء المؤسسين', 'Founding Partner Programme')}</h2><p>{a('مزايا لأوائل العلامات التجارية المنضمة: ظهور مميز في الصفحة الرئيسية وصفحات المواسم، وخطة حملة مخصصة، وتقرير أسبوعي من الفريق.', 'Benefits for the first brands that join: premium placement on the home and season pages, a tailored campaign plan and a weekly report from the team.')}</p></div>
+    <div><h2 style="font-size:1.4rem">{a('برنامج الشركاء المؤسسين', 'Founding Partner Programme')}</h2><p>{a('مزايا لأوائل العلامات التجارية المنضمة: ظهور مميز في الصفحة الرئيسية وصفحات المواسم، وخطة حملة مخصصة، وتقرير أداء أسبوعي من كوبون وبيان مبيعات شهري.', 'Benefits for the first brands that join: premium placement on the home and season pages, a tailored campaign plan, a weekly Kobon performance report and a monthly sales statement.')}</p></div>
     <a class="btn btn-primary" href="#contact">{a('قدّم علامتك', 'Apply now')}</a>
   </div>
 </section>
 <section class="section">
   <div class="wrap">
-    {section_head(a('خدماتنا', 'What we do'), a('كل ما تحتاجه حملتك في فريق واحد', 'Everything your campaign needs, in one team'), a('نخطّط وننفّذ ونقيس، ونُحاسَب على النتيجة.', 'We plan, launch and measure, and we’re accountable for results.'))}
+    {section_head(a('خدماتنا', 'What we do'), a('ما نقدّمه لحملتك', 'What we offer your campaign'), a('نخطّط وننفّذ ونقيس، ونُحاسَب على النتيجة.', 'We plan, launch and measure, and we’re accountable for results.'))}
     <div class="services">{svcs}</div>
   </div>
 </section>
@@ -841,9 +847,9 @@ def build_partners(lang: str) -> None:
     {partner_form(lang)}
   </div>
 </section>'''
-    title = a("للعلامات التجارية: تسويق بالعمولة في الخليج ومصر والعالم | كوبون", "For Brands: affiliate marketing across the Gulf, Egypt and global markets | Kobon")
-    desc = a("كوبون منصة جديدة للتسويق بالعمولة والأداء في الخليج ومصر والعالم. نحوّل عروضك الرسمية إلى مبيعات. تدفع مقابل النتائج في نموذج العمولة؛ وفي الهجين تُضاف رسوم ظهور: CPS أو CPA أو هجين.",
-             "Kobon is a new affiliate and performance platform for the Gulf, Egypt and global markets. We turn your official offers into sales. On commission you pay for results; hybrid adds a placement fee: CPS, CPA or hybrid.")
+    title = a("للعلامات | كوبون — عمولة في الخليج ومصر والعالم", "For Brands | Kobon — Gulf, Egypt & global")
+    desc = a("كوبون منصة جديدة للتسويق بالعمولة في الخليج ومصر والعالم. ادفع مقابل النتائج: CPS أو CPA أو هجين.",
+             "Kobon is a new affiliate platform for the Gulf, Egypt and global markets. Pay for results: CPS, CPA or hybrid.")
     crumbs = [(a("الرئيسية", "Home"), "/"), (a("الشراكات", "For Brands"), "/partners/")]
     ld = [faq_ld(PARTNER_FAQ[lang]), {"@context": "https://schema.org", "@type": "Service", "name": a("التسويق بالعمولة والأداء للعلامات التجارية", "Affiliate & performance marketing for brands"),
           "provider": {"@type": "Organization", "name": NAME[lang], "url": DOMAIN + "/"}, "areaServed": ["SA", "AE", "KW", "QA", "BH", "OM", "EG", "Worldwide"], "serviceType": "Affiliate marketing"}]
@@ -878,10 +884,10 @@ def build_about(lang: str) -> None:
     skills = [
         ("التسويق بالعمولة", "Affiliate marketing", "إدارة برامج العمولة مع المتاجر والشبكات بروابط وأكواد قابلة للتتبع.", "Running commission programmes with stores and networks, with trackable links and codes."),
         ("السيو والمحتوى", "SEO & content", "صفحات وأدلة شراء بالعربية والإنجليزية تجيب عن أسئلة المتسوق.", "Arabic and English pages and buying guides that answer shoppers’ questions."),
-        ("البريد والتنبيهات", "Email & alerts", "نشرة أسبوعية وتنبيهات موسمية بجدول واضح.", "A weekly email and seasonal alerts on a clear schedule."),
-        ("تحليل الأداء", "Analytics", "قياس النقرات والطلبات والمبيعات من منصة التتبع نفسها.", "Clicks, orders and sales measured from the tracking platform itself."),
+        ("البريد والتنبيهات", "Email & alerts", "تنبيهات عند توفر العروض وتنبيهات موسمية.", "Alerts when offers are available, plus seasonal alerts."),
+        ("تحليل الأداء", "Analytics", "أسبوعيًا نقرات واستخدام الكود من كوبون؛ وشهريًا المبيعات من بيانات طلبات العلامة.", "Weekly clicks and code usage from Kobon; monthly sales from the brand’s order data."),
         ("إدارة حملات المواسم", "Seasonal campaigns", "خطط مبكرة للجمعة البيضاء ورمضان والعيد والأيام الوطنية.", "Early plans for White Friday, Ramadan, Eid and national days."),
-        ("علاقات الشركاء", "Partner relations", "تواصل مباشر وتقارير أسبوعية لكل علامة نعمل معها.", "Direct contact and weekly reports for every brand we work with."),
+        ("علاقات الشركاء", "Partner relations", "تواصل مباشر، وتقرير أداء أسبوعي من كوبون، وبيان مبيعات شهري.", "Direct contact, a weekly Kobon performance report and a monthly sales statement."),
     ]
     sk = "".join(f'<div class="vitem"><span class="n">{i+1}</span><div><h3>{t(lang, h1, h2)}</h3><p>{t(lang, p1, p2)}</p></div></div>' for i, (h1, h2, p1, p2) in enumerate(skills))
     crumbs = [(a("الرئيسية", "Home"), "/"), (a("من نحن", "About"), "/about/")]
@@ -892,8 +898,8 @@ def build_about(lang: str) -> None:
   <div class="wrap split">
     <div style="display:grid;gap:1.2rem"><span class="eyebrow mint">{a('قصتنا', 'Our story')}</span><h2>{a('لماذا أنشأنا كوبون', 'Why we built Kobon')}</h2></div>
     <div class="prose" style="margin:0">
-      <p>{a('نحن فريق متخصص في التسويق بالعمولة، بخبرة في الخليج والأسواق العالمية. عملنا مع المتاجر الإلكترونية ورأينا المشكلة من الجهتين: متسوق يضيع وقته في أكواد لا تعمل، وعلامات تجارية تفقد ثقة عملائها بسبب مواقع تنشر أي شيء.', 'We’re an affiliate marketing team with experience across the Gulf and international markets. Working with online stores, we saw the problem from both sides: shoppers losing time on codes that don’t work, and brands losing trust to sites that will publish anything.')}</p>
-      <p>{a('كوبون هو ما أردناه: عروض رسمية بمعيار واضح، يديرها فريق يعرف كيف تُبنى الحملات وتُقاس.', 'Kobon is our answer: official offers held to a clear standard, run by people who know how campaigns are built and measured.')}</p>
+      <p>{a('كوبون منصة جديدة للتسويق بالعمولة في الخليج ومصر والأسواق العالمية. رأينا المشكلة من الجهتين: متسوق يضيع وقته في أكواد لا تعمل، وعلامات تجارية تفقد ثقة عملائها بسبب مواقع تنشر أي شيء.', 'Kobon is a new affiliate platform for the Gulf, Egypt and international markets. We saw the problem from both sides: shoppers losing time on codes that don’t work, and brands losing trust to sites that will publish anything.')}</p>
+      <p>{a('كوبون هو ما أردناه: عروض رسمية بمعيار واضح، مع تتبّع بالكود وتقارير أسبوعية وشهرية واضحة.', 'Kobon is our answer: official offers held to a clear standard, with code-based tracking and clear weekly and monthly reports.')}</p>
     </div>
   </div>
 </section>
@@ -905,15 +911,15 @@ def build_about(lang: str) -> None:
 </section>
 <section class="section">
   <div class="wrap verify">
-    <div style="display:grid;gap:1.2rem"><span class="eyebrow">{a('كيف نعمل', 'How we work')}</span><h2>{a('ما يتقنه فريقنا', 'What the team does')}</h2><p class="lead">{a('كل عرض وكل حملة يمرّان على فريق متخصص في التسويق بالأداء.', 'Every offer and campaign is handled by performance-marketing specialists.')}</p></div>
+    <div style="display:grid;gap:1.2rem"><span class="eyebrow">{a('كيف نعمل', 'How we work')}</span><h2>{a('ما يتقنه فريقنا', 'What the team does')}</h2><p class="lead">{a('كل عرض يُراجع قبل النشر: مصدر رسمي، وشروط واضحة، وتاريخ آخر تحقق.', 'Every offer is checked before it goes live: an official source, clear terms and a last-checked date.')}</p></div>
     <div class="vlist">{sk}</div>
   </div>
 </section>
 <section class="wrap two">
-  <div class="path-card dark"><span class="eyebrow light">{a('للعلامات التجارية', 'For brands')}</span><h2 style="font-size:1.7rem">{a('لنعمل معًا', 'Let’s work together')}</h2><p>{a('عمولة على المبيعات، وقواعد واضحة لسلامة علامتك، وتقارير أسبوعية.', 'Commission on sales, clear brand-safety rules and weekly reports.')}</p><div class="actions"><a class="btn btn-primary" href="{L(lang, '/partners/')}">{a('اعرف المزيد ←', 'Learn more →')}</a></div></div>
+  <div class="path-card dark"><span class="eyebrow light">{a('للعلامات التجارية', 'For brands')}</span><h2 style="font-size:1.7rem">{a('لنعمل معًا', 'Let’s work together')}</h2><p>{a('عمولة على المبيعات، وقواعد واضحة لسلامة علامتك، وتقرير أداء أسبوعي وبيان مبيعات شهري.', 'Commission on sales, clear brand-safety rules, a weekly performance report and a monthly sales statement.')}</p><div class="actions"><a class="btn btn-primary" href="{L(lang, '/partners/')}">{a('اعرف المزيد ←', 'Learn more →')}</a></div></div>
   <div class="path-card"><span class="eyebrow mint">{a('للمتسوقين', 'For shoppers')}</span><h2 style="font-size:1.7rem">{a('اشترك في التنبيهات', 'Get offer alerts')}</h2><p>{a('سجّل بريدك لتصلك أهم العروض الرسمية عند توفرها.', 'Leave your email for the most important official offers when available.')}</p><div class="actions"><a class="btn btn-ghost" href="{L(lang, '/#alerts')}">{a('اشترك', 'Subscribe')}</a></div></div>
 </section>'''
-    render(lang, "/about/", a("من نحن: فريق تسويق بالعمولة في الخليج والأسواق العالمية | كوبون", "About Kobon: an affiliate marketing team for the Gulf and beyond | Kobon"),
+    render(lang, "/about/", a("من نحن | كوبون — منصة عمولة للخليج ومصر والعالم", "About Kobon | Affiliate platform for the Gulf, Egypt & beyond"),
            a("تعرّف على فريق كوبون المتخصص في التسويق بالعمولة في الخليج والأسواق العالمية، ومبادئنا: العروض الرسمية فقط، والشفافية، واحترام وقتك، وسلامة العلامة التجارية.",
              "Meet the team behind Kobon, affiliate marketers working across the Gulf and global markets, and the principles we hold to: official offers only, transparency, your time and brand safety."),
            body, "about", [{"@context": "https://schema.org", "@type": "AboutPage", "name": a("من نحن", "About us"), "url": abs_url(lang, "/about/")}], crumbs)
@@ -2545,7 +2551,7 @@ def build_misc() -> None:
     write("_config.yml", "# GitHub Pages: publish only the generated site\nexclude:\n  - build.py\n  - data\n  - README.md\n  - CHANGELOG.md\n  - tools\n")
     write("llms.txt", f"""# {NAME['en']} ({NAME['ar']})
 
-> Official-only coupons and discount codes from Gulf and international stores, for shoppers in Saudi Arabia, the UAE, Kuwait, Qatar, Bahrain, Oman and beyond. Run by an affiliate marketing team.
+> Official-only coupons and discount codes from Gulf and international stores, for shoppers in Saudi Arabia, the UAE, Kuwait, Qatar, Bahrain, Oman, Egypt and beyond. A new affiliate platform.
 
 - International stores: {DOMAIN}/en/countries/global/
 - Shopping guides: {DOMAIN}/en/guides/
