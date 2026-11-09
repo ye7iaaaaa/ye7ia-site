@@ -23,7 +23,8 @@ SITE_NAME_EN = "Promoaty"
 # Base URL: the ONE place to change when the Promoaty domain is live (CNAME stays until DOMAIN LIVE).
 DOMAIN = "https://kobon.is-a.si"
 CNAME_HOST = DOMAIN.split("://", 1)[1]
-CONTACT_EMAIL = "partners@ye7ia.is-a.si"
+CONTACT_EMAIL = "partners@kobon.is-a.si"
+PARTNER_SUBJECT = "Partnership%20-%20Promoaty"
 YEAR = 2026
 TODAY = date.today().isoformat()
 
@@ -370,11 +371,11 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
     if lang == "ar":
         switch_label = "English"
         brand_tail = SITE_NAME_AR
-        nav = ("الرئيسية", "المتاجر", "التصنيفات", "المواسم", "للمسوقين")
+        nav = ("الرئيسية", "المتاجر", "التصنيفات", "المواسم", "للبراندات")
     else:
         switch_label = "العربية"
         brand_tail = SITE_NAME_EN
-        nav = ("Home", "Stores", "Categories", "Seasons", "Marketers")
+        nav = ("Home", "Stores", "Categories", "Seasons", "For brands")
     home, stores, cats, seasons, marketers = nav
     skip = t(lang, "تخطّي إلى المحتوى", "Skip to content")
     featured = featured_live_season()
@@ -399,7 +400,7 @@ def render_header(lang: str, depth: int, canonical_path: str = "/") -> str:
       <a href="{esc(loc + "categories/")}">{esc(cats)}</a>
       <a href="{esc(loc + "seasons/")}">{esc(seasons)}</a>
       {season_chip}
-      <a href="{esc(loc + "marketers/")}">{esc(marketers)}</a>
+      <a class="nav-brands" href="{esc(loc + "partners/")}">{esc(marketers)}</a>
       <a class="lang-switch" href="{esc(switch_href)}" hreflang="{other_lang(lang)}">{esc(switch_label)}</a>
     </nav>
   </div>
@@ -445,16 +446,16 @@ def render_footer(lang: str, depth: int) -> str:
             ("terms/", "الشروط"),
             ("affiliate-disclosure/", "الإفصاح عن العمولات"),
             ("marketers/", "للمسوقين"),
-            ("partners/", "شركاء وإعلان"),
+            ("partners/", "للبراندات والشراكات"),
             ("contact/", "تواصل"),
         ]
-        note = "موقع أكواد خصم مستقل. قد نحصل على عمولة عند استخدام بعض الروابط دون أي تكلفة إضافية عليك."
+        note = "موقع عروض وكوبونات مستقل يديره فريق مسوقين. قد نحصل على عمولة عند استخدام بعض الروابط دون أي تكلفة إضافية عليك."
         brand = SITE_NAME_AR
         links_label = "روابط"
-        biz_title = "للمتاجر والشركاء"
-        biz_text = "عرض متجرك، كود حصري، أو بانر إعلاني — تواصل للتسعير."
+        biz_title = "للبراندات والمتاجر"
+        biz_text = "فريق مسوقين بخبرة في التسويق بالعمولة والأداء — نوصّل متجرك لمتسوقين جاهزين للشراء في الخليج ومصر."
         biz_cta = "تواصل معنا"
-        biz_more = "باقات الشراكة"
+        biz_more = "الشراكات"
     else:
         links = [
             ("about/", "About"),
@@ -463,16 +464,16 @@ def render_footer(lang: str, depth: int) -> str:
             ("terms/", "Terms"),
             ("affiliate-disclosure/", "Affiliate disclosure"),
             ("marketers/", "For marketers"),
-            ("partners/", "Partners & advertise"),
+            ("partners/", "For brands & partnerships"),
             ("contact/", "Contact"),
         ]
-        note = "Independent coupon site. We may earn a commission when you use some links, at no extra cost to you."
+        note = "Independent deals site run by a team of marketers. We may earn a commission when you use some links, at no extra cost to you."
         brand = SITE_NAME_EN
         links_label = "Links"
-        biz_title = "For stores & partners"
-        biz_text = "Feature your store, an exclusive code, or a banner — contact for pricing."
+        biz_title = "For brands & stores"
+        biz_text = "A team of experienced affiliate and performance marketers — we bring ready-to-buy shoppers in the GCC and Egypt to your store."
         biz_cta = "Contact us"
-        biz_more = "Partnership packages"
+        biz_more = "Partnerships"
     items = "\n".join(
         f'      <li><a href="{esc(loc + href)}">{esc(label)}</a></li>' for href, label in links
     )
@@ -494,7 +495,7 @@ def render_footer(lang: str, depth: int) -> str:
         <p class="muted" style="color:#94a3b8">{esc(biz_text)}</p>
         <p><a class="btn" href="{esc(loc + "contact/")}">{esc(biz_cta)}</a>
         <a class="btn btn-secondary" href="{esc(loc + "partners/")}">{esc(biz_more)}</a></p>
-        <p class="muted" style="color:#94a3b8;margin-top:0.6rem"><a href="mailto:{esc(mail)}">{esc(mail_label(lang))}</a></p>
+        <p class="muted" style="color:#94a3b8;margin-top:0.6rem"><a href="mailto:{esc(mail)}?subject={PARTNER_SUBJECT}">{esc(mail)}</a></p>
       </div>
     </div>
     <p class="footer-note">© {YEAR} {esc(SITE_NAME_AR if lang == "ar" else SITE_NAME_EN)}</p>
@@ -502,7 +503,7 @@ def render_footer(lang: str, depth: int) -> str:
 </footer>
 <div id="cookie-banner" class="cookie-banner" hidden role="dialog" aria-live="polite" aria-label="cookies">
   <div class="cookie-banner-inner">
-    <p>{esc(t(lang, "نستخدم تخزيناً محلياً بسيطاً لتفضيلات الصفحة (مثل نسخ الكود). راجع سياسة الخصوصية.", "We use simple local storage for page preferences (such as copying a code). See our privacy policy."))} <a href="{esc(loc + "privacy/")}">{esc(t(lang, "الخصوصية", "Privacy"))}</a></p>
+    <p>{esc(t(lang, "نستخدم تخزيناً محلياً بسيطاً لتفضيلات الصفحة (مثل إخفاء هذا التنبيه). راجع سياسة الخصوصية.", "We use simple local storage for page preferences (such as hiding this notice). See our privacy policy."))} <a href="{esc(loc + "privacy/")}">{esc(t(lang, "الخصوصية", "Privacy"))}</a></p>
     <button type="button" class="btn" id="cookie-accept">{esc(t(lang, "حسناً", "OK"))}</button>
   </div>
 </div>
@@ -631,7 +632,7 @@ def store_card(lang: str, store: dict, categories: list[dict], depth: int) -> st
     <div class="store-meta">
       {example}
       <span class="chip">{esc(cat_name)}</span>
-      <span class="chip">{esc(t(lang, f"{n} أكواد", f"{n} codes"))}</span>
+      <span class="chip">{esc(t(lang, f"{n} عروض", f"{n} offers") if n else t(lang, "العروض قريبًا", "Offers coming soon"))}</span>
     </div>
   </a>
 </article>
@@ -675,6 +676,7 @@ def org_contactpoint_jsonld(lang: str) -> dict:
         "contactPoint": {
             "@type": "ContactPoint",
             "contactType": "sales",
+            "email": CONTACT_EMAIL,
             "availableLanguage": ["ar", "en"],
             "url": page_url(lang, "contact"),
         },
@@ -799,7 +801,7 @@ def empty_state_block(lang: str, depth: int, message: str) -> str:
     """Soft empty UX with real CTAs (browse categories + partners)."""
     loc = lang_prefix(depth)
     cats_label = t(lang, "تصفّح التصنيفات", "Browse categories")
-    partners_label = t(lang, "للمتاجر والشركاء", "For stores & partners")
+    partners_label = t(lang, "للبراندات والشراكات", "For brands & partnerships")
     return (
         f'<div class="empty-state">'
         f'<p class="muted">{esc(message)}</p>'
@@ -815,23 +817,23 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
     flat = sort_coupons(all_coupons_flat(stores))
     today_codes = [c for c in flat if is_verified_today(c.get("verified_date") or "")][:8] or flat[:6]
     if lang == "ar":
-        title = f"أكواد خصم السعودية {YEAR} | {SITE_NAME_AR}"
-        desc = "أكواد خصم وكوبونات للمتاجر في السعودية والخليج. انسخ الكود وتسوّق. نحدّث الأكواد باستمرار."
-        h1 = f"أكواد خصم موثوقة للمتسوقين في السعودية {YEAR}"
-        lead = "وفّر على مشترياتك من أشهر المتاجر. ركّزنا أولاً على السعودية، وبعدين باقي دول الخليج."
+        title = f"عروض وكوبونات السعودية والخليج {YEAR} | {SITE_NAME_AR}"
+        desc = "برومواتي دليل متاجر وعروض للمتسوقين في السعودية والخليج ومصر، يديره فريق مسوقين بخبرة في التسويق بالعمولة. العروض الحصرية قريبًا."
+        h1 = f"عروض وخصومات أشهر المتاجر في السعودية والخليج {YEAR}"
+        lead = "دليل متاجر يديره فريق مسوقين بخبرة. ما ننشر أي كود إلا بعد اتفاق رسمي مع المتجر — والعروض الحصرية قريبًا."
         season_label_generic = "عرض موسمي: تصفّح أكواد الجمعة البيضاء ورمضان واليوم الوطني"
-        top_stores, today_label = "أبرز المتاجر", "أكواد محدثة"
+        top_stores, today_label = "أبرز المتاجر", "العروض قريبًا"
         cats_label, countries_label = "تصفح حسب التصنيف", "حسب الدولة"
         empty_stores = "ما فيه متاجر معروضة حالياً."
         empty_codes = "ما فيه أكواد معروضة حالياً."
         canon = "/"
     else:
-        title = f"Saudi Discount Codes {YEAR} | {SITE_NAME_EN}"
-        desc = "Discount codes and coupons for stores in Saudi Arabia and the GCC. Copy a code and shop."
-        h1 = f"Trusted discount codes for Saudi shoppers {YEAR}"
-        lead = "Save on popular stores. We focus on Saudi Arabia first, then the wider GCC."
+        title = f"Saudi & GCC Deals and Coupons {YEAR} | {SITE_NAME_EN}"
+        desc = "Promoaty is a store and deals guide for shoppers in Saudi Arabia, the GCC and Egypt, run by experienced affiliate marketers. Exclusive offers coming soon."
+        h1 = f"Deals from top stores in Saudi Arabia and the GCC {YEAR}"
+        lead = "A store guide run by experienced marketers. We only publish a code after an official agreement with the store — exclusive offers are coming soon."
         season_label_generic = "Seasonal: browse White Friday, Ramadan, and National Day codes"
-        top_stores, today_label = "Top stores", "Recently verified codes"
+        top_stores, today_label = "Top stores", "Offers coming soon"
         cats_label, countries_label = "Browse by category", "By country"
         empty_stores = "No stores listed yet."
         empty_codes = "No codes to show right now."
@@ -847,7 +849,20 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         coupon_cards = "\n".join(coupon_card(lang, c, c.get("_store"), depth) for c in today_codes)
         coupons_block = f'<div class="grid">{coupon_cards}</div>'
     else:
-        coupons_block = f'<p class="muted empty-state">{esc(empty_codes)}</p>'
+        soon = [
+            (t(lang, "عروض رسمية فقط", "Official offers only"),
+             t(lang, "ما ننشر كود إلا من المتجر نفسه أو من شبكة تسويق بالعمولة معتمدة — بدون أكواد منسوخة أو منتهية.",
+               "We only publish codes that come from the store itself or an approved affiliate network — no scraped or expired codes.")),
+            (t(lang, "شروط واضحة", "Clear terms"),
+             t(lang, "كل عرض بيوضح الحد الأدنى، الدول، وتاريخ آخر فحص، عشان ما تضيع وقتك عند الدفع.",
+               "Every offer shows the minimum spend, countries, and last-checked date, so you don't waste time at checkout.")),
+            (t(lang, "تابعنا قريبًا", "Coming soon"),
+             t(lang, "نجهّز حالياً شراكات مع متاجر الخليج ومصر. ارجع لنا قريبًا أو تصفّح المتاجر والمواسم.",
+               "We're setting up partnerships with GCC and Egypt stores. Check back soon or browse stores and seasons.")),
+        ]
+        coupons_block = '<div class="grid">' + "".join(
+            f'<article class="card"><h3>{esc(h)}</h3><p>{esc(b)}</p></article>' for h, b in soon
+        ) + "</div>"
 
     cat_cards = []
     for c in categories:
@@ -861,22 +876,22 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
         for c in COUNTRIES
     ]
     if lang == "ar":
-        biz_h = "متجر أو علامة تجارية؟"
-        biz_p = "أبرز متجرك، انشر كوداً حصرياً، أو احجز بانر — تواصل للتسعير."
-        biz_contact = "تواصل معنا"
-        biz_partners = "باقات الشراكة والإعلان"
+        biz_h = "عندك براند أو متجر إلكتروني؟"
+        biz_p = "إحنا فريق مسوقين بخبرة في التسويق بالعمولة والأداء. نشتغل بالعمولة على المبيعات، أكواد حصرية، وحملات موسمية في الخليج ومصر."
+        biz_contact = "راسلنا للشراكة"
+        biz_partners = "للبراندات والشراكات"
     else:
-        biz_h = "Store or brand?"
-        biz_p = "Feature your store, publish an exclusive code, or book a banner — contact for pricing."
-        biz_contact = "Contact us"
-        biz_partners = "Partnership & advertising packages"
+        biz_h = "Run a brand or online store?"
+        biz_p = "We're a team of experienced affiliate and performance marketers. We work on commission per sale, exclusive codes, and seasonal campaigns across the GCC and Egypt."
+        biz_contact = "Email us about a partnership"
+        biz_partners = "For brands & partnerships"
     featured = featured_live_season()
     if featured and featured.get("slug") == "white-friday":
         season_href = f"seasons/{featured['slug']}/"
         season_label = t(
             lang,
-            "الجمعة البيضاء: تصفّح أكواد الخصم الموسمية",
-            "White Friday: browse seasonal discount codes",
+            "الجمعة البيضاء: تصفّح صفحة الموسم",
+            "White Friday: browse the season page",
         )
         season_start = (featured.get("start") or "")[:10]
         season_end = (featured.get("end") or "")[:10]
@@ -920,7 +935,7 @@ def build_home(lang: str, stores: list[dict], categories: list[dict], out_dir: P
       <h2>{esc(biz_h)}</h2>
       <p>{esc(biz_p)}</p>
       <p>
-        <a class="btn" href="contact/">{esc(biz_contact)}</a>
+        <a class="btn" href="mailto:{esc(CONTACT_EMAIL)}?subject={PARTNER_SUBJECT}">{esc(biz_contact)}</a>
         <a class="btn btn-secondary" href="partners/">{esc(biz_partners)}</a>
       </p>
     </div>
@@ -952,13 +967,13 @@ def build_store(lang: str, store: dict, stores: list[dict], categories: list[dic
     name = store["name_ar"] if lang == "ar" else store["name_en"]
     desc = store["description_ar"] if lang == "ar" else store["description_en"]
     if lang == "ar":
-        title = f"كود خصم {name} السعودية {YEAR}"
-        meta = f"أكواد خصم {name} في السعودية {YEAR}. انسخ الكود وتسوّق مباشرة."
+        title = f"عروض {name} السعودية والخليج {YEAR}"
+        meta = f"{name}: معلومات المتجر والعروض الرسمية في السعودية والخليج {YEAR}. العروض قريبًا على برومواتي."
         canon = f"/stores/{store['slug']}/"
         home_label, stores_label = "الرئيسية", "المتاجر"
     else:
-        title = f"{name} Discount Code Saudi Arabia {YEAR}"
-        meta = f"{name} discount codes for Saudi Arabia {YEAR}. Copy a code and shop."
+        title = f"{name} Offers Saudi Arabia & GCC {YEAR}"
+        meta = f"{name}: store info and official offers for Saudi Arabia and the GCC {YEAR}. Offers coming soon on Promoaty."
         canon = f"/en/stores/{store['slug']}/"
         home_label, stores_label = "Home", "Stores"
 
@@ -974,7 +989,19 @@ def build_store(lang: str, store: dict, stores: list[dict], categories: list[dic
         example = f'<div class="example-banner">{esc(t(lang, "هذه صفحة متجر تجريبي — استبدل البيانات قبل النشر.", "This is an EXAMPLE store page — replace data before publishing."))}</div>'
 
     coupons_html = "\n".join(coupon_card(lang, c) for c in sort_coupons(store.get("coupons") or []))
-    empty = f'<p class="muted">{esc(t(lang, "لا توجد أكواد حالياً.", "No codes yet."))}</p>'
+    site = store.get("website") or ""
+    site_btn = (
+        f'<a class="btn btn-secondary" href="{esc(site)}" target="_blank" rel="noopener noreferrer">'
+        f'{esc(t(lang, f"موقع {name} الرسمي", f"Official {name} site"))}</a>'
+    ) if site else ""
+    empty = (
+        f'<div class="soon-box"><p class="soon-title">{esc(t(lang, "العروض قريبًا", "Offers coming soon"))}</p>'
+        f'<p>{esc(t(lang, f"ما نعرض أكواد {name} حالياً. ننشر العروض فقط بعد اتفاق رسمي مع المتجر أو عبر شبكة تسويق بالعمولة معتمدة.", f"We are not showing {name} codes right now. We only publish offers after an official agreement with the store or an approved affiliate network."))}</p>'
+        f'<p>{site_btn}</p></div>'
+        f'<div class="soon-box soon-brand"><p class="soon-title">{esc(t(lang, f"من فريق {name}؟", f"From the {name} team?"))}</p>'
+        f'<p>{esc(t(lang, "إحنا فريق مسوقين بخبرة في التسويق بالعمولة. خلّينا نعرض عروضكم الرسمية لمتسوقي الخليج ومصر.", "We are a team of experienced affiliate marketers. Let us feature your official offers to shoppers in the GCC and Egypt."))}</p>'
+        f'<p><a class="btn" href="{esc(loc)}partners/">{esc(t(lang, "للبراندات والشراكات", "For brands & partnerships"))}</a></p></div>'
+    )
     faq_html = faq_section(lang, store.get("faq") or [])
 
     cat = cat_by_slug(categories, store.get("category") or "")
@@ -1009,14 +1036,14 @@ def build_store(lang: str, store: dict, stores: list[dict], categories: list[dic
 
     body = f"""{bc}
 <main id="main" class="container">
-  <h1>{esc(t(lang, f"كود خصم {name}", f"{name} discount codes"))}</h1>
+  <h1>{esc(t(lang, f"عروض {name}", f"{name} offers"))}</h1>
   {example}
   <p>{esc(desc)}</p>
   {cat_line}
   <div class="store-meta" style="margin:1rem 0">{"".join(countries_bits)}</div>
   <section class="section">
-    <div class="section-head"><h2>{esc(t(lang, "الأكواد المتاحة", "Available codes"))}</h2></div>
-    <div class="grid">{coupons_html or empty}</div>
+    <div class="section-head"><h2>{esc(t(lang, "العروض المتاحة", "Available offers"))}</h2></div>
+    {('<div class="grid">' + coupons_html + '</div>') if coupons_html else empty}
   </section>
   {faq_html}
 {related_html}
@@ -1030,8 +1057,9 @@ def build_store(lang: str, store: dict, stores: list[dict], categories: list[dic
                 (name, page_url(lang, "stores", store["slug"])),
             ]
         ),
-        itemlist_offers_jsonld(lang, store),
     ]
+    if store.get("coupons"):
+        jsonld.append(itemlist_offers_jsonld(lang, store))
     faq_ld = faq_jsonld(store.get("faq") or [], lang)
     if faq_ld:
         jsonld.append(faq_ld)
@@ -1258,7 +1286,7 @@ def build_season(
         grid = empty_state_block(
             lang,
             depth,
-            t(lang, "ما فيه أكواد لهذا الموسم حالياً.", "No codes for this season yet."),
+            t(lang, "العروض قريبًا — ننشر عروض الموسم بعد الاتفاق مع المتاجر الشريكة.", "Offers coming soon — we publish seasonal offers once partner stores confirm them."),
         )
     related_items = []
     list_items: list[tuple[str, str]] = []
@@ -1370,19 +1398,21 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
                 f"من نحن | {SITE_NAME_AR}",
                 "موقع أكواد خصم يركز على المتسوقين في السعودية ثم دول الخليج.",
                 f"""<h1>من نحن</h1>
-<p><strong>{SITE_NAME_AR}</strong> موقع مستقل لتجميع أكواد الخصم والكوبونات، موجّه أولاً للمتسوقين في السعودية، ثم باقي دول الخليج، وللمسوقين اللي يدورون مصادر موثوقة للكوبونات.</p>
+<p><strong>{SITE_NAME_AR}</strong> موقع مستقل للعروض والكوبونات، موجّه أولاً للمتسوقين في السعودية، ثم باقي دول الخليج ومصر. يديره فريق مسوقين بخبرة في التسويق بالعمولة والتسويق بالأداء.</p>
+<p>ما ننشر أي كود إلا لو جانا من المتجر نفسه أو من شبكة تسويق بالعمولة معتمدة. عشان كذا العروض حالياً «قريبًا» لحد ما تكتمل شراكاتنا.</p>
 <p>ما نبيع منتجات — نساعدكم توصلون لكود خصم وتستخدمونه عند المتجر مباشرة.</p>
 <p>المحتوى يُدار يدوياً: نضيف المتاجر والأكواد بعد مراجعتها. شوف صفحة <a href="../how-we-verify/">كيف نتحقق من الأكواد</a>.</p>
-<p>للمتاجر والشركاء: <a href="../partners/">باقات الشراكة</a> أو <a href="../contact/">تواصل معنا</a>.</p>""",
+<p>للبراندات والمتاجر: <a href="../partners/">الشراكات</a> أو <a href="../contact/">تواصل معنا</a>.</p>""",
             )
         return (
             f"About | {SITE_NAME_EN}",
             "An independent coupon site focused on Saudi shoppers, then the GCC.",
             f"""<h1>About</h1>
-<p><strong>{SITE_NAME_EN}</strong> is an independent discount-code site aimed first at shoppers in Saudi Arabia, then the wider GCC, and at marketers looking for reliable coupon sources.</p>
+<p><strong>{SITE_NAME_EN}</strong> is an independent deals and coupons site aimed first at shoppers in Saudi Arabia, then the wider GCC and Egypt. It is run by a team of experienced affiliate and performance marketers.</p>
+<p>We only publish a code when it comes from the store itself or an approved affiliate network, so offers are “coming soon” until our partnerships are in place.</p>
 <p>We do not sell products — we help you find a code and use it at the store.</p>
 <p>Content is managed manually. See <a href="../how-we-verify/">how we verify codes</a>.</p>
-<p>For stores and partners: <a href="../partners/">partnership packages</a> or <a href="../contact/">contact us</a>.</p>""",
+<p>For brands and stores: <a href="../partners/">partnerships</a> or <a href="../contact/">contact us</a>.</p>""",
         )
     if page == "how-we-verify":
         if lang == "ar":
@@ -1420,7 +1450,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
                 f"""<h1>الخصوصية وملفات تعريف الارتباط</h1>
 <p>الموقع صفحات ثابتة. ما نطلب إنشاء حساب للتصفح، وما نبيع بياناتك.</p>
 <h2>ملفات تعريف الارتباط (Cookies)</h2>
-<p>قد يستخدم المتصفح تخزيناً محلياً بسيطاً لوظائف الصفحة (مثل نسخ الكود). حالياً ما نضع ملفات تعريف ارتباط تتبّع أو إعلانات طرف ثالث.</p>
+<p>قد يستخدم المتصفح تخزيناً محلياً بسيطاً لوظائف الصفحة (مثل إخفاء تنبيه الخصوصية). حالياً ما نضع ملفات تعريف ارتباط تتبّع أو إعلانات طرف ثالث.</p>
 <p>لو أُضيف لاحقاً تحليلات أو أدوات قياس، سنوضّح أنواع الكوكيز والغرض منها هنا قبل التفعيل.</p>
 <h2>روابط العمولة</h2>
 <p>قد تُستخدم روابط عمولة؛ عند الضغط عليها تنتقل لمتجر خارجي بسياسته الخاصة لجمع البيانات. راجع أيضاً <a href="../affiliate-disclosure/">الإفصاح عن العمولات</a> و<a href="../terms/">الشروط</a>.</p>
@@ -1433,7 +1463,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
             f"""<h1>Privacy & cookies</h1>
 <p>This site is static. You do not need an account to browse, and we do not sell your data.</p>
 <h2>Cookies</h2>
-<p>Your browser may use simple local storage for page features (for example copying a code). We do not currently set tracking or third-party advertising cookies.</p>
+<p>Your browser may use simple local storage for page features (for example hiding the privacy notice). We do not currently set tracking or third-party advertising cookies.</p>
 <p>If analytics or measurement tools are added later, we will disclose cookie types and purposes here before enabling them.</p>
 <h2>Affiliate links</h2>
 <p>We may use affiliate links; clicking them takes you to a third-party store with its own data policy. See also our <a href="../affiliate-disclosure/">affiliate disclosure</a> and <a href="../terms/">terms</a>.</p>
@@ -1480,7 +1510,7 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 <li>Boostiny</li>
 <li>Awin / Impact / Amazon Associates (حسب المتجر)</li>
 </ul>
-<p>لإضافة متجر، عرض كود حصري، أو باقات الإعلان: راجع <a href="../partners/">شركاء وإعلان</a> أو راسلنا على <a href="mailto:{mail}">{mail_label(lang)}</a> عبر صفحة <a href="../contact/">تواصل</a>.</p>
+<p>لإضافة متجر، عرض كود حصري، أو باقات الإعلان: راجع <a href="../partners/">للبراندات والشراكات</a> أو راسلنا على <a href="mailto:{mail}">{mail_label(lang)}</a> عبر صفحة <a href="../contact/">تواصل</a>.</p>
 <p class="muted">ملاحظة: القائمة أعلاه أسماء شبكات معروفة وليست إعلان مدفوع.</p>""",
             )
         return (
@@ -1501,76 +1531,95 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
 <li>Boostiny</li>
 <li>Awin / Impact / Amazon Associates (depending on the merchant)</li>
 </ul>
-<p>To add a store, offer an exclusive code, or discuss advertising packages: see <a href="../partners/">Partners &amp; advertise</a> or email <a href="mailto:{mail}">{mail_label(lang)}</a> via the <a href="../contact/">contact</a> page.</p>
+<p>To add a store, offer an exclusive code, or discuss advertising packages: see <a href="../partners/">For brands &amp; partnerships</a> or email <a href="mailto:{mail}">{mail_label(lang)}</a> via the <a href="../contact/">contact</a> page.</p>
 <p class="muted">Network names above are well-known options, not paid placements.</p>""",
         )
     if page == "partners":
+        mailto = f"mailto:{mail}?subject={PARTNER_SUBJECT}"
         if lang == "ar":
             return (
-                f"شركاء وإعلان | {SITE_NAME_AR}",
-                "باقات الشراكة والإعلان للمتاجر والعلامات: تميّز، كود حصري، بانر — تواصل للتسعير.",
-                f"""<h1>شركاء وإعلان</h1>
-<p>نستقبل طلبات المتاجر والعلامات اللي تبي تظهر لجمهور مهتم بأكواد الخصم في السعودية والخليج. التواصل عبر البريد فقط: <a href="mailto:{mail}">{mail_label(lang)}</a>.</p>
-<h2>الباقات</h2>
+                f"للبراندات والشراكات | {SITE_NAME_AR}",
+                "برومواتي فريق مسوقين بخبرة في التسويق بالعمولة والأداء. شراكات للبراندات والمتاجر في السعودية والخليج ومصر: عمولة على المبيعات، أكواد حصرية، وحملات موسمية.",
+                f"""<h1>للبراندات والشراكات</h1>
+<p class="lead"><strong>{SITE_NAME_AR}</strong> يديره فريق مسوقين بخبرة عملية في التسويق بالعمولة (Affiliate) والتسويق بالأداء (Performance). نساعد البراندات والمتاجر الإلكترونية توصل لمتسوقين جاهزين للشراء في السعودية والخليج ومصر — وتدفع على النتيجة.</p>
+<p><a class="btn" href="{mailto}">راسلنا للشراكة</a> <span class="muted">{mail}</span></p>
+<h2>وش نقدّم لكم</h2>
 <div class="packages">
 <article class="package-card">
-<h3>تميّز المتجر (Featured)</h3>
-<p>إبراز متجرك في الصفحة الرئيسية وصفحات التصنيف ذات الصلة، مع وصف واضح وروابط تسوّق.</p>
-<p class="package-price"><a href="../contact/">تواصل للتسعير</a></p>
+<h3>شراكة بالعمولة (CPA)</h3>
+<p>نروّج لمتجركم ونأخذ عمولة على المبيعات المؤكدة فقط، مباشرة أو عبر شبكتكم (Admitad، ArabClicks، Boostiny، Awin، Impact وغيرها).</p>
 </article>
 <article class="package-card">
-<h3>كود حصري (Exclusive code)</h3>
-<p>نشر كود خاص بالموقع مع تمييز واضح وتاريخ تحقق، مناسب للحملات الموسمية أو الإطلاقات.</p>
-<p class="package-price"><a href="../contact/">تواصل للتسعير</a></p>
+<h3>كود حصري للموقع</h3>
+<p>كود خاص ببرومواتي بشروط واضحة وتتبّع منفصل، عشان تقيسون أداءنا بدقة.</p>
 </article>
 <article class="package-card">
-<h3>بانر (Banner)</h3>
-<p>مساحة بانر تحريرية على صفحات مختارة (رئيسية / مواسم / تصنيفات) حسب الاتفاق.</p>
-<p class="package-price"><a href="../contact/">تواصل للتسعير</a></p>
+<h3>حملات موسمية</h3>
+<p>الجمعة البيضاء، 11.11، رمضان، اليوم الوطني — صفحات موسمية جاهزة لمحركات البحث وندفع فيها عروضكم وقت الذروة.</p>
+</article>
+<article class="package-card">
+<h3>صفحة متجر مميزة</h3>
+<p>صفحة عربية وإنجليزية لمتجركم فيها معلومات واضحة، أسئلة شائعة، وروابط تتبّع — وتظهر في التصنيفات والدول المناسبة.</p>
 </article>
 </div>
-<h2>الوسائط (Media kit)</h2>
+<h2>ليش تشتغلون معنا</h2>
 <ul>
-<li>الجمهور المستهدف: متسوقون في السعودية أولاً، ثم دول الخليج.</li>
-<li>اللغات: عربي (لهجة سعودية واضحة) + إنجليزي.</li>
-<li>المحتوى: صفحات متاجر، تصنيفات، دول، ومواسم (الجمعة البيضاء، رمضان، وغيرها).</li>
-<li>الشكل: موقع ثابت سريع، مناسب للجوال، مع بيانات منظمة لمحركات البحث.</li>
-<li>ما نقدّم أرقاماً وهمية عن الزيارات أو نسب التحويل — نشارك تفاصيل حقيقية عند الحاجة بعد التواصل.</li>
+<li>فريق مسوقين بخبرة في التسويق بالعمولة، المحتوى، وتحسين محركات البحث للسوق العربي.</li>
+<li>محتوى عربي أولاً (RTL) + إنجليزي، موجّه للسعودية ثم الخليج ومصر.</li>
+<li>نحترم شروطكم: ما ننشر أي كود بدون موافقتكم، وما نستخدم إعلانات على اسم البراند أو أكواد غير مصرّح بها.</li>
+<li>موقع سريع وخفيف، مناسب للجوال، مع بيانات منظمة (Schema) لمحركات البحث.</li>
+<li>شفافية: ما ننشر أرقام زيارات وهمية — نشارك أرقام حقيقية بعد التواصل.</li>
 </ul>
-<p><a class="btn" href="../contact/">تواصل معنا</a> <a class="btn btn-secondary" href="../marketers/">صفحة المسوقين</a></p>""",
+<h2>كيف نبدأ</h2>
+<ol>
+<li>راسلونا على <a href="{mailto}">{mail}</a> باسم البراند والدول المستهدفة.</li>
+<li>نتفق على النموذج: عمولة، كود حصري، أو حملة موسمية.</li>
+<li>تعطونا رابط التتبّع أو الكود الرسمي، ونجهّز صفحتكم خلال أيام.</li>
+<li>نتابع الأداء معكم ونطوّر العروض كل موسم.</li>
+</ol>
+<p><a class="btn" href="{mailto}">راسلنا للشراكة</a> <a class="btn btn-secondary" href="../marketers/">للمسوقين والناشرين</a></p>""",
             )
         return (
-            f"Partners & advertise | {SITE_NAME_EN}",
-            "Partnership and advertising packages for stores and brands — contact for pricing.",
-            f"""<h1>Partners &amp; advertise</h1>
-<p>We welcome stores and brands that want to reach shoppers looking for discount codes in Saudi Arabia and the GCC. Email only: <a href="mailto:{mail}">{mail_label(lang)}</a>.</p>
-<h2>Packages</h2>
+            f"For brands & partnerships | {SITE_NAME_EN}",
+            "Promoaty is run by experienced affiliate and performance marketers. Partnerships for brands and stores in Saudi Arabia, the GCC and Egypt: CPA, exclusive codes and seasonal campaigns.",
+            f"""<h1>For brands &amp; partnerships</h1>
+<p class="lead"><strong>{SITE_NAME_EN}</strong> is run by a team of marketers with hands-on experience in affiliate and performance marketing. We help brands and online stores reach ready-to-buy shoppers in Saudi Arabia, the GCC and Egypt — and you pay for results.</p>
+<p><a class="btn" href="{mailto}">Email us about a partnership</a> <span class="muted">{mail}</span></p>
+<h2>What we offer</h2>
 <div class="packages">
 <article class="package-card">
-<h3>Featured store</h3>
-<p>Highlight your store on the home page and relevant category pages, with a clear description and shopping links.</p>
-<p class="package-price"><a href="../contact/">Contact for pricing</a></p>
+<h3>Affiliate partnership (CPA)</h3>
+<p>We promote your store and earn commission on confirmed sales only — directly or via your network (Admitad, ArabClicks, Boostiny, Awin, Impact and others).</p>
 </article>
 <article class="package-card">
-<h3>Exclusive code</h3>
-<p>Publish a site-exclusive code with clear labeling and a verified date — useful for seasonal campaigns or launches.</p>
-<p class="package-price"><a href="../contact/">Contact for pricing</a></p>
+<h3>Site-exclusive code</h3>
+<p>A Promoaty-only code with clear terms and separate tracking, so you can measure our performance precisely.</p>
 </article>
 <article class="package-card">
-<h3>Banner</h3>
-<p>Editorial banner placements on selected pages (home / seasons / categories) by agreement.</p>
-<p class="package-price"><a href="../contact/">Contact for pricing</a></p>
+<h3>Seasonal campaigns</h3>
+<p>White Friday, 11.11, Ramadan, Saudi National Day — search-ready seasonal pages where we push your offers at peak demand.</p>
+</article>
+<article class="package-card">
+<h3>Featured store page</h3>
+<p>An Arabic and English page for your store with clear info, FAQs and tracked links, listed in the right categories and countries.</p>
 </article>
 </div>
-<h2>Media kit</h2>
+<h2>Why work with us</h2>
 <ul>
-<li>Audience focus: shoppers in Saudi Arabia first, then the wider GCC.</li>
-<li>Languages: Arabic (clear Saudi tone) + English.</li>
-<li>Inventory: store, category, country, and seasonal pages (White Friday, Ramadan, and more).</li>
-<li>Format: fast static site, mobile-friendly, with structured data for search.</li>
-<li>We do not publish invented traffic or conversion figures — real details can be shared after you reach out.</li>
+<li>A team experienced in affiliate marketing, content and SEO for Arabic-speaking markets.</li>
+<li>Arabic-first (RTL) plus English, focused on Saudi Arabia, then the GCC and Egypt.</li>
+<li>We follow your rules: no code goes live without your approval, no brand bidding, no unauthorised codes.</li>
+<li>Fast, lightweight, mobile-friendly site with structured data for search.</li>
+<li>Transparency: we never publish invented traffic numbers — we share real figures once we talk.</li>
 </ul>
-<p><a class="btn" href="../contact/">Contact us</a> <a class="btn btn-secondary" href="../marketers/">Marketers page</a></p>""",
+<h2>How to start</h2>
+<ol>
+<li>Email <a href="{mailto}">{mail}</a> with your brand and target countries.</li>
+<li>We agree on the model: CPA, exclusive code, or seasonal campaign.</li>
+<li>You share your tracking link or official code, and we publish your page within days.</li>
+<li>We review performance together and improve offers every season.</li>
+</ol>
+<p><a class="btn" href="{mailto}">Email us about a partnership</a> <a class="btn btn-secondary" href="../marketers/">For marketers &amp; publishers</a></p>""",
         )
     if page == "contact":
         if lang == "ar":
@@ -1579,13 +1628,13 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
                 "تواصل مع برومواتي للشراكات والإعلان وأكواد الخصم.",
                 f"""<h1>تواصل معنا</h1>
 <p>للاستفسارات عن الشراكة، الإعلان، أو إضافة متجر/كود:</p>
-<p><a class="btn" href="mailto:{mail}">{mail_label(lang)}</a></p>
+<p><a class="btn" href="mailto:{mail}?subject={PARTNER_SUBJECT}">{mail_label(lang)}</a> <span class="muted">{mail}</span></p>
 <ul>
 <li>اذكر اسم المتجر أو العلامة.</li>
-<li>وضّح نوع الطلب: تميّز / كود حصري / بانر / غير ذلك.</li>
+<li>وضّح نوع الطلب: شراكة بالعمولة / كود حصري / حملة موسمية / غير ذلك.</li>
 <li>أرفق أي تفاصيل مفيدة عن الحملة أو الفترة المطلوبة.</li>
 </ul>
-<p>نراجع الرسائل يدوياً ونرد في أقرب فرصة. شوف أيضاً <a href="../partners/">باقات الشراكة</a> و<a href="../marketers/">صفحة المسوقين</a>.</p>
+<p>نراجع الرسائل يدوياً ونرد في أقرب فرصة. شوف أيضاً <a href="../partners/">للبراندات والشراكات</a> و<a href="../marketers/">صفحة المسوقين</a>.</p>
 <p class="muted">التواصل حالياً عبر البريد الإلكتروني فقط.</p>""",
             )
         return (
@@ -1593,13 +1642,13 @@ def static_content(page: str, lang: str) -> tuple[str, str, str]:
             "Contact Promoaty for partnerships, advertising, and discount codes.",
             f"""<h1>Contact us</h1>
 <p>For partnership, advertising, or adding a store/code:</p>
-<p><a class="btn" href="mailto:{mail}">{mail_label(lang)}</a></p>
+<p><a class="btn" href="mailto:{mail}?subject={PARTNER_SUBJECT}">{mail_label(lang)}</a> <span class="muted">{mail}</span></p>
 <ul>
 <li>Include the store or brand name.</li>
-<li>Say what you need: Featured / Exclusive code / Banner / other.</li>
+<li>Say what you need: affiliate partnership / exclusive code / seasonal campaign / other.</li>
 <li>Add any useful campaign or timing details.</li>
 </ul>
-<p>We review messages manually and reply as soon as we can. See also <a href="../partners/">partnership packages</a> and the <a href="../marketers/">marketers</a> page.</p>
+<p>We review messages manually and reply as soon as we can. See also <a href="../partners/">for brands &amp; partnerships</a> and the <a href="../marketers/">marketers</a> page.</p>
 <p class="muted">Contact is by email only for now.</p>""",
         )
     if page == "terms":
@@ -1777,10 +1826,10 @@ def copy_assets(out_dir: Path) -> None:
 def build_redirects(out_dir: Path) -> None:
     """/brands/ and /advertise/ → /partners/ (AR + EN), meta refresh + canonical."""
     targets = (
-        (out_dir / "brands", "/partners/", "ar", "شركاء وإعلان"),
-        (out_dir / "advertise", "/partners/", "ar", "شركاء وإعلان"),
-        (out_dir / "en" / "brands", "/en/partners/", "en", "Partners & advertise"),
-        (out_dir / "en" / "advertise", "/en/partners/", "en", "Partners & advertise"),
+        (out_dir / "brands", "/partners/", "ar", "للبراندات والشراكات"),
+        (out_dir / "advertise", "/partners/", "ar", "للبراندات والشراكات"),
+        (out_dir / "en" / "brands", "/en/partners/", "en", "For brands & partnerships"),
+        (out_dir / "en" / "advertise", "/en/partners/", "en", "For brands & partnerships"),
     )
     for dest_dir, target_path, lang, label in targets:
         ensure_dir(dest_dir)

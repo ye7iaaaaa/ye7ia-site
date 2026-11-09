@@ -539,3 +539,11 @@ select:focus-visible {
 .subnav-row .chip[aria-current="page"]{background:#0d9488;color:#fff}
 .subnav-label{font-size:.85rem;color:#475569;font-weight:600;flex:0 0 auto}
 .coupon-terms,.coupon-source{font-size:.85rem}
+
+/* Offers-coming-soon + brands CTA */
+.soon-box { border: 1px dashed #99d5cf; background: #f0fdfa; border-radius: 12px; padding: 1rem 1.2rem; margin: 0 0 1rem; }
+.soon-box p { margin: 0.4rem 0; }
+.soon-title { font-weight: 700; font-size: 1.1rem; color: #0f766e; }
+.soon-brand { border-style: solid; background: #fff; }
+.prose .lead { font-size: 1.1rem; }
+.nav-brands { font-weight: 700; }
