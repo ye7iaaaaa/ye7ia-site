@@ -20,7 +20,7 @@ NAME = {"ar": "كوبون", "en": "Kobon"}
 EMAIL = "partners@kobon.is-a.si"
 YEAR = 2026
 TODAY = date.today().isoformat()
-ASSET_V = "4"
+ASSET_V = "5"
 
 COUNTRIES = [
     ("sa", "السعودية", "Saudi Arabia", "ر.س", "SAR"),
