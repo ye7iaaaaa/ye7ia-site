@@ -1,0 +1,7 @@
+# GitHub Pages: publish only the generated site
+exclude:
+  - build.py
+  - data
+  - README.md
+  - CHANGELOG.md
+  - tools

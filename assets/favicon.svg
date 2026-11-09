@@ -1,6 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Promoaty">
-  <rect width="64" height="64" rx="14" fill="#0d9488"/>
-  <circle cx="22" cy="22" r="6" fill="#fff"/>
-  <circle cx="42" cy="42" r="6" fill="#fff"/>
-  <line x1="40" y1="22" x2="24" y2="42" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 6h32a4 4 0 0 1 4 4v9a5 5 0 0 0 0 10v9a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-9a5 5 0 0 0 0-10v-9a4 4 0 0 1 4-4z" fill="#FF5A36"/><circle cx="18" cy="18" r="4.2" fill="#fff"/><circle cx="30" cy="30" r="4.2" fill="#fff"/><path d="M31 14 17 34" stroke="#fff" stroke-width="3.6" stroke-linecap="round"/></svg>

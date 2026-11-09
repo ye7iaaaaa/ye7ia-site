@@ -3,45 +3,154 @@
     "slug": "white-friday",
     "name_ar": "الجمعة البيضاء",
     "name_en": "White Friday",
-    "blurb_ar": "تجميعة أكواد خصم وعروض الجمعة البيضاء للمتسوقين في السعودية والخليج.",
-    "blurb_en": "White Friday discount codes and deals for shoppers in Saudi Arabia and the GCC.",
+    "note_ar": "نوفمبر 2026",
+    "note_en": "November 2026",
     "start": "2026-11-01",
-    "end": "2026-12-01"
+    "end": "2026-12-01",
+    "end_display": "2026-11-30",
+    "markets_ar": "الخليج ومصر",
+    "markets_en": "The Gulf and Egypt",
+    "countries": [],
+    "blurb_ar": "أكبر موسم تخفيضات في المنطقة. نجمع لك العروض الرسمية للجمعة البيضاء فور إعلان المتاجر عنها، مع الشروط وتاريخ آخر مراجعة.",
+    "blurb_en": "The region’s biggest sale season. We collect official White Friday offers as soon as stores announce them, with terms and last-checked dates.",
+    "tips_ar": [
+      "اصنع قائمة مشتريات وسجّل الأسعار الحالية قبل الموسم.",
+      "فعّل التنبيهات لتعرف العرض فور صدوره.",
+      "تأكد من سياسة الإرجاع، فبعض العروض نهائية."
+    ],
+    "tips_en": [
+      "Make a shopping list and note today’s prices before the season.",
+      "Turn on alerts so you hear about offers the moment they’re out.",
+      "Check the return policy, as some sale items are final."
+    ]
+  },
+  {
+    "slug": "11-11",
+    "name_ar": "عروض 11.11",
+    "name_en": "11.11 Sale",
+    "note_ar": "يوم العزّاب",
+    "note_en": "Singles’ Day",
+    "start": "2026-11-01",
+    "end": "2026-11-12",
+    "end_display": "2026-11-11",
+    "markets_ar": "الخليج ومصر",
+    "markets_en": "The Gulf and Egypt",
+    "countries": [],
+    "blurb_ar": "عروض يوم 11 نوفمبر من المتاجر الإلكترونية في الخليج ومصر. ننشر العروض الرسمية فقط، مع مصدر كل عرض وشروطه.",
+    "blurb_en": "11 November deals from online stores in the Gulf and Egypt. We publish official offers only, with each offer’s source and terms.",
+    "tips_ar": [
+      "أغلب العروض تبدأ منتصف الليل وتنتهي خلال 24 ساعة.",
+      "جهّز سلتك مسبقًا.",
+      "قارن مع عروض الجمعة البيضاء القريبة."
+    ],
+    "tips_en": [
+      "Most offers start at midnight and end within 24 hours.",
+      "Fill your basket in advance.",
+      "Compare with the White Friday deals that follow."
+    ]
   },
   {
     "slug": "ramadan",
     "name_ar": "رمضان",
     "name_en": "Ramadan",
-    "blurb_ar": "أكواد خصم وعروض رمضان — وفر وأنت تتسوق للمستلزمات والهدايا.",
-    "blurb_en": "Ramadan discount codes — save while shopping for essentials and gifts.",
-    "start": "2027-02-18",
-    "end": "2027-03-20"
+    "note_ar": "تقديرًا من 8 فبراير",
+    "note_en": "Expected from 8 February",
+    "start": "2027-02-08",
+    "end": "2027-03-10",
+    "end_display": "2027-03-09",
+    "markets_ar": "الخليج ومصر",
+    "markets_en": "The Gulf and Egypt",
+    "countries": [],
+    "blurb_ar": "عروض رمضان على المقاضي والهدايا والأزياء والإلكترونيات. نجهّز صفحة الموسم مبكرًا وننشر العروض الرسمية فور صدورها.",
+    "blurb_en": "Ramadan offers on groceries, gifts, fashion and electronics. We prepare the season page early and publish official offers as soon as they’re out.",
+    "tips_ar": [
+      "ابدأ مقاضي رمضان قبل الشهر بأسبوعين.",
+      "تابع عروض العشر الأواخر على الأزياء والهدايا.",
+      "موعد رمضان تقديري ويعتمد على رؤية الهلال."
+    ],
+    "tips_en": [
+      "Start Ramadan grocery shopping two weeks before the month.",
+      "Watch the last-ten-nights deals on fashion and gifts.",
+      "Ramadan dates are estimates and depend on the moon sighting."
+    ]
   },
   {
-    "slug": "11-11",
-    "name_ar": "عروض ١١.١١",
-    "name_en": "11.11 Sale",
-    "blurb_ar": "أكواد خصم عروض ١١.١١ من أشهر المتاجر في المنطقة.",
-    "blurb_en": "11.11 sale discount codes from popular stores in the region.",
-    "start": "2026-11-01",
-    "end": "2026-11-12"
-  },
-  {
-    "slug": "saudi-national-day",
-    "name_ar": "اليوم الوطني السعودي",
-    "name_en": "Saudi National Day",
-    "blurb_ar": "عروض وأكواد خصم بمناسبة اليوم الوطني السعودي.",
-    "blurb_en": "Deals and discount codes for Saudi National Day.",
-    "start": "2026-09-15",
-    "end": "2026-09-25"
+    "slug": "eid-al-fitr",
+    "name_ar": "عيد الفطر",
+    "name_en": "Eid al-Fitr",
+    "note_ar": "هدايا وأزياء العيد",
+    "note_en": "Eid gifts and fashion",
+    "start": "2027-03-10",
+    "end": "2027-03-14",
+    "end_display": "2027-03-13",
+    "markets_ar": "الخليج ومصر",
+    "markets_en": "The Gulf and Egypt",
+    "countries": [],
+    "blurb_ar": "عروض العيد على الأزياء والهدايا والعطور. نجمع العروض الرسمية مع مواعيد التوصيل قبل العيد.",
+    "blurb_en": "Eid offers on fashion, gifts and fragrance. We collect official offers along with pre-Eid delivery cut-offs.",
+    "tips_ar": [
+      "اطلب مبكرًا لتضمن التوصيل قبل العيد.",
+      "تأكد من سياسة الاستبدال للهدايا.",
+      "موعد العيد تقديري ويعتمد على رؤية الهلال."
+    ],
+    "tips_en": [
+      "Order early to make sure it arrives before Eid.",
+      "Check the exchange policy for gifts.",
+      "Eid dates are estimates and depend on the moon sighting."
+    ]
   },
   {
     "slug": "founding-day",
     "name_ar": "يوم التأسيس",
     "name_en": "Founding Day",
-    "blurb_ar": "أكواد خصم وعروض يوم التأسيس في السعودية.",
-    "blurb_en": "Founding Day discount codes and offers in Saudi Arabia.",
-    "start": "2027-02-15",
-    "end": "2027-02-24"
+    "note_ar": "22 فبراير",
+    "note_en": "22 February",
+    "start": "2027-02-18",
+    "end": "2027-02-25",
+    "end_display": "2027-02-24",
+    "markets_ar": "السعودية",
+    "markets_en": "Saudi Arabia",
+    "countries": [
+      "sa"
+    ],
+    "blurb_ar": "عروض يوم التأسيس السعودي في 22 فبراير من المتاجر في السعودية.",
+    "blurb_en": "Saudi Founding Day offers on 22 February from stores in Saudi Arabia.",
+    "tips_ar": [
+      "كثير من العروض تحمل الرقم 1727 أو 22.",
+      "تابع العروض قبل اليوم بأيام.",
+      "تأكد أن العرض صالح في السعودية."
+    ],
+    "tips_en": [
+      "Many offers reference 1727 or the number 22.",
+      "Watch for offers a few days before the day.",
+      "Make sure the offer is valid in Saudi Arabia."
+    ]
+  },
+  {
+    "slug": "saudi-national-day",
+    "name_ar": "اليوم الوطني السعودي",
+    "name_en": "Saudi National Day",
+    "note_ar": "23 سبتمبر",
+    "note_en": "23 September",
+    "start": "2027-09-16",
+    "end": "2027-09-25",
+    "end_display": "2027-09-24",
+    "markets_ar": "السعودية",
+    "markets_en": "Saudi Arabia",
+    "countries": [
+      "sa"
+    ],
+    "blurb_ar": "عروض اليوم الوطني السعودي في 23 سبتمبر، مع العروض الرسمية فقط من المتاجر في السعودية.",
+    "blurb_en": "Saudi National Day offers on 23 September, with official offers only from stores in Saudi Arabia.",
+    "tips_ar": [
+      "أغلب العروض تبدأ قبل اليوم الوطني بأسبوع.",
+      "راجع الحد الأقصى للخصم.",
+      "تأكد أن العرض صالح في السعودية."
+    ],
+    "tips_en": [
+      "Most offers start about a week before National Day.",
+      "Check the maximum discount.",
+      "Make sure the offer is valid in Saudi Arabia."
+    ]
   }
 ]

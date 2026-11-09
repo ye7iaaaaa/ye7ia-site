@@ -1,50 +1,116 @@
 [
   {
     "slug": "fashion",
-    "name_ar": "أزياء وموضة",
+    "name_ar": "أزياء",
     "name_en": "Fashion",
-    "icon": "👗",
-    "description_ar": "أكواد خصم على الملابس والأحذية والإكسسوارات في السعودية ودول الخليج.",
-    "description_en": "Discount codes for clothing, shoes, and accessories across Saudi Arabia and the GCC."
-  },
-  {
-    "slug": "electronics",
-    "name_ar": "إلكترونيات وتقنية",
-    "name_en": "Electronics",
-    "icon": "📱",
-    "description_ar": "كوبونات جوالات ولابتوبات وأجهزة منزلية ذكية.",
-    "description_en": "Coupons for phones, laptops, and smart home devices."
+    "short_ar": "ملابس وأحذية",
+    "short_en": "Clothes & shoes",
+    "description_ar": "عروض رسمية على الملابس والأحذية والإكسسوارات من متاجر الخليج ومصر، مع شروط كل عرض وتاريخ آخر مراجعة.",
+    "description_en": "Official offers on clothing, shoes and accessories from Gulf and Egypt stores, with every offer’s terms and last-checked date.",
+    "tips_ar": [
+      "راجع جدول المقاسات وسياسة الإرجاع قبل الطلب.",
+      "قارن الخصم مع سعر المنتج قبل موسم التخفيضات بأسبوعين.",
+      "تأكد أن الكود يشمل الماركة التي تريدها، فبعض الماركات مستثناة."
+    ],
+    "tips_en": [
+      "Check the size chart and return policy before you order.",
+      "Compare the discount with the price two weeks before the sale season.",
+      "Make sure the code covers the brand you want, as some brands are excluded."
+    ]
   },
   {
     "slug": "beauty",
-    "name_ar": "تجميل وعناية",
+    "name_ar": "جمال وعناية",
     "name_en": "Beauty",
-    "icon": "💄",
-    "description_ar": "أكواد خصم لمستحضرات التجميل والعناية بالبشرة والشعر.",
-    "description_en": "Discount codes for cosmetics, skincare, and hair care."
+    "short_ar": "عطور ومكياج",
+    "short_en": "Fragrance & makeup",
+    "description_ar": "عروض رسمية على العطور والمكياج والعناية بالبشرة من متاجر موثوقة في الخليج ومصر.",
+    "description_en": "Official offers on fragrance, makeup and skincare from trusted stores in the Gulf and Egypt.",
+    "tips_ar": [
+      "اشترِ من المتجر الرسمي أو الموزّع المعتمد لتضمن أن المنتج أصلي.",
+      "انتبه لتاريخ الصلاحية في العروض الكبيرة.",
+      "اجمع مشترياتك في طلب واحد لتصل للحد الأدنى للشحن المجاني."
+    ],
+    "tips_en": [
+      "Buy from the official store or an authorised retailer to make sure products are genuine.",
+      "Watch expiry dates on big bundle deals.",
+      "Combine purchases into one order to reach the free-shipping minimum."
+    ]
   },
   {
-    "slug": "food",
-    "name_ar": "مطاعم وتوصيل",
-    "name_en": "Food & Delivery",
-    "icon": "🍔",
-    "description_ar": "كوبونات توصيل طعام ومطاعم في السعودية والخليج.",
-    "description_en": "Food delivery and restaurant coupons in Saudi Arabia and the GCC."
-  },
-  {
-    "slug": "home",
-    "name_ar": "منزل وأثاث",
-    "name_en": "Home & Furniture",
-    "icon": "🏠",
-    "description_ar": "خصومات على الأثاث والديكور ومستلزمات المنزل.",
-    "description_en": "Discounts on furniture, décor, and home essentials."
+    "slug": "electronics",
+    "name_ar": "إلكترونيات",
+    "name_en": "Electronics",
+    "short_ar": "جوالات وأجهزة",
+    "short_en": "Phones & devices",
+    "description_ar": "عروض رسمية على الجوالات والحواسيب والأجهزة الذكية، مع الضمان وشروط الخصم واضحة.",
+    "description_en": "Official offers on phones, laptops and smart devices, with the warranty and discount terms spelled out.",
+    "tips_ar": [
+      "تأكد من الضمان المحلي ونسخة الجهاز المناسبة لبلدك.",
+      "راجع أقصى خصم للكود، فكثير من أكواد الإلكترونيات لها سقف.",
+      "قارن السعر النهائي بعد الشحن والضريبة."
+    ],
+    "tips_en": [
+      "Check for a local warranty and the right regional version of the device.",
+      "Check the code’s maximum discount, as many electronics codes are capped.",
+      "Compare the final price after shipping and VAT."
+    ]
   },
   {
     "slug": "travel",
-    "name_ar": "سفر وفنادق",
+    "name_ar": "سفر",
     "name_en": "Travel",
-    "icon": "✈️",
-    "description_ar": "أكواد خصم لحجز الفنادق والطيران والرحلات.",
-    "description_en": "Discount codes for hotels, flights, and trips."
+    "short_ar": "طيران وفنادق",
+    "short_en": "Flights & hotels",
+    "description_ar": "عروض رسمية على الطيران والفنادق والإقامات من مواقع الحجز وشركات الطيران.",
+    "description_en": "Official offers on flights, hotels and stays from booking sites and airlines.",
+    "tips_ar": [
+      "اقرأ سياسة الإلغاء قبل الدفع.",
+      "قارن السعر شاملًا الضرائب والرسوم.",
+      "بعض الأكواد تعمل فقط في التطبيق أو لحجوزات محددة."
+    ],
+    "tips_en": [
+      "Read the cancellation policy before you pay.",
+      "Compare prices including taxes and fees.",
+      "Some codes only work in the app or for certain bookings."
+    ]
+  },
+  {
+    "slug": "home",
+    "name_ar": "المنزل",
+    "name_en": "Home",
+    "short_ar": "أثاث وديكور",
+    "short_en": "Furniture & decor",
+    "description_ar": "عروض رسمية على الأثاث والديكور والأدوات المنزلية من متاجر الخليج ومصر.",
+    "description_en": "Official offers on furniture, decor and homeware from Gulf and Egypt stores.",
+    "tips_ar": [
+      "تأكد من رسوم التوصيل والتركيب للقطع الكبيرة.",
+      "قِس المساحة قبل الطلب.",
+      "راجع سياسة الإرجاع للأثاث، فهي تختلف عن باقي المنتجات."
+    ],
+    "tips_en": [
+      "Check delivery and assembly fees for large items.",
+      "Measure your space before you order.",
+      "Check the furniture return policy, as it often differs from other products."
+    ]
+  },
+  {
+    "slug": "food",
+    "name_ar": "البقالة والطعام",
+    "name_en": "Groceries & food",
+    "short_ar": "بقالة وتوصيل",
+    "short_en": "Groceries & delivery",
+    "description_ar": "عروض رسمية على البقالة وتوصيل الطعام، للطلبات اليومية ومواسم رمضان والعيد.",
+    "description_en": "Official offers on groceries and food delivery, for everyday orders and the Ramadan and Eid seasons.",
+    "tips_ar": [
+      "كثير من الأكواد للطلب الأول فقط.",
+      "راجع الحد الأدنى للطلب ورسوم التوصيل.",
+      "خطّط لمقاضي رمضان مبكرًا لتستفيد من عروض ما قبل الموسم."
+    ],
+    "tips_en": [
+      "Many codes are for your first order only.",
+      "Check the minimum order and delivery fee.",
+      "Plan Ramadan shopping early to catch pre-season offers."
+    ]
   }
 ]

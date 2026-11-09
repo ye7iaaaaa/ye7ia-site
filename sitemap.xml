@@ -1,267 +1,437 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://kobon.is-a.si/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/</loc>
     <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/about/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/how-we-verify/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/privacy/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/affiliate-disclosure/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/marketers/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/partners/</loc>
     <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/contact/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/terms/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/stores/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/categories/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/countries/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/seasons/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/stores/iherb/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/stores/namshi/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/categories/fashion/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/categories/electronics/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/categories/beauty/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/categories/food/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/categories/home/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/categories/travel/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/countries/sa/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/countries/ae/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/countries/kw/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/countries/qa/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/countries/bh/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/countries/om/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/countries/eg/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/seasons/white-friday/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/seasons/ramadan/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/seasons/11-11/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/seasons/saudi-national-day/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/seasons/founding-day/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/en/about/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/en/how-we-verify/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/en/privacy/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/en/affiliate-disclosure/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/en/marketers/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/partners/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/partners/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/partners/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/partners/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/partners/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/partners/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/partners/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/about/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/about/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/about/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/about/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/how-it-works/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/how-it-works/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/how-it-works/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/how-it-works/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/how-it-works/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/how-it-works/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/how-it-works/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/how-it-works/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/contact/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/contact/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/contact/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/contact/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/contact/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/contact/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/privacy/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/privacy/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/privacy/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/privacy/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/terms/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/terms/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/terms/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/terms/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/affiliate-disclosure/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/affiliate-disclosure/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/affiliate-disclosure/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/affiliate-disclosure/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/affiliate-disclosure/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/affiliate-disclosure/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/affiliate-disclosure/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/affiliate-disclosure/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/stores/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/stores/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/stores/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/stores/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/stores/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/stores/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/stores/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/stores/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/categories/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/categories/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/"/>
   </url>
   <url>
-    <loc>https://kobon.is-a.si/en/countries/</loc>
+    <loc>https://kobon.is-a.si/categories/fashion/</loc>
     <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/en/seasons/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/en/stores/iherb/</loc>
-    <lastmod>2026-11-09</lastmod>
-  </url>
-  <url>
-    <loc>https://kobon.is-a.si/en/stores/namshi/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/fashion/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/fashion/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/fashion/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/categories/fashion/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/fashion/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/fashion/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/fashion/"/>
   </url>
   <url>
-    <loc>https://kobon.is-a.si/en/categories/electronics/</loc>
+    <loc>https://kobon.is-a.si/categories/beauty/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/beauty/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/beauty/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/beauty/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/categories/beauty/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/beauty/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/beauty/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/beauty/"/>
   </url>
   <url>
-    <loc>https://kobon.is-a.si/en/categories/food/</loc>
+    <loc>https://kobon.is-a.si/categories/electronics/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/electronics/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/electronics/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/electronics/"/>
   </url>
   <url>
-    <loc>https://kobon.is-a.si/en/categories/home/</loc>
+    <loc>https://kobon.is-a.si/en/categories/electronics/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/electronics/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/electronics/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/electronics/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/categories/travel/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/travel/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/travel/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/travel/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/categories/travel/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/travel/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/travel/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/travel/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/categories/home/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/home/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/home/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/home/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/categories/home/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/home/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/home/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/home/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/categories/food/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/food/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/food/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/food/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/categories/food/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/categories/food/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/categories/food/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/categories/food/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/countries/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/countries/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/countries/sa/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/sa/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/sa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/sa/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/countries/sa/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/sa/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/sa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/sa/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/countries/ae/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/ae/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/ae/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/ae/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/countries/ae/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/ae/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/ae/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/ae/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/countries/kw/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/kw/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/kw/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/kw/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/countries/kw/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/kw/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/kw/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/kw/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/countries/qa/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/qa/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/qa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/qa/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/countries/qa/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/qa/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/qa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/qa/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/countries/bh/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/bh/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/bh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/bh/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/countries/bh/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/bh/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/bh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/bh/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/countries/om/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/om/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/om/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/om/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/countries/om/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/om/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/om/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/om/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/countries/eg/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/eg/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/eg/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/eg/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/countries/eg/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/countries/eg/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/countries/eg/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/countries/eg/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/seasons/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/seasons/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/seasons/white-friday/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/white-friday/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/white-friday/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/white-friday/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/seasons/white-friday/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/white-friday/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/white-friday/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/white-friday/"/>
   </url>
   <url>
-    <loc>https://kobon.is-a.si/en/seasons/ramadan/</loc>
+    <loc>https://kobon.is-a.si/seasons/11-11/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/11-11/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/11-11/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/11-11/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/seasons/11-11/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/11-11/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/11-11/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/11-11/"/>
   </url>
   <url>
-    <loc>https://kobon.is-a.si/en/seasons/saudi-national-day/</loc>
+    <loc>https://kobon.is-a.si/seasons/ramadan/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/ramadan/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/ramadan/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/ramadan/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/seasons/ramadan/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/ramadan/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/ramadan/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/ramadan/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/seasons/eid-al-fitr/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/eid-al-fitr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/eid-al-fitr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/eid-al-fitr/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/seasons/eid-al-fitr/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/eid-al-fitr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/eid-al-fitr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/eid-al-fitr/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/seasons/founding-day/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/founding-day/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/founding-day/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/founding-day/"/>
   </url>
   <url>
     <loc>https://kobon.is-a.si/en/seasons/founding-day/</loc>
     <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/founding-day/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/founding-day/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/founding-day/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/seasons/saudi-national-day/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/saudi-national-day/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/saudi-national-day/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/saudi-national-day/"/>
+  </url>
+  <url>
+    <loc>https://kobon.is-a.si/en/seasons/saudi-national-day/</loc>
+    <lastmod>2026-11-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/seasons/saudi-national-day/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kobon.is-a.si/en/seasons/saudi-national-day/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kobon.is-a.si/seasons/saudi-national-day/"/>
   </url>
 </urlset>

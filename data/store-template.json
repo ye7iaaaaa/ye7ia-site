@@ -8,7 +8,7 @@
   "description_ar": "وصف قصير للمتجر وللعروض المتاحة للمتسوقين في السعودية.",
   "description_en": "Short store description aimed at shoppers in Saudi Arabia.",
   "website": "https://www.example.com/",
-  "affiliate_url": "https://www.example.com/?ref=promoaty",
+  "affiliate_url": "https://www.example.com/?ref=kobon",
   "example": true,
   "faq": [
     {
@@ -27,7 +27,7 @@
       "verified_date": "2026-11-07",
       "expires": "2026-12-31",
       "exclusive": false,
-      "affiliate_url": "https://www.example.com/?ref=promoaty&c=REALCODE",
+      "affiliate_url": "https://www.example.com/?ref=kobon&c=REALCODE",
       "source_url": "https://www.example.com/offers"
     }
   ]
