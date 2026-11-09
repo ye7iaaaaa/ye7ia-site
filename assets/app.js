@@ -34,6 +34,20 @@
     q.value = init; apply(init);
     q.addEventListener("input", function () { apply(q.value); });
   }
+  // filter forms never navigate (replaces inline onsubmit, CSP-safe)
+  document.querySelectorAll("form.js-filter").forEach(function (f) {
+    f.addEventListener("submit", function (e) { e.preventDefault(); });
+  });
+  // season tags: re-evaluate soon / live / past against today's date
+  var today = new Date(), pad = function (n) { return (n < 10 ? "0" : "") + n; };
+  var ymd = today.getFullYear() + "-" + pad(today.getMonth() + 1) + "-" + pad(today.getDate());
+  document.querySelectorAll("[data-season-start]").forEach(function (el) {
+    var s = el.getAttribute("data-season-start"), en = el.getAttribute("data-season-end");
+    var st = ymd < s ? "soon" : (ymd < en ? "live" : "past");
+    var label = el.getAttribute("data-l-" + st), cls = el.getAttribute("data-c-" + st);
+    if (label) el.textContent = label;
+    if (cls) el.className = cls;
+  });
   // copy code buttons
   document.addEventListener("click", function (e) {
     var b = e.target.closest("[data-copy]");

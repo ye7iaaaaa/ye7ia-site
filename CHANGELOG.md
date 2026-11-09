@@ -5,6 +5,14 @@
 2026-11-07 00:15 Cairo — Batch 3: lightweight cookie consent; WCAG polish (footer headings, focus styles, reduced-motion); WebPage/Breadcrumb schema across pages; ContactPage+Organization ContactPoint on partners/contact; /favicon.ico at root; stores ?q= client filter (keeps SearchAction); Qatar/Bahrain/Oman country pages; /brands/+/advertise/ → /partners/ redirects; data/affiliate-programs.md from public official join requirements only.
 # Changelog
 
+## 2026-11-09 — Audit fixes (indexing, a11y, facts, guides, analytics)
+- Indexing: empty category/country/season pages and hubs set to noindex,follow and removed from sitemap; /countries/global/ kept indexed with sourced KSA/UAE threshold content.
+- Accessibility: CTA coral #C93A17, darker muted/mint/label colours, 12px minimum, no heading-level gaps (footer h2, sr-only hub headings).
+- Facts: "Gulf, Egypt & global" wording; plan-ahead season labels driven by start/end dates (app.js); SearchAction and Event schema removed; search boxes filter guides/stores client-side.
+- Guides: /guides/ hub + 10 bilingual guides (Article + FAQPage schema, sources listed), linked from nav and home.
+- Design: shorter mobile home (guides near top, sample offer cards removed); one-page bilingual /media-kit.pdf (no prices or traffic numbers) linked from /partners/.
+- Meta CSP on all pages; cookieless Cloudflare Web Analytics beacon; privacy page updated. Forms remain mailto (JS-composed).
+
 ## 2026-11-09 — Copy rewrite (Gulf + global)
 
 - Rewrote all Arabic and English copy (home, partners, about, how it works, contact, stores, categories, markets, seasons, 404, meta titles and descriptions) in concise MSA and native English, using one glossary: كوبون، كود خصم، عرض، متجر، شريك.
