@@ -2581,7 +2581,7 @@ def build_sitemap(paths: list[str]) -> None:
 
 
 def build_misc() -> None:
-    write("robots.txt", f"User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: {DOMAIN}/sitemap.xml\n")
+    write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {DOMAIN}/sitemap.xml\n")
     write("CNAME", CNAME_HOST + "\n")
     write("_config.yml", "# GitHub Pages: publish only the generated site\nexclude:\n  - build.py\n  - data\n  - README.md\n  - CHANGELOG.md\n  - tools\n  - .pages.yml\n")
     write("llms.txt", f"""# {NAME['en']} ({NAME['ar']})
@@ -2670,7 +2670,7 @@ def main() -> None:
         build_countries(lang, stores, seasons)
         build_seasons(lang, seasons)
         build_guides(lang)
-    build_admin()
+    pass  # admin page removed (private link only)
     build_redirects()
     build_404()
     build_misc()
