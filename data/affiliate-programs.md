@@ -1,6 +1,6 @@
 # Affiliate program join requirements (reference)
 
-Internal notes for ye7ia.is-a.si operators. Compiled from **public official docs** only.
+Internal notes for kobon.is-a.si operators. Compiled from **public official docs** only.
 Do **not** sign up or contact networks from the hourly routine. Re-check sources before applying.
 
 Last reviewed: 2026-11-07 (Cairo).

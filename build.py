@@ -21,7 +21,7 @@ ASSETS_SRC = ROOT / "assets"
 SITE_NAME_AR = "برومواتي"
 SITE_NAME_EN = "Promoaty"
 # Base URL: the ONE place to change when the Promoaty domain is live (CNAME stays until DOMAIN LIVE).
-DOMAIN = "https://ye7ia.is-a.si"
+DOMAIN = "https://kobon.is-a.si"
 CNAME_HOST = DOMAIN.split("://", 1)[1]
 CONTACT_EMAIL = "partners@ye7ia.is-a.si"
 YEAR = 2026

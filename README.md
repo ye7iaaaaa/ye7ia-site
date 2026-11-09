@@ -12,7 +12,7 @@ python3 build.py
 
 ما فيش أي مكتبات خارجية. السكربت بيقرأ `data/` وبيولّد HTML في جذر المشروع (جاهز لـ GitHub Pages من الـ root).
 
-بعد البناء افتح `index.html` أو ارفع المجلد كامل على الريبو `ye7iaaaaa/ye7ia-site` وفعّل Pages من الـ root (مش docs). ملف `CNAME` فيه `ye7ia.is-a.si`.
+بعد البناء افتح `index.html` أو ارفع المجلد كامل على الريبو `ye7iaaaaa/ye7ia-site` وفعّل Pages من الـ root (مش docs). ملف `CNAME` فيه `kobon.is-a.si`.
 
 ## إضافة متجر جديد
 
