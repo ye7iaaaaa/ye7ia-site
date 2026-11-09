@@ -34,7 +34,7 @@ COUNTRIES = [
 ]
 
 FLAGS = {
-    "sa": '<rect width="30" height="30" fill="#006C35"/><rect x="8" y="14" width="14" height="2" fill="#fff"/>',
+    "sa": '<rect width="30" height="30" fill="#005430"/><image href="/assets/flag-sa.svg" x="-1" y="3.7" width="32" height="21.3" preserveAspectRatio="xMidYMid meet"/>',
     "ae": '<rect width="30" height="10" fill="#00732F"/><rect y="10" width="30" height="10" fill="#fff"/><rect y="20" width="30" height="10" fill="#000"/><rect width="9" height="30" fill="#FF0000"/>',
     "kw": '<rect width="30" height="10" fill="#007A3D"/><rect y="10" width="30" height="10" fill="#fff"/><rect y="20" width="30" height="10" fill="#CE1126"/><path d="M0 0l9 10v10L0 30z" fill="#000"/>',
     "qa": '<rect width="30" height="30" fill="#8A1538"/><path d="M0 0h10l3 2-3 2 3 2-3 2 3 2-3 2 3 2-3 2 3 2-3 2 3 2-3 2 3 2-3 2 3 2H0z" fill="#fff"/>',
