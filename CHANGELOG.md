@@ -5,6 +5,12 @@
 2026-11-07 00:15 Cairo — Batch 3: lightweight cookie consent; WCAG polish (footer headings, focus styles, reduced-motion); WebPage/Breadcrumb schema across pages; ContactPage+Organization ContactPoint on partners/contact; /favicon.ico at root; stores ?q= client filter (keeps SearchAction); Qatar/Bahrain/Oman country pages; /brands/+/advertise/ → /partners/ redirects; data/affiliate-programs.md from public official join requirements only.
 # Changelog
 
+## 2026-11-09 — Partners page review (AR/EN)
+- Wording: founding benefits without scarcity; Direct title; exclusive code for Kobon audience; SEO/AI soft claims; brand-safety rules; Egypt in title/meta/form; timeline «خلال ثلاثة أيام».
+- Trust: honest facts strip (new platform 2026, 7 markets + global, 10 guides, 2 languages, official offers only); pay-for-results clarified vs hybrid fee.
+- Form: WhatsApp optional, privacy link, Egypt market option; CTA «تواصل معنا»/Contact us; FAQ expanded + details/FAQPage kept.
+- Nav: أدلة التسوق / Shopping guides; language switch English/العربية sitewide; hero SVG bilingual + illustrative label.
+
 ## 2026-11-09 — Formspree forms + partners copy
 - Partnership form (AR/EN) and offer-alerts signup POST to Formspree (xljjyqqn / xzeelnna); honeypot `_gotcha`; app.js fetch + inline status; mailto fallback on error.
 - CSP: `connect-src` and `form-action` allow https://formspree.io (Cloudflare Insights kept).

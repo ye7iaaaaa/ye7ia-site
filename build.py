@@ -200,7 +200,7 @@ NAV = [
     ("home", "/", "الرئيسية", "Home"),
     ("stores", "/stores/", "المتاجر", "Stores"),
     ("categories", "/categories/", "الفئات", "Categories"),
-    ("guides", "/guides/", "الأدلة", "Guides"),
+    ("guides", "/guides/", "أدلة التسوق", "Shopping guides"),
     ("how", "/how-it-works/", "كيف يعمل", "How it works"),
     ("partners", "/partners/", "الشراكات", "For Brands"),
     ("about", "/about/", "من نحن", "About"),
@@ -286,7 +286,7 @@ def header(lang: str, path: str, active: str, cta: tuple[str, str] | None = None
   <nav class="nav" aria-label="{t(lang, 'القائمة الرئيسية', 'Main')}">{nav}</nav>
   <div class="header-actions">
     <a class="pill" href="{L(lang, '/countries/')}">{flag('global', 20)}{t(lang, 'الأسواق', 'Markets')}</a>
-    <a class="pill lang" href="{switch}" hreflang="{other}" lang="{other}">{t(lang, 'EN', 'العربية')}</a>
+    <a class="pill lang" href="{switch}" hreflang="{other}" lang="{other}">{t(lang, 'English', 'العربية')}</a>
     <a class="btn btn-primary" href="{cta_href}">{esc(cta_label)}</a>
     <details class="menu"><summary aria-label="{t(lang, 'فتح القائمة', 'Open menu')}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E1330" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
       <div class="panel">{nav}<a href="{L(lang, '/countries/')}">{t(lang, 'الأسواق', 'Markets')}</a><a href="{L(lang, '/contact/')}">{t(lang, 'تواصل معنا', 'Contact')}</a><a href="{switch}" hreflang="{other}" lang="{other}">{t(lang, 'English', 'العربية')}</a><a class="btn btn-primary" href="{cta_href}">{esc(cta_label)}</a></div>
@@ -515,7 +515,7 @@ def band_html(lang: str) -> str:
     <div style="display:grid;gap:1rem">
       <span class="eyebrow light">{t(lang, 'للعلامات التجارية', 'For brands')}</span>
       <h2>{t(lang, 'علامتك أمام متسوقين جاهزين للشراء.', 'Put your brand in front of ready-to-buy shoppers.')}</h2>
-      <p>{t(lang, 'فريق تسويق بالعمولة يحوّل عروضك الرسمية إلى مبيعات في الخليج والأسواق العالمية، وتدفع مقابل النتائج.', 'An affiliate marketing team that turns your official offers into sales across the Gulf and international markets. You pay for results.')}</p>
+      <p>{t(lang, 'فريق تسويق بالعمولة يحوّل عروضك الرسمية إلى مبيعات في الخليج ومصر والأسواق العالمية. تدفع مقابل النتائج في نموذج العمولة؛ وفي النموذج الهجين تُضاف رسوم ظهور ثابتة.', 'An affiliate marketing team that turns your official offers into sales across the Gulf, Egypt and international markets. On the commission model you pay for results; the hybrid model adds a fixed placement fee.')}</p>
       <div class="actions"><a class="btn btn-primary" href="{L(lang, '/partners/')}">{t(lang, 'اعرف المزيد ←', 'Learn more →')}</a><a class="btn btn-outline-light mail" href="mailto:{EMAIL}">{EMAIL}</a></div>
     </div>
     <svg viewBox="0 0 320 240" aria-hidden="true">
@@ -552,14 +552,14 @@ def news_html(lang: str) -> str:
 
 HOME_FAQ = {
     "ar": [
-        ("ما هو كوبون؟", "دليل كوبونات وعروض رسمية للمتسوقين في الخليج، يشمل المتاجر المحلية والعالمية، ويديره فريق متخصص في التسويق بالعمولة."),
+        ("ما هو كوبون؟", "دليل كوبونات وعروض رسمية للمتسوقين في الخليج ومصر، يشمل المتاجر المحلية والعالمية، ويديره فريق متخصص في التسويق بالعمولة."),
         ("لماذا العروض قليلة حاليًا؟", "لأننا لا ننشر أي كود خصم مجهول المصدر. نضيف العروض فور اعتماد برامج الشركاء الرسمية مع المتاجر."),
         ("هل تشمل العروض المتاجر العالمية؟", "نعم. نعرض عروض المتاجر العالمية التي تشحن إلى الخليج وإلى دول العالم، مع توضيح الدول المشمولة في كل عرض."),
         ("هل يحصل كوبون على عمولة؟", "قد يدفع لنا المتجر عمولة عند الشراء عبر روابطنا، دون أي تكلفة إضافية عليك ودون أن يتغير السعر."),
         ("ماذا أفعل إذا لم يعمل الكود؟", "راجع شروط العرض أولًا، ثم أبلغنا من صفحة التواصل وسنراجعه خلال يوم عمل."),
     ],
     "en": [
-        ("What is Kobon?", "Kobon is a guide to official coupons and deals for shoppers in the Gulf, covering both local and international stores. It’s run by a team that specialises in affiliate marketing."),
+        ("What is Kobon?", "Kobon is a guide to official coupons and deals for shoppers in the Gulf and Egypt, covering both local and international stores. It’s run by a team that specialises in affiliate marketing."),
         ("Why are there so few offers right now?", "Because we never publish a code we can’t trace to its source. Offers go live as soon as official partner programmes with stores are approved."),
         ("Do you cover international stores?", "Yes. We list offers from international stores that ship to the Gulf and worldwide, and every offer shows which countries it covers."),
         ("Does Kobon earn a commission?", "A store may pay us a commission when you buy through our links. It costs you nothing extra and never changes the price."),
@@ -653,7 +653,8 @@ def dashboard_svg(lang: str) -> str:
         <rect x="30" y="40" width="430" height="300" rx="26" fill="#fff"/>
         <rect x="30" y="40" width="430" height="52" rx="26" fill="#F6F2EC"/><rect x="30" y="66" width="430" height="26" fill="#F6F2EC"/>
         <circle cx="430" cy="66" r="7" fill="#FF5A36"/><circle cx="410" cy="66" r="7" fill="#FFC233"/><circle cx="390" cy="66" r="7" fill="#14B8A6"/>
-        <text x="60" y="72" font-family="Readex Pro" font-weight="600" font-size="14" fill="#0E1330">Campaign · White Friday</text>
+        <text x="60" y="58" font-family="IBM Plex Sans Arabic" font-size="11" fill="#7A7F9A">{a('مثال توضيحي', 'Illustrative example')}</text>
+        <text x="60" y="78" font-family="Readex Pro" font-weight="600" font-size="14" fill="#0E1330">{a('حملة · الجمعة البيضاء', 'Campaign · White Friday')}</text>
         <text x="430" y="130" font-family="IBM Plex Sans Arabic" font-size="13" fill="#7A7F9A" text-anchor="end">{a('المبيعات المحققة', 'Attributed sales')}</text>
         <rect x="300" y="142" width="130" height="16" rx="8" fill="#0E1330" opacity=".85"/>
         <rect x="372" y="168" width="58" height="18" rx="9" fill="#E7F8F5"/><text x="401" y="181" font-family="Readex Pro" font-size="11" font-weight="600" fill="#0B8577" text-anchor="middle">{a('▲ نمو', '▲ Growth')}</text>
@@ -680,10 +681,10 @@ def dashboard_svg(lang: str) -> str:
 SERVICES = [
     ("bg-coral", "#FF5A36", '<path d="M4 7h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4z"/>',
      ("صفحة متجر احترافية", "A professional store page"), ("صفحة لعلامتك بالعربية والإنجليزية تظهر في الفئات والمواسم والأسواق.", "A bilingual page for your brand, featured across categories, seasons and markets."),
-     [("كود خصم حصري لكوبون", "A Kobon-exclusive discount code"), ("صفحة متوافقة مع محركات البحث", "Built for search"), ("شروط واضحة لكل عرض", "Clear terms on every offer")]),
+     [("كود خصم حصري لجمهور كوبون", "An exclusive code for Kobon’s audience"), ("صفحة محسّنة لمحركات البحث", "A search-optimised page"), ("شروط واضحة لكل عرض", "Clear terms on every offer")]),
     ("bg-violet", "#6D5BFF", '<path d="M4 19V5M4 19h16M8 15l3-4 3 2 5-6"/>',
      ("المحتوى والسيو", "Content & SEO"), ("محتوى عربي وإنجليزي يجيب عن أسئلة المتسوق ويقوده إلى الشراء.", "Arabic and English content that answers shoppers’ questions and leads to checkout."),
-     [("أدلة شراء ومقارنات", "Buying guides and comparisons"), ("صفحات مواسم تُنشر مبكرًا", "Season pages published early"), ("ظهور في البحث وإجابات الذكاء الاصطناعي", "Visibility in search and AI answers")]),
+     [("أدلة شراء ومقارنات", "Buying guides and comparisons"), ("صفحات مواسم تُنشر مبكرًا", "Season pages published early"), ("نحسّن فرص الظهور في محركات البحث وإجابات الذكاء الاصطناعي", "We improve the chance of appearing in search and AI answers")]),
     ("bg-mint", "#14B8A6", '<path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/>',
      ("البريد والتنبيهات", "Email & alerts"), ("نوصل عروضك إلى المشتركين في التوقيت المناسب.", "We get your offers to subscribers at the right moment."),
      [("نشرة أسبوعية بأفضل العروض", "A weekly best-offers email"), ("تنبيهات موسمية", "Seasonal alerts"), ("روابط قابلة للتتبع", "Fully trackable links")]),
@@ -695,44 +696,52 @@ SERVICES = [
      [("تقويم حملات سنوي", "An annual campaign calendar"), ("صفحات هبوط موسمية", "Seasonal landing pages"), ("تنبيهات قبل الموسم", "Pre-season alerts")]),
     ("bg-violet", "#6D5BFF", '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
      ("تقارير شفافة", "Transparent reporting"), ("تقرير دوري بالنقرات والطلبات والمبيعات وخطوات التحسين.", "Regular reports on clicks, orders and sales, with clear next steps."),
-     [("أرقام من منصة التتبع نفسها", "Numbers from the tracking platform itself"), ("مقارنة أداء القنوات", "Channel-by-channel comparison"), ("توصيات عملية", "Actionable recommendations")]),
+     [("أرقام قابلة للتحقق من مصدر التتبع", "Verifiable figures from the tracking source"), ("مقارنة أداء القنوات", "Channel-by-channel comparison"), ("توصيات عملية", "Actionable recommendations")]),
 ]
 
 MODELS = [
     ("CPS", "CPS", "عمولة على المبيعات", "Commission on sales", "نسبة من كل طلب مكتمل فقط. الأنسب لمعظم المتاجر.", "A share of completed orders only. The right fit for most stores."),
     ("CPA", "CPA", "مقابل كل إجراء", "Cost per action", "مبلغ محدد لكل تسجيل أو تثبيت تطبيق أو عميل جديد.", "A fixed fee per sign-up, app install or new customer."),
     ("هجين", "Hybrid", "رسوم ظهور وعمولة", "Placement + commission", "ظهور مضمون في المواسم الكبرى، مع عمولة على المبيعات.", "Guaranteed visibility in peak seasons, plus commission on sales."),
-    ("مباشر", "Direct", "أو عبر شبكتك", "Or via your network", "بعقد مباشر أو عبر شبكة التسويق بالعمولة التي تعتمدها.", "On a direct contract, or through the affiliate network you already use."),
+    ("مباشر", "Direct", "عقد مباشر أو عبر شبكتك", "Direct contract or via your network", "بعقد مباشر أو عبر شبكة التسويق بالعمولة التي تعتمدها.", "On a direct contract, or through the affiliate network you already use."),
 ]
 
 TIMELINE = [
     ("اليوم الأول", "Day one", "استلام الطلب", "Request received", "نراجع علامتك ومنتجاتك وأهدافك.", "We review your brand, products and goals."),
-    ("خلال 3 أيام", "Within 3 days", "خطة مكتوبة", "Written plan", "القنوات والعروض والجدول الزمني ومؤشرات النجاح.", "Channels, offers, timeline and success metrics."),
+    ("خلال ثلاثة أيام", "Within three days", "خطة مكتوبة", "Written plan", "القنوات والعروض والجدول الزمني ومؤشرات النجاح.", "Channels, offers, timeline and success metrics."),
     ("الأسبوع الأول", "Week one", "الإطلاق", "Launch", "صفحتك وأكوادك وروابط التتبع جاهزة.", "Your page, codes and tracking links go live."),
     ("أسبوعيًا", "Every week", "تقرير وتحسين", "Report & optimise", "أرقام واضحة وخطوات الأسبوع التالي.", "Clear numbers and next week’s plan."),
 ]
 
 RULES = [
-    ("ننشر أكوادك الرسمية فقط، ولا نسرّب أي كود خاص.", "We publish your official codes only and never leak private ones."),
+    ("ننشر أكوادك الرسمية فقط، ولا ننشر أي كود غير رسمي.", "We publish your official codes only, and never publish unofficial ones."),
     ("لا نستخدم اسم علامتك في الإعلانات المدفوعة دون إذن مكتوب.", "No paid ads on your brand name without written permission."),
-    ("لا عدّ تنازلي وهمي ولا ادعاءات مبالغ فيها.", "No fake countdowns, no inflated claims."),
+    ("لا مؤقتات عدّ تنازلي وهمية ولا ادعاءات مبالغ فيها.", "No fake countdown timers, no inflated claims."),
     ("نلتزم بسياسات شبكتك وأنظمة كل سوق.", "We follow your network’s policies and each market’s regulations."),
-    ("التقارير من منصة التتبع نفسها.", "Reports come straight from the tracking platform."),
+    ("التقارير وفق مصدر التتبع المتفق عليه في العقد.", "Reports follow the tracking source agreed in the contract."),
     ("نراجع معك أي محتوى عن علامتك قبل نشره عند الطلب.", "Content about your brand can be reviewed before it goes live."),
 ]
 
 PARTNER_FAQ = {
     "ar": [
-        ("هل توجد تكلفة لبدء الشراكة؟", "في نموذج العمولة لا توجد رسوم ثابتة؛ تدفع فقط عند تحقق المبيعات."),
+        ("هل توجد تكلفة لبدء الشراكة؟", "في نموذج العمولة لا توجد رسوم ثابتة؛ تدفع فقط عند تحقق المبيعات. وفي النموذج الهجين تُضاف رسوم ظهور ثابتة."),
+        ("كيف تُحدَّد العمولة وكيف تُدفع؟", "تُحدَّد النسبة حسب الفئة وهامش الربح، وتُدفع شهريًا بعد اعتماد الطلبات غير الملغاة."),
+        ("ما منصة التتبع المستخدمة؟", "كود خاص بكوبون مع تقرير مبيعات شهري، أو منصة التتبع التي تستخدمها علامتك."),
+        ("ما مدة نافذة التتبع (cookie window)؟", "حسب منصة التتبع التي تعتمدها علامتك، ونتفق عليها كتابةً قبل الإطلاق."),
+        ("ما مدة الاتفاق وهل يمكن إنهاؤه؟", "شهري، ويمكن إنهاؤه بإشعار مكتوب."),
         ("هل تعملون عبر شبكات التسويق بالعمولة؟", "نعم، أو بعقد مباشر، حسب ما يناسبك."),
-        ("هل تعملون مع المتاجر العالمية؟", "نعم. نعمل مع المتاجر الخليجية والعالمية التي تشحن إلى الخليج أو إلى دول العالم."),
-        ("هل تعرضون علامات تجارية لا تتعاملون معها؟", "لا. لا يظهر اسم أي علامة أو شعارها كشريك إلا بعد اتفاق رسمي."),
+        ("هل تعملون مع المتاجر العالمية؟", "نعم. نعمل مع المتاجر في الخليج ومصر والعالم التي تشحن إلى المنطقة أو إلى دول العالم."),
+        ("هل تعرضون علامات تجارية لا تتعاملون معها؟", "لا. لا يظهر اسم أي علامة تجارية ولا شعارها كشريك إلا بعد اتفاق رسمي."),
     ],
     "en": [
-        ("Is there a cost to get started?", "Not on the commission model. There are no fixed fees; you only pay when sales come in."),
+        ("Is there a cost to get started?", "Not on the commission model: there are no fixed fees; you only pay when sales come in. The hybrid model adds a fixed placement fee."),
+        ("How is commission set and paid?", "The rate depends on the category and margin, and is paid monthly after non-cancelled orders are approved."),
+        ("Which tracking platform do you use?", "A Kobon-specific code with a monthly sales report, or the tracking platform your brand already uses."),
+        ("What is the tracking window (cookie window)?", "It follows the tracking platform your brand uses, and we agree it in writing before launch."),
+        ("How long does the agreement last, and can it end?", "It’s monthly, and either side can end it with written notice."),
         ("Do you work through affiliate networks?", "Yes, or on a direct contract, whichever suits you."),
-        ("Do you work with international stores?", "Yes. We work with Gulf and international stores that ship to the region or worldwide."),
-        ("Do you feature brands you don’t work with?", "No. A brand’s name or logo only appears as a partner after a formal agreement."),
+        ("Do you work with international stores?", "Yes. We work with stores in the Gulf, Egypt and worldwide that ship to the region or globally."),
+        ("Do you feature brands you don’t work with?", "No. A brand’s trade name or its logo only appears as a partner after a formal agreement."),
     ],
 }
 
@@ -740,7 +749,7 @@ PARTNER_FAQ = {
 def partner_form(lang: str) -> str:
     a = lambda ar, en: t(lang, ar, en)
     subj = a("طلب شراكة - كوبون", "Partnership request - Kobon")
-    markets = [a("السعودية", "Saudi Arabia"), a("الإمارات", "UAE"), a("دول الخليج كلها", "All GCC markets"), a("الأسواق العالمية", "International markets"), a("الخليج والأسواق العالمية", "GCC + international")]
+    markets = [a("السعودية", "Saudi Arabia"), a("الإمارات", "UAE"), a("مصر", "Egypt"), a("كل دول الخليج", "All GCC markets"), a("الأسواق العالمية", "International markets"), a("الخليج ومصر والعالم", "GCC, Egypt & international")]
     models = [a("عمولة على المبيعات (CPS)", "Commission on sales (CPS)"), "CPA", a("هجين", "Hybrid"), a("لم نحدد بعد", "Not decided yet")]
     opt = lambda xs: "".join(f"<option>{esc(x)}</option>" for x in xs)
     ok = a("تم الإرسال بنجاح، سنتواصل معك قريبًا.", "Sent successfully — we’ll be in touch soon.")
@@ -752,10 +761,11 @@ def partner_form(lang: str) -> str:
       <div class="row2"><label class="field">{a('الاسم', 'Name')}<input name="name" required placeholder="{a('اسمك الكامل', 'Your full name')}" autocomplete="name"></label><label class="field">{a('العلامة التجارية', 'Brand')}<input name="brand" required placeholder="{a('اسم المتجر', 'Store name')}" autocomplete="organization"></label></div>
       <div class="row2"><label class="field">{a('البريد الإلكتروني للعمل', 'Work email')}<input name="email" type="email" required placeholder="name@brand.com" dir="ltr" autocomplete="email"></label><label class="field">{a('الموقع الإلكتروني', 'Website')}<input name="website" placeholder="brand.com" dir="ltr" autocomplete="url"></label></div>
       <div class="row2"><label class="field">{a('الأسواق المستهدفة', 'Target markets')}<select name="markets">{opt(markets)}</select></label><label class="field">{a('النموذج المفضّل', 'Preferred model')}<select name="model">{opt(models)}</select></label></div>
+      <label class="field">{a('واتساب (اختياري)', 'WhatsApp (optional)')}<input name="whatsapp" type="tel" placeholder="+966 5x xxx xxxx" dir="ltr" autocomplete="tel"></label>
       <label class="field">{a('هدفك الرئيسي', 'Main goal')}<textarea name="message" rows="3" placeholder="{a('مثال: عملاء جدد في السعودية خلال الجمعة البيضاء', 'e.g. new customers in Saudi Arabia over White Friday')}"></textarea></label>
       <button type="submit" class="btn btn-primary" style="justify-content:center">{a('أرسل الطلب ←', 'Send request →')}</button>
       <p class="form-status" role="status" aria-live="polite" style="margin:0"></p>
-      <small style="color:var(--muted)">{a('يُرسل طلبك مباشرة إلى فريقنا على', 'Your request is sent directly to our team at')} <a class="mail" href="mailto:{EMAIL}?subject={esc(subj)}">{EMAIL}</a>. {a('نستخدم بياناتك للرد عليك فقط.', 'We only use your details to reply to you.')}</small>
+      <small style="color:var(--muted)">{a('يُرسل طلبك مباشرة إلى فريقنا على', 'Your request is sent directly to our team at')} <a class="mail" href="mailto:{EMAIL}?subject={esc(subj)}">{EMAIL}</a>. {a('نستخدم بياناتك للرد عليك فقط — راجع', 'We only use your details to reply — see')} <a href="{L(lang, '/privacy/')}">{a('سياسة الخصوصية', 'the privacy policy')}</a>.</small>
     </form>'''
 
 
@@ -778,9 +788,9 @@ def build_partners(lang: str) -> None:
       <nav class="crumbs" aria-label="{a('مسار الصفحة', 'Breadcrumb')}" style="color:#B7BBD6"><a href="{L(lang, '/')}">{a('الرئيسية', 'Home')}</a> / <span aria-current="page">{a('الشراكات', 'For Brands')}</span></nav>
       <span class="eyebrow light">✦ {a('للعلامات التجارية والمتاجر', 'For brands & online stores')}</span>
       <h1>{a('مبيعات قابلة للقياس.<br>تدفع مقابل <span style="color:var(--saffron)">النتائج</span>.', 'Measurable sales.<br>You pay for <span style="color:var(--saffron)">results</span>.')}</h1>
-      <p class="lead">{a('كوبون فريق متخصص في التسويق بالعمولة والأداء، ومنصة عروض رسمية للمتسوقين في الخليج والأسواق العالمية.', 'Kobon is a performance and affiliate marketing team with an official-offers platform for shoppers in the Gulf and international markets.')}</p>
+      <p class="lead">{a('كوبون منصة جديدة للتسويق بالعمولة والأداء، ومنصة عروض رسمية للمتسوقين في الخليج ومصر والأسواق العالمية. تدفع مقابل النتائج في نموذج العمولة؛ وفي النموذج الهجين تُضاف رسوم ظهور ثابتة.', 'Kobon is a new affiliate and performance platform with official offers for shoppers in the Gulf, Egypt and international markets. On the commission model you pay for results; the hybrid model adds a fixed placement fee.')}</p>
       <div class="actions"><a class="btn btn-primary" href="#contact">{a('ابدأ الشراكة ←', 'Start a partnership →')}</a><a class="btn btn-outline-light" href="/media-kit.pdf">{a('الملف التعريفي (PDF)', 'Media kit (PDF)')}</a></div>
-      <div class="facts"><span><b>{a('الدفع مقابل النتائج', 'Pay for results')}</b>CPS · CPA · {a('هجين', 'Hybrid')}</span><span><b>{a('الخليج ومصر والعالم', 'Gulf, Egypt & global')}</b>{a('أسواق خليجية ومصر وأسواق عالمية', 'GCC, Egypt + international')}</span><span><b>{a('بلغتين', 'Bilingual')}</b>{a('العربية والإنجليزية', 'Arabic & English')}</span></div>
+      <div class="facts"><span><b>{a('كوبون منصة جديدة', 'Kobon is a new platform')}</b>{a('أُطلقت في 2026', 'Launched in 2026')}</span><span><b>{len([c for c in COUNTRIES if c[0] != "global"])} {a('أسواق + عالمي', 'markets + global')}</b>{a('الخليج ومصر + متاجر عالمية', 'Gulf & Egypt + international stores')}</span><span><b>{len(GUIDES)} {a('أدلة منشورة', 'published guides')}</b>{a('العربية والإنجليزية', 'Arabic & English')}</span><span><b>{a('عروض رسمية فقط', 'Official offers only')}</b>CPS · CPA · {a('هجين', 'Hybrid')}</span></div>
     </div>
     {dashboard_svg(lang)}
   </div>
@@ -788,7 +798,7 @@ def build_partners(lang: str) -> None:
 <section class="wrap founding" id="founding">
   <div class="box">
     <svg class="seal" viewBox="0 0 88 88" aria-hidden="true"><circle cx="44" cy="44" r="42" fill="#FFF6DD"/><circle cx="44" cy="44" r="34" fill="none" stroke="#E0A100" stroke-width="2" stroke-dasharray="3 5"/><path d="M44 22l6 13 14 2-10 10 2 14-12-7-12 7 2-14-10-10 14-2z" fill="#FFC233" stroke="#E0A100" stroke-width="1.5"/></svg>
-    <div><h2 style="font-size:1.4rem">{a('برنامج الشركاء المؤسسين', 'Founding Partner Programme')}</h2><p>{a('مقاعد محدودة لأول العلامات التجارية: ظهور مميز في الصفحة الرئيسية وصفحات المواسم، وخطة حملة مخصصة، وتقرير أسبوعي من الفريق.', 'A limited number of places for our first brands: premium placement on the home and season pages, a tailored campaign plan and a weekly report from the team.')}</p></div>
+    <div><h2 style="font-size:1.4rem">{a('برنامج الشركاء المؤسسين', 'Founding Partner Programme')}</h2><p>{a('مزايا لأوائل العلامات التجارية المنضمة: ظهور مميز في الصفحة الرئيسية وصفحات المواسم، وخطة حملة مخصصة، وتقرير أسبوعي من الفريق.', 'Benefits for the first brands that join: premium placement on the home and season pages, a tailored campaign plan and a weekly report from the team.')}</p></div>
     <a class="btn btn-primary" href="#contact">{a('قدّم علامتك', 'Apply now')}</a>
   </div>
 </section>
@@ -806,7 +816,7 @@ def build_partners(lang: str) -> None:
 </section>
 <section class="section">
   <div class="wrap">
-    {section_head(a('خطوات الشراكة', 'How we start'), a('من أول مكالمة إلى أول تقرير', 'From first call to first report'))}
+    {section_head(a('خطوات الشراكة', 'How we start'), a('من أول طلب إلى أول تقرير', 'From first request to first report'))}
     <div class="timeline">{tl}</div>
   </div>
 </section>
@@ -831,13 +841,13 @@ def build_partners(lang: str) -> None:
     {partner_form(lang)}
   </div>
 </section>'''
-    title = a("للعلامات التجارية: تسويق بالعمولة في الخليج والأسواق العالمية | كوبون", "For Brands: affiliate marketing across the Gulf and global markets | Kobon")
-    desc = a("كوبون فريق متخصص في التسويق بالعمولة والأداء في الخليج والأسواق العالمية. نحوّل عروضك الرسمية إلى مبيعات، وتدفع مقابل النتائج: CPS أو CPA أو نموذج هجين.",
-             "Kobon is an affiliate and performance marketing team for the Gulf and global markets. We turn your official offers into sales, and you pay for results: CPS, CPA or hybrid.")
+    title = a("للعلامات التجارية: تسويق بالعمولة في الخليج ومصر والعالم | كوبون", "For Brands: affiliate marketing across the Gulf, Egypt and global markets | Kobon")
+    desc = a("كوبون منصة جديدة للتسويق بالعمولة والأداء في الخليج ومصر والعالم. نحوّل عروضك الرسمية إلى مبيعات. تدفع مقابل النتائج في نموذج العمولة؛ وفي الهجين تُضاف رسوم ظهور: CPS أو CPA أو هجين.",
+             "Kobon is a new affiliate and performance platform for the Gulf, Egypt and global markets. We turn your official offers into sales. On commission you pay for results; hybrid adds a placement fee: CPS, CPA or hybrid.")
     crumbs = [(a("الرئيسية", "Home"), "/"), (a("الشراكات", "For Brands"), "/partners/")]
     ld = [faq_ld(PARTNER_FAQ[lang]), {"@context": "https://schema.org", "@type": "Service", "name": a("التسويق بالعمولة والأداء للعلامات التجارية", "Affiliate & performance marketing for brands"),
-          "provider": {"@type": "Organization", "name": NAME[lang], "url": DOMAIN + "/"}, "areaServed": ["SA", "AE", "KW", "QA", "BH", "OM", "Worldwide"], "serviceType": "Affiliate marketing"}]
-    render(lang, "/partners/", title, desc, body, "partners", ld, crumbs, cta=(a("احجز مكالمة", "Book a call"), "#contact"), flush_footer=True, announce=False)
+          "provider": {"@type": "Organization", "name": NAME[lang], "url": DOMAIN + "/"}, "areaServed": ["SA", "AE", "KW", "QA", "BH", "OM", "EG", "Worldwide"], "serviceType": "Affiliate marketing"}]
+    render(lang, "/partners/", title, desc, body, "partners", ld, crumbs, cta=(a("تواصل معنا", "Contact us"), "#contact"), flush_footer=True, announce=False)
 
 
 def team_svg(lang: str) -> str:
@@ -996,7 +1006,7 @@ def build_contact(lang: str) -> None:
   <div class="wrap facts-grid">
     <div class="fact"><small>{a('وقت الرد', 'Response time')}</small><b>{a('خلال يوم عمل', 'Within one business day')}</b></div>
     <div class="fact"><small>{a('اللغات', 'Languages')}</small><b>{a('العربية والإنجليزية', 'Arabic & English')}</b></div>
-    <div class="fact"><small>{a('الأسواق', 'Markets')}</small><b>{a('الخليج والعالم', 'The Gulf & worldwide')}</b></div>
+    <div class="fact"><small>{a('الأسواق', 'Markets')}</small><b>{a('الخليج ومصر والعالم', 'Gulf, Egypt & worldwide')}</b></div>
   </div>
 </section>'''
     ld = [{"@context": "https://schema.org", "@type": "ContactPage", "name": a("تواصل معنا", "Contact"), "url": abs_url(lang, "/contact/")}]
