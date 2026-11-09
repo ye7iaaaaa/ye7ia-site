@@ -5,17 +5,19 @@
     "name_en": "Fashion",
     "short_ar": "ملابس وأحذية",
     "short_en": "Clothes & shoes",
-    "description_ar": "عروض رسمية على الملابس والأحذية والإكسسوارات من متاجر الخليج ومصر، مع شروط كل عرض وتاريخ آخر مراجعة.",
-    "description_en": "Official offers on clothing, shoes and accessories from Gulf and Egypt stores, with every offer’s terms and last-checked date.",
+    "description_ar": "كوبونات رسمية على الملابس والأحذية والإكسسوارات من المتاجر الخليجية والعالمية، مع شروط كل عرض وتاريخ آخر تحقق.",
+    "description_en": "Official coupons on clothing, shoes and accessories from Gulf and international stores, with full terms and a last-checked date.",
     "tips_ar": [
       "راجع جدول المقاسات وسياسة الإرجاع قبل الطلب.",
-      "قارن الخصم مع سعر المنتج قبل موسم التخفيضات بأسبوعين.",
-      "تأكد أن الكود يشمل الماركة التي تريدها، فبعض الماركات مستثناة."
+      "تتبّع السعر قبل الموسم بأسبوعين لتعرف قيمة الخصم الحقيقية.",
+      "تأكد أن الكود يشمل الماركة التي تريدها، فبعض الماركات مستثناة.",
+      "في المتاجر العالمية، راجع رسوم الشحن والجمارك إلى بلدك."
     ],
     "tips_en": [
       "Check the size chart and return policy before you order.",
-      "Compare the discount with the price two weeks before the sale season.",
-      "Make sure the code covers the brand you want, as some brands are excluded."
+      "Track the price two weeks before a sale to see how real the discount is.",
+      "Make sure the code covers the brand you want, as some brands are excluded.",
+      "With international stores, check shipping and customs fees to your country."
     ]
   },
   {
@@ -24,12 +26,12 @@
     "name_en": "Beauty",
     "short_ar": "عطور ومكياج",
     "short_en": "Fragrance & makeup",
-    "description_ar": "عروض رسمية على العطور والمكياج والعناية بالبشرة من متاجر موثوقة في الخليج ومصر.",
-    "description_en": "Official offers on fragrance, makeup and skincare from trusted stores in the Gulf and Egypt.",
+    "description_ar": "كوبونات رسمية على العطور والمكياج والعناية بالبشرة من متاجر خليجية وعالمية موثوقة.",
+    "description_en": "Official coupons on fragrance, makeup and skincare from trusted Gulf and international stores.",
     "tips_ar": [
       "اشترِ من المتجر الرسمي أو الموزّع المعتمد لتضمن أن المنتج أصلي.",
       "انتبه لتاريخ الصلاحية في العروض الكبيرة.",
-      "اجمع مشترياتك في طلب واحد لتصل للحد الأدنى للشحن المجاني."
+      "اجمع مشترياتك في طلب واحد لتبلغ حد الشحن المجاني."
     ],
     "tips_en": [
       "Buy from the official store or an authorised retailer to make sure products are genuine.",
@@ -43,17 +45,17 @@
     "name_en": "Electronics",
     "short_ar": "جوالات وأجهزة",
     "short_en": "Phones & devices",
-    "description_ar": "عروض رسمية على الجوالات والحواسيب والأجهزة الذكية، مع الضمان وشروط الخصم واضحة.",
-    "description_en": "Official offers on phones, laptops and smart devices, with the warranty and discount terms spelled out.",
+    "description_ar": "كوبونات رسمية على الجوالات والحواسيب والأجهزة الذكية، مع شروط الخصم والضمان بوضوح.",
+    "description_en": "Official coupons on phones, laptops and smart devices, with discount and warranty terms made clear.",
     "tips_ar": [
       "تأكد من الضمان المحلي ونسخة الجهاز المناسبة لبلدك.",
-      "راجع أقصى خصم للكود، فكثير من أكواد الإلكترونيات لها سقف.",
-      "قارن السعر النهائي بعد الشحن والضريبة."
+      "راجع الحد الأقصى للخصم، فمعظم أكواد الإلكترونيات لها سقف.",
+      "قارن السعر النهائي بعد الشحن والضريبة والجمارك."
     ],
     "tips_en": [
       "Check for a local warranty and the right regional version of the device.",
-      "Check the code’s maximum discount, as many electronics codes are capped.",
-      "Compare the final price after shipping and VAT."
+      "Check the maximum discount. Most electronics codes are capped.",
+      "Compare the final price after shipping, VAT and customs."
     ]
   },
   {
@@ -62,8 +64,8 @@
     "name_en": "Travel",
     "short_ar": "طيران وفنادق",
     "short_en": "Flights & hotels",
-    "description_ar": "عروض رسمية على الطيران والفنادق والإقامات من مواقع الحجز وشركات الطيران.",
-    "description_en": "Official offers on flights, hotels and stays from booking sites and airlines.",
+    "description_ar": "عروض رسمية على الطيران والفنادق من مواقع الحجز وشركات الطيران، للسفر داخل الخليج وحول العالم.",
+    "description_en": "Official deals on flights and hotels from booking sites and airlines, for travel around the Gulf and worldwide.",
     "tips_ar": [
       "اقرأ سياسة الإلغاء قبل الدفع.",
       "قارن السعر شاملًا الضرائب والرسوم.",
@@ -81,8 +83,8 @@
     "name_en": "Home",
     "short_ar": "أثاث وديكور",
     "short_en": "Furniture & decor",
-    "description_ar": "عروض رسمية على الأثاث والديكور والأدوات المنزلية من متاجر الخليج ومصر.",
-    "description_en": "Official offers on furniture, decor and homeware from Gulf and Egypt stores.",
+    "description_ar": "كوبونات رسمية على الأثاث والديكور والأدوات المنزلية من المتاجر الخليجية والعالمية.",
+    "description_en": "Official coupons on furniture, decor and homeware from Gulf and international stores.",
     "tips_ar": [
       "تأكد من رسوم التوصيل والتركيب للقطع الكبيرة.",
       "قِس المساحة قبل الطلب.",
@@ -101,7 +103,7 @@
     "short_ar": "بقالة وتوصيل",
     "short_en": "Groceries & delivery",
     "description_ar": "عروض رسمية على البقالة وتوصيل الطعام، للطلبات اليومية ومواسم رمضان والعيد.",
-    "description_en": "Official offers on groceries and food delivery, for everyday orders and the Ramadan and Eid seasons.",
+    "description_en": "Official deals on groceries and food delivery, for everyday orders and the Ramadan and Eid seasons.",
     "tips_ar": [
       "كثير من الأكواد للطلب الأول فقط.",
       "راجع الحد الأدنى للطلب ورسوم التوصيل.",

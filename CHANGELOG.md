@@ -5,6 +5,12 @@
 2026-11-07 00:15 Cairo — Batch 3: lightweight cookie consent; WCAG polish (footer headings, focus styles, reduced-motion); WebPage/Breadcrumb schema across pages; ContactPage+Organization ContactPoint on partners/contact; /favicon.ico at root; stores ?q= client filter (keeps SearchAction); Qatar/Bahrain/Oman country pages; /brands/+/advertise/ → /partners/ redirects; data/affiliate-programs.md from public official join requirements only.
 # Changelog
 
+## 2026-11-09 — Copy rewrite (Gulf + global)
+
+- Rewrote all Arabic and English copy (home, partners, about, how it works, contact, stores, categories, markets, seasons, 404, meta titles and descriptions) in concise MSA and native English, using one glossary: كوبون، كود خصم، عرض، متجر، شريك.
+- Repositioned the site for the GCC (SA, AE, KW, QA, BH, OM) and international stores; added /countries/global/ and /en/countries/global/.
+- Removed the Telegram/X channel claims; partner services now say email & alerts.
+
 2026-11-09 Cairo — Full redesign and rebrand to كوبون / Kobon (matches kobon.is-a.si): new design system (coral ticket logo, Readex Pro + IBM Plex Sans Arabic self-hosted subsets), rebuilt home, For Brands (/partners/), About, How it works, Contact, legal, stores, categories, countries and seasons pages in AR + EN. iHerb and Namshi removed entirely (old URLs redirect home); no brand shown as a partner. Redirects: /brands/, /advertise/, /marketers/ → /partners/; /how-we-verify/ → /how-it-works/. Partnership and alerts forms are mailto partners@kobon.is-a.si.
 2026-11-07 18:08 Cairo — Rebrand fixes: drop redundant aria-label on White Friday season chip/banner (visible text names the season; keep data-season-start/end); clarify iHerb/Namshi coupon terms on store pages (first-order + exclusions; Namshi app-only max 75 SAR/AED, min 100 AED equiv, AE/SA/KW/BH/EG phone) with official source links; confirm Namshi excluded from QA/OM country pages via store.countries filter.
 2026-11-07 17:10 Cairo — Mario request: rebrand to برومواتي / Promoaty (no Yehia/ye7ia in visible text, titles, meta, schema; base URL is one DOMAIN config, CNAME unchanged until DOMAIN LIVE); compact country switcher (SA, AE, KW, QA, BH, OM, EG) + category nav under the header; Egypt country page; expires may be null when verified_date is ISO, cards show "last checked" + terms + official source link; real codes added: iHerb NEW20 and Namshi app first-order code "اولى" (official pages); new OG image.
