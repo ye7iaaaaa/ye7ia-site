@@ -5,3 +5,4 @@ exclude:
   - README.md
   - CHANGELOG.md
   - tools
+  - .pages.yml

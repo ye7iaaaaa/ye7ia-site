@@ -1,0 +1,332 @@
+# Pages CMS — https://app.pagescms.org/ye7iaaaaa/ye7ia-site/main
+# Edits commit to GitHub; Actions rebuilds the static site.
+
+media:
+  input: assets/uploads
+  output: /assets/uploads
+  rename: safe
+  categories: [image]
+  extensions: [png, jpg, jpeg, webp, svg]
+
+settings:
+  content:
+    merge: true
+  commit:
+    identity: user
+    templates:
+      create: "content: add {path} (via Pages CMS)"
+      update: "content: update {path} (via Pages CMS)"
+      delete: "content: delete {path} (via Pages CMS)"
+      rename: "content: rename {oldPath} → {newPath} (via Pages CMS)"
+
+content:
+  - name: stores
+    label: المتاجر والعروض / Stores & offers
+    type: file
+    path: data/coupons.json
+    format: json
+    list: true
+    view:
+      primary: name_ar
+      sort: name_ar
+      order: asc
+    fields:
+      - name: slug
+        label: الرابط (slug)
+        type: string
+        required: true
+        pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        description: "أحرف إنجليزية صغيرة وشرطات فقط، مثال: noon أو jarir-bookstore"
+      - name: name_ar
+        label: اسم المتجر (عربي)
+        type: string
+        required: true
+      - name: name_en
+        label: Store name (English)
+        type: string
+        required: true
+      - name: category
+        label: الفئة / Category
+        type: select
+        required: true
+        options:
+          values:
+            - name: fashion
+              label: أزياء / Fashion
+            - name: beauty
+              label: جمال وعناية / Beauty
+            - name: electronics
+              label: إلكترونيات / Electronics
+            - name: travel
+              label: سفر / Travel
+            - name: home
+              label: المنزل / Home
+            - name: food
+              label: البقالة والطعام / Groceries & food
+      - name: countries
+        label: الأسواق / Markets
+        type: select
+        required: true
+        options:
+          multiple: true
+          min: 1
+          values:
+            - name: sa
+              label: السعودية / Saudi Arabia
+            - name: ae
+              label: الإمارات / UAE
+            - name: kw
+              label: الكويت / Kuwait
+            - name: qa
+              label: قطر / Qatar
+            - name: bh
+              label: البحرين / Bahrain
+            - name: om
+              label: عُمان / Oman
+            - name: eg
+              label: مصر / Egypt
+            - name: global
+              label: متاجر عالمية / International
+      - name: description_ar
+        label: الوصف (عربي)
+        type: text
+        required: true
+      - name: description_en
+        label: Description (English)
+        type: text
+        required: true
+      - name: website
+        label: موقع المتجر / Website
+        type: string
+        description: "https://…"
+      - name: affiliate_url
+        label: رابط الشريك / Affiliate URL
+        type: string
+        description: "رابط التتبع الرسمي https://…"
+      - name: example
+        label: مسودة مخفية / Hidden draft
+        type: boolean
+        description: "لو مفعّل، المتجر مش هيظهر على الموقع (للتجهيز فقط)"
+      - name: faq
+        label: أسئلة شائعة / FAQ
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{q_ar}"
+        fields:
+          - name: q_ar
+            label: السؤال (عربي)
+            type: string
+          - name: a_ar
+            label: الجواب (عربي)
+            type: text
+          - name: q_en
+            label: Question (English)
+            type: string
+          - name: a_en
+            label: Answer (English)
+            type: text
+      - name: coupons
+        label: الأكواد والعروض / Coupons
+        type: object
+        list:
+          collapsible:
+            collapsed: false
+            summary: "{code} — {title_ar}"
+        fields:
+          - name: code
+            label: الكود / Code
+            type: string
+            required: true
+            description: "الكود الحقيقي من المتجر — لا تخترع أكواد"
+          - name: title_ar
+            label: عنوان العرض (عربي)
+            type: string
+            required: true
+          - name: title_en
+            label: Offer title (English)
+            type: string
+            required: true
+          - name: discount
+            label: الخصم / Discount
+            type: string
+            description: "مثال: 10% أو 50 ر.س"
+          - name: min_ar
+            label: الحد الأدنى (عربي)
+            type: string
+          - name: min_en
+            label: Min. spend (English)
+            type: string
+          - name: max_ar
+            label: الحد الأقصى للخصم (عربي)
+            type: string
+          - name: max_en
+            label: Max. discount (English)
+            type: string
+          - name: verified_date
+            label: آخر تحقق / Last checked
+            type: date
+            required: true
+          - name: expires
+            label: ينتهي / Expires
+            type: date
+          - name: exclusive
+            label: حصري لكوبون / Exclusive
+            type: boolean
+          - name: affiliate_url
+            label: رابط العرض / Offer URL
+            type: string
+            description: "https://… رابط الدفع أو الصفحة مع التتبع"
+          - name: source_url
+            label: مصدر التحقق / Source URL
+            type: string
+            description: "صفحة المتجر الرسمية اللي اتأكدنا منها"
+
+  - name: categories
+    label: الفئات / Categories
+    type: file
+    path: data/categories.json
+    format: json
+    list: true
+    view:
+      primary: name_ar
+      sort: name_ar
+    fields:
+      - name: slug
+        label: الرابط (slug)
+        type: string
+        required: true
+        pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        description: "لازم يطابق أيقونة موجودة في الموقع: fashion, beauty, electronics, travel, home, food"
+      - name: name_ar
+        label: الاسم (عربي)
+        type: string
+        required: true
+      - name: name_en
+        label: Name (English)
+        type: string
+        required: true
+      - name: short_ar
+        label: وصف قصير (عربي)
+        type: string
+        required: true
+      - name: short_en
+        label: Short label (English)
+        type: string
+        required: true
+      - name: description_ar
+        label: الوصف (عربي)
+        type: text
+        required: true
+      - name: description_en
+        label: Description (English)
+        type: text
+        required: true
+      - name: tips_ar
+        label: نصائح شراء (عربي)
+        type: string
+        list: true
+      - name: tips_en
+        label: Buying tips (English)
+        type: string
+        list: true
+
+  - name: seasons
+    label: المواسم / Seasons
+    type: file
+    path: data/seasons.json
+    format: json
+    list: true
+    view:
+      primary: name_ar
+      sort: start
+      order: asc
+    fields:
+      - name: slug
+        label: الرابط (slug)
+        type: string
+        required: true
+        pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        description: "الأنماط الجاهزة: white-friday, 11-11, ramadan, eid-al-fitr, founding-day, saudi-national-day"
+      - name: name_ar
+        label: الاسم (عربي)
+        type: string
+        required: true
+      - name: name_en
+        label: Name (English)
+        type: string
+        required: true
+      - name: note_ar
+        label: ملاحظة قصيرة (عربي)
+        type: string
+      - name: note_en
+        label: Short note (English)
+        type: string
+      - name: start
+        label: البداية / Start
+        type: date
+        required: true
+      - name: end
+        label: النهاية (غير شاملة) / End exclusive
+        type: date
+        required: true
+        description: "اليوم اللي بعده الموسم يختفي — عادةً يوم بعد آخر يوم عرض"
+      - name: end_display
+        label: آخر يوم للعرض / Last display day
+        type: date
+        description: "التاريخ اللي يظهر للزائر (اختياري)"
+      - name: markets_ar
+        label: الأسواق (عربي)
+        type: string
+      - name: markets_en
+        label: Markets (English)
+        type: string
+      - name: countries
+        label: دول الموسم / Season countries
+        type: select
+        options:
+          multiple: true
+          values:
+            - name: sa
+              label: السعودية / Saudi Arabia
+            - name: ae
+              label: الإمارات / UAE
+            - name: kw
+              label: الكويت / Kuwait
+            - name: qa
+              label: قطر / Qatar
+            - name: bh
+              label: البحرين / Bahrain
+            - name: om
+              label: عُمان / Oman
+            - name: eg
+              label: مصر / Egypt
+            - name: global
+              label: متاجر عالمية / International
+        description: "فارغ = كل الأسواق"
+      - name: blurb_ar
+        label: النبذة (عربي)
+        type: text
+        required: true
+      - name: blurb_en
+        label: Blurb (English)
+        type: text
+        required: true
+      - name: tips_ar
+        label: نصائح (عربي)
+        type: string
+        list: true
+      - name: tips_en
+        label: Tips (English)
+        type: string
+        list: true
+
+actions:
+  - name: rebuild-site
+    label: إعادة بناء الموقع / Rebuild site
+    workflow: build.yml
+    confirm:
+      title: Rebuild the site?
+      message: Runs python3 build.py and commits the generated HTML.
+      button: Rebuild

@@ -2497,6 +2497,41 @@ REDIRECTS = {
 }
 
 
+def build_admin() -> None:
+    """Private Arabic admin landing page (noindex) linking to Pages CMS."""
+    title = "لوحة التحكم | كوبون"
+    desc = "دخول لوحة تعديل محتوى كوبون عبر Pages CMS."
+    crumbs = [("الرئيسية", "/"), ("لوحة التحكم", "/admin/")]
+    cms = "https://app.pagescms.org/ye7iaaaaa/ye7ia-site/main"
+    body = page_hero(
+        "ar", crumbs, "للإدارة فقط", 'لوحة <span class="hl">التحكم</span>',
+        "عدّل المتاجر والعروض والمواسم من المتصفح، من غير كود. التعديلات تتحفظ على GitHub والموقع يتحدث خلال دقيقة أو اتنين.",
+    ) + f"""
+<section class="section"><div class="wrap" style="display:grid;gap:1.5rem;max-width:42rem">
+  <div class="contact-card" style="display:grid;gap:1rem">
+    <h2 style="font-size:1.35rem;margin:0">تعديل المحتوى</h2>
+    <p style="margin:0;color:var(--muted)">سجّل دخولك بحساب GitHub اللي يملك المستودع <span dir="ltr">ye7iaaaaa/ye7ia-site</span>، واختار المستودع، وعدّل المتاجر أو العروض، واحفظ. بعد الحفظ GitHub Actions يعيد بناء الصفحات تلقائيًا.</p>
+    <p style="margin:0"><a class="btn btn-primary" href="{cms}" rel="noopener">فتح Pages CMS</a></p>
+    <ul class="prose" style="margin:0">
+      <li>المتاجر والأكواد: ملف البيانات الرئيسي للعروض.</li>
+      <li>الفئات: أسماء ووصف ونصائح الشراء.</li>
+      <li>المواسم: تواريخ الجمعة البيضاء ورمضان وغيرها.</li>
+    </ul>
+    <p class="note" style="margin:0">أول مرة: GitHub هيطلب منك تصرّح لتطبيق Pages CMS على المستودع. التحليلات (الزيارات والدول) من Cloudflare Web Analytics من لوحة Cloudflare، مش من هنا.</p>
+  </div>
+  <p class="note"><a href="/">العودة للرئيسية</a></p>
+</div></section>
+"""
+    html_out = (
+        head("ar", "/admin/", title, desc, noindex=True)
+        + header("ar", "/admin/", "", announce=False)
+        + "<main id=\"main\">\n" + body + "\n</main>\n"
+        + footer("ar", "/admin/")
+    )
+    write("admin/index.html", html_out)
+    NOINDEXED.append("/admin/")
+
+
 def build_redirects() -> None:
     for lang in ("ar", "en"):
         for old, new in REDIRECTS.items():
@@ -2546,9 +2581,9 @@ def build_sitemap(paths: list[str]) -> None:
 
 
 def build_misc() -> None:
-    write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {DOMAIN}/sitemap.xml\n")
+    write("robots.txt", f"User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: {DOMAIN}/sitemap.xml\n")
     write("CNAME", CNAME_HOST + "\n")
-    write("_config.yml", "# GitHub Pages: publish only the generated site\nexclude:\n  - build.py\n  - data\n  - README.md\n  - CHANGELOG.md\n  - tools\n")
+    write("_config.yml", "# GitHub Pages: publish only the generated site\nexclude:\n  - build.py\n  - data\n  - README.md\n  - CHANGELOG.md\n  - tools\n  - .pages.yml\n")
     write("llms.txt", f"""# {NAME['en']} ({NAME['ar']})
 
 > Official-only coupons and discount codes from Gulf and international stores, for shoppers in Saudi Arabia, the UAE, Kuwait, Qatar, Bahrain, Oman, Egypt and beyond. A new affiliate platform.
@@ -2568,7 +2603,7 @@ def build_misc() -> None:
 
 def clean() -> None:
     for name in ("stores", "categories", "countries", "seasons", "guides", "en", "about", "how-we-verify", "how-it-works", "privacy",
-                 "affiliate-disclosure", "marketers", "partners", "contact", "terms", "brands", "advertise"):
+                 "affiliate-disclosure", "marketers", "partners", "contact", "terms", "brands", "advertise", "admin"):
         p = ROOT / name
         if p.is_dir():
             shutil.rmtree(p)
@@ -2578,10 +2613,49 @@ def clean() -> None:
             p.unlink()
 
 
+def validate_stores(stores: list[dict]) -> list[dict]:
+    """Drop incomplete non-example stores with a clear warning instead of crashing."""
+    required_store = ("slug", "name_ar", "name_en", "category", "countries", "description_ar", "description_en")
+    required_coupon = ("code", "title_ar", "title_en", "verified_date")
+    placeholders = {"REALCODE", "your-store-slug", "example.com"}
+    out = []
+    for i, s in enumerate(stores):
+        if s.get("example"):
+            continue
+        missing = [k for k in required_store if not s.get(k)]
+        if missing:
+            print(f"WARN store[{i}]: missing {missing} — skipped")
+            continue
+        if s["category"] not in CAT_ICON:
+            print(f"WARN store[{i}] {s['slug']}: unknown category {s['category']!r} — skipped")
+            continue
+        bad_countries = [c for c in s.get("countries", []) if c not in FLAGS]
+        if bad_countries:
+            print(f"WARN store[{i}] {s['slug']}: unknown countries {bad_countries} — skipped")
+            continue
+        slug = str(s["slug"])
+        if slug in ("iherb", "namshi"):
+            print(f"WARN store[{i}]: slug {slug!r} is blocked — skipped")
+            continue
+        ok_coupons = []
+        for j, o in enumerate(s.get("coupons") or []):
+            miss = [k for k in required_coupon if not o.get(k)]
+            code = str(o.get("code", ""))
+            aff = str(o.get("affiliate_url", ""))
+            if miss or code in placeholders or "example.com" in aff:
+                print(f"WARN store[{i}] {s['slug']} coupon[{j}]: incomplete/placeholder — skipped coupon")
+                continue
+            ok_coupons.append(o)
+        s = dict(s)
+        s["coupons"] = ok_coupons
+        out.append(s)
+    return out
+
+
 def main() -> None:
     cats = load("categories.json")
     seasons = load("seasons.json")
-    stores = [s for s in load("coupons.json") if not s.get("example")]
+    stores = validate_stores([s for s in load("coupons.json") if not s.get("example")])
     clean()
     for lang in ("ar", "en"):
         build_home(lang, cats, seasons)
@@ -2596,6 +2670,7 @@ def main() -> None:
         build_countries(lang, stores, seasons)
         build_seasons(lang, seasons)
         build_guides(lang)
+    build_admin()
     build_redirects()
     build_404()
     build_misc()
