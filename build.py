@@ -1101,7 +1101,7 @@ def build_stores(lang: str, stores: list[dict], cats: list[dict]) -> None:
 </div></section>'''
     render(lang, "/stores/", a("المتاجر: كوبونات رسمية من متاجر الخليج والعالم | كوبون", "Stores: official coupons from Gulf and international stores | Kobon"),
            a("متاجر خليجية وعالمية على كوبون، نضيفها بعد اعتماد برنامج شريك رسمي، مع مصدر كل عرض وشروطه.", "Gulf and international stores on Kobon, listed only once an official partner programme is approved, with the source and terms of every offer."),
-           body, "stores", None, crumbs)
+           body, "stores", None, crumbs, noindex=not stores)
     for s in stores:
         build_store(lang, s, cats_by)
 
@@ -1235,7 +1235,7 @@ def global_extra(lang: str) -> str:
   <div style="display:grid;gap:1rem"><span class="eyebrow mint">{a('قبل الشراء من الخارج', 'Before you buy from abroad')}</span><h2 style="font-size:1.6rem">{a('احسب السعر النهائي، لا سعر المنتج', 'Work out the landed cost, not the sticker price')}</h2><p>{a('إعفاء الشحنة من الرسوم الجمركية لا يعني إعفاءها من ضريبة القيمة المضافة. هذه أهم الحدود في السعودية والإمارات:', 'A parcel exempt from customs duty isn’t exempt from VAT. The key thresholds in Saudi Arabia and the UAE:')}</p></div>
   <div class="prose"><table><thead><tr><th>{a('الدولة', 'Country')}</th><th>{a('إعفاء الرسوم الجمركية', 'Customs duty exemption')}</th><th>{a('ضريبة القيمة المضافة', 'VAT')}</th></tr></thead><tbody>
   <tr><td>{a('السعودية', 'Saudi Arabia')}</td><td>{a('المشتريات الشخصية أقل من 1,000 ريال (شاملة الشحن والتأمين)، مع رسم بيان 15 ريالًا', 'Personal purchases under SAR 1,000 incl. shipping and insurance; SAR 15 declaration fee')}</td><td>15%</td></tr>
-  <tr><td>{a('الإمارات', 'UAE')}</td><td>{a('سلع التجارة الإلكترونية العابرة للحدود حتى 1,000 درهم في دبي، اعتبارًا من 3 أغسطس 2026، مع استثناءات', 'Cross-border e-commerce goods up to AED 1,000 in Dubai, from 3 August 2026, with exclusions')}</td><td>5%</td></tr>
+  <tr><td>{a('الإمارات', 'UAE')}</td><td>{a('دبي: سلع التجارة الإلكترونية العابرة للحدود حتى 1,000 درهم عبر الشركات المسجّلة لدى جمارك دبي، اعتبارًا من 3 أغسطس 2026 (إعلان 16/2026)، مع استثناءات', 'Dubai: cross-border e-commerce goods up to AED 1,000 via companies registered with Dubai Customs, from 3 August 2026 (Notice 16/2026), with exclusions')}</td><td>5%</td></tr>
   </tbody></table>
   <ul><li>{a('ابحث عن خيار «شامل الرسوم والضرائب» عند الدفع.', 'Look for a “duties and taxes included” option at checkout.')}</li><li>{a('لا تقسّم الطلب للبقاء تحت الحد.', 'Don’t split an order to stay under a threshold.')}</li><li>{a('اقرأ سياسة الإرجاع الدولية قبل الشراء.', 'Read the international return policy before you buy.')}</li></ul>
   <p class="note">{a('المصادر: هيئة الزكاة والضريبة والجمارك، وجمارك دبي. التفاصيل الكاملة في الدليل أدناه.', 'Sources: ZATCA and Dubai Customs. Full details in the guide below.')}</p></div>
@@ -1453,7 +1453,7 @@ GUIDES.append({
 "body_ar": """
 <div class="keybox"><h2>باختصار</h2><ul>
 <li><b>السعودية:</b> تُعفى المشتريات الشخصية من المتاجر الإلكترونية من الرسوم الجمركية إذا كانت قيمتها الإجمالية (البضاعة + الشحن + التأمين) أقل من 1,000 ريال، لكن ضريبة القيمة المضافة (15%) تبقى مستحقة، إضافة إلى رسم معالجة بيان جمركي قدره 15 ريالًا.</li>
-<li><b>الإمارات:</b> أعلنت جمارك دبي إعفاء سلع التجارة الإلكترونية العابرة للحدود التي لا تتجاوز قيمتها 1,000 درهم من الرسوم الجمركية اعتبارًا من 3 أغسطس 2026، مع استثناءات. أما ضريبة القيمة المضافة (5%) فتُطبّق على الواردات.</li>
+<li><b>الإمارات:</b> أعلنت جمارك دبي إعفاء سلع التجارة الإلكترونية العابرة للحدود التي لا تتجاوز قيمتها 1,000 درهم من الرسوم الجمركية اعتبارًا من 3 أغسطس 2026 (الإعلان الجمركي 16/2026)، للشحنات عبر شركات التجارة الإلكترونية المسجّلة على منصة جمارك دبي، مع استثناءات. أما ضريبة القيمة المضافة (5%) فتُطبّق على الواردات.</li>
 <li>الرسوم الجمركية الموحدة في دول الخليج 5% من القيمة شاملة الشحن والتأمين لمعظم السلع.</li>
 <li>احسب السعر النهائي قبل الدفع، لا سعر المنتج وحده.</li>
 </ul></div>
@@ -1472,7 +1472,7 @@ GUIDES.append({
 <p>انتبه: بعض المنتجات تحتاج إلى موافقة جهات أخرى مهما كانت قيمتها، مثل مستحضرات التجميل والمكملات الغذائية والأدوية وبعض الأجهزة اللاسلكية. وقد تتأخر هذه الشحنات أو تُرفض إذا لم تستوفِ المتطلبات.</p>
 
 <h2>الإمارات: حد 1,000 درهم</h2>
-<p>الرسوم الجمركية في الإمارات، كما في بقية دول مجلس التعاون، 5% من قيمة السلع شاملة الشحن والتأمين، مع نسب مختلفة لسلع مثل التبغ والكحول. وفي 2026 أصدرت جمارك دبي إعلانًا جمركيًا بإعفاء سلع التجارة الإلكترونية العابرة للحدود التي لا تتجاوز قيمتها 1,000 درهم من الرسوم الجمركية، ويسري اعتبارًا من 3 أغسطس 2026. ولا يشمل الإعفاء التبغ ومشتقاته وأجهزة التدخين الإلكترونية وسوائل النيكوتين والمشروبات الكحولية.</p>
+<p>الرسوم الجمركية في الإمارات، كما في بقية دول مجلس التعاون، 5% من قيمة السلع شاملة الشحن والتأمين، مع نسب مختلفة لسلع مثل التبغ والكحول. وفي 2026 أصدرت جمارك دبي إعلانًا جمركيًا بإعفاء سلع التجارة الإلكترونية العابرة للحدود التي لا تتجاوز قيمتها 1,000 درهم من الرسوم الجمركية، ويسري اعتبارًا من 3 أغسطس 2026 (الإعلان الجمركي رقم 16/2026). وينطبق على الشحنات التي تمر عبر شركات التجارة الإلكترونية المسجّلة على منصة جمارك دبي، لا على كل طرد يصل إلى الإمارات، لذا تحقّق مع المتجر أو شركة الشحن. ولا يشمل الإعفاء التبغ ومشتقاته وأجهزة التدخين الإلكترونية وسوائل النيكوتين والمشروبات الكحولية.</p>
 <p>أما ضريبة القيمة المضافة في الإمارات فنسبتها 5%، وتُطبّق على السلع المستوردة. لذلك فإن إعفاء الرسوم الجمركية لا يعني أن الطلب معفى من كل التكاليف.</p>
 
 <h2>بقية دول الخليج</h2>
@@ -1492,7 +1492,7 @@ GUIDES.append({
 "body_en": """
 <div class="keybox"><h2>The short version</h2><ul>
 <li><b>Saudi Arabia:</b> personal online purchases are exempt from customs duty when the total value (goods + shipping + insurance) is under SAR 1,000. VAT at 15% still applies, plus a SAR 15 customs declaration fee.</li>
-<li><b>UAE:</b> Dubai Customs exempts eligible cross-border e-commerce goods worth up to AED 1,000 from customs duty from 3 August 2026, with exclusions. Import VAT at 5% still applies.</li>
+<li><b>UAE:</b> Dubai Customs exempts cross-border e-commerce goods worth up to AED 1,000 from customs duty from 3 August 2026 (Customs Notice 16/2026), for shipments handled by e-commerce companies registered on its platform, with exclusions. Import VAT at 5% still applies.</li>
 <li>The common GCC customs duty is 5% of the value including shipping and insurance, for most goods.</li>
 <li>Work out the landed cost before you pay, not just the item price.</li>
 </ul></div>
@@ -1511,7 +1511,7 @@ GUIDES.append({
 <p>Some products need approval from another regulator whatever their value, including cosmetics, supplements, medicines and some wireless devices. These can be delayed or refused if the paperwork isn’t in order.</p>
 
 <h2>UAE: the AED 1,000 line</h2>
-<p>Customs duty in the UAE, as across the GCC, is 5% of the goods’ value including shipping and insurance, with higher rates for items such as tobacco and alcohol. In 2026, Dubai Customs issued a notice exempting cross-border e-commerce goods worth no more than AED 1,000 from customs duty, effective 3 August 2026. The exemption doesn’t cover tobacco, e-cigarettes and accessories, nicotine liquids or alcoholic drinks.</p>
+<p>Customs duty in the UAE, as across the GCC, is 5% of the goods’ value including shipping and insurance, with higher rates for items such as tobacco and alcohol. In 2026, Dubai Customs issued a notice exempting cross-border e-commerce goods worth no more than AED 1,000 from customs duty, effective 3 August 2026 (Customs Notice 16/2026). It applies to shipments handled by e-commerce companies registered on Dubai Customs’ platform, not to every parcel entering the UAE, so check with the store or courier. The exemption doesn’t cover tobacco, e-cigarettes and accessories, nicotine liquids or alcoholic drinks.</p>
 <p>The UAE’s VAT rate is 5% and it applies to imported goods. A duty-free parcel isn’t a cost-free parcel.</p>
 
 <h2>The rest of the Gulf</h2>

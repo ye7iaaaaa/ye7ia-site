@@ -5,6 +5,10 @@
 2026-11-07 00:15 Cairo — Batch 3: lightweight cookie consent; WCAG polish (footer headings, focus styles, reduced-motion); WebPage/Breadcrumb schema across pages; ContactPage+Organization ContactPoint on partners/contact; /favicon.ico at root; stores ?q= client filter (keeps SearchAction); Qatar/Bahrain/Oman country pages; /brands/+/advertise/ → /partners/ redirects; data/affiliate-programs.md from public official join requirements only.
 # Changelog
 
+## 2026-11-09 — Re-audit follow-ups
+- /stores/ and /en/stores/ set to noindex (while no stores are listed) and removed from sitemap.
+- Dubai AED 1,000 customs exemption checked against Customs Notice 16/2026 (effective 03/08/2026 confirmed); wording now notes it applies via e-commerce companies registered with Dubai Customs.
+
 ## 2026-11-09 — Audit fixes (indexing, a11y, facts, guides, analytics)
 - Indexing: empty category/country/season pages and hubs set to noindex,follow and removed from sitemap; /countries/global/ kept indexed with sourced KSA/UAE threshold content.
 - Accessibility: CTA coral #C93A17, darker muted/mint/label colours, 12px minimum, no heading-level gaps (footer h2, sr-only hub headings).
