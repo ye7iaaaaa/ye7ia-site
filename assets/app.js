@@ -1,20 +1,40 @@
 /* Kobon — tiny progressive enhancements (no framework) */
 (function () {
   "use strict";
-  // mailto forms: compose a readable email from the fields
-  document.querySelectorAll("form.js-mailto").forEach(function (f) {
+  // Formspree forms: POST via fetch, inline status; native POST still works without JS
+  document.querySelectorAll("form.js-formspree").forEach(function (f) {
     f.addEventListener("submit", function (e) {
       e.preventDefault();
       if (f.reportValidity && !f.reportValidity()) return;
-      var lines = [];
-      f.querySelectorAll("input:not([type=hidden]),select,textarea").forEach(function (el) {
-        if (!el.value) return;
-        var label = el.closest("label");
-        var name = label ? label.childNodes[0].textContent.trim() : (el.getAttribute("placeholder") || el.name);
-        lines.push(name + ": " + el.value);
+      var btn = f.querySelector('button[type="submit"], button:not([type])');
+      var status = f.querySelector(".form-status");
+      if (!status) {
+        status = document.createElement("p");
+        status.className = "form-status";
+        status.setAttribute("role", "status");
+        status.setAttribute("aria-live", "polite");
+        f.appendChild(status);
+      }
+      var okMsg = f.getAttribute("data-ok") || "OK";
+      var errMsg = f.getAttribute("data-err") || "Error";
+      if (btn) btn.disabled = true;
+      status.textContent = "";
+      fetch(f.action, {
+        method: "POST",
+        body: new FormData(f),
+        headers: { Accept: "application/json" }
+      }).then(function (r) {
+        if (r.ok) {
+          status.textContent = okMsg;
+          f.reset();
+        } else {
+          status.textContent = errMsg;
+        }
+      }).catch(function () {
+        status.textContent = errMsg;
+      }).finally(function () {
+        if (btn) btn.disabled = false;
       });
-      var href = "mailto:" + f.dataset.to + "?subject=" + encodeURIComponent(f.dataset.subject || "") + "&body=" + encodeURIComponent(lines.join("\n"));
-      window.location.href = href;
     });
   });
   // stores page filter (?q=)

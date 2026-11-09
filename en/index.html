@@ -6,7 +6,7 @@
 <title>Kobon | Official coupons and shopping guides for the Gulf and beyond</title>
 <meta name="description" content="Official-only coupons and discount codes from Gulf and international stores, with full terms and last-checked dates, plus guides to sales, customs, BNPL and return rights.">
 <meta name="robots" content="index,follow,max-image-preview:large">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'; form-action 'self' mailto:; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com https://formspree.io; base-uri 'self'; form-action 'self' mailto: https://formspree.io; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://kobon.is-a.si/en/">
 <link rel="alternate" hreflang="ar" href="https://kobon.is-a.si/">
@@ -15,7 +15,7 @@
 <meta name="theme-color" content="#0E1330">
 <link rel="preload" href="/assets/fonts/readex-pro-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/plex-arabic-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=5">
+<link rel="stylesheet" href="/assets/style.css?v=6">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180">
@@ -168,12 +168,14 @@
 </section>
 <section class="section" id="alerts">
   <div class="wrap news">
-    <div><h2>Be the first to know</h2><p style="margin-top:.6rem">One weekly email with the best official offers. Unsubscribe any time.</p></div>
-    <form class="js-mailto" data-to="partners@kobon.is-a.si" data-subject="Subscribe to offer alerts" method="get">
+    <div><h2>Be the first to know</h2><p style="margin-top:.6rem">Leave your email to get the most important official offers when they’re available. Unsubscribe any time.</p></div>
+    <form class="js-formspree" action="https://formspree.io/f/xzeelnna" method="POST" data-ok="Your email is registered — thank you." data-err="Couldn’t send. Email us at partners@kobon.is-a.si">
       <label class="sr" for="news-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your email</label>
-      <input type="hidden" name="subject" value="Subscribe to offer alerts">
-      <input id="news-email" name="body" type="email" required placeholder="Your email" autocomplete="email" dir="ltr">
-      <button class="btn" style="background:var(--ink);color:#fff">Subscribe</button>
+      <input type="hidden" name="_subject" value="Subscribe to offer alerts">
+      <input type="text" name="_gotcha" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
+      <input id="news-email" name="email" type="email" required placeholder="Your email" autocomplete="email" dir="ltr">
+      <button type="submit" class="btn" style="background:var(--ink);color:#fff">Subscribe</button>
+      <p class="form-status" role="status" aria-live="polite" style="margin:0;grid-column:1/-1"></p>
     </form>
   </div>
 </section>
@@ -198,6 +200,6 @@
   </div>
   <div class="legal"><span>© 2026 Kobon · kobon.is-a.si</span><span><a href="/" lang="ar" hreflang="ar">العربية</a> · <a href="/en/" lang="en" hreflang="en">English</a></span></div>
 </div></footer>
-<script src="/assets/app.js?v=5" defer></script>
+<script src="/assets/app.js?v=6" defer></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "b9eed0a7d3194a7d95be8f4a9be48102"}'></script>
 </body></html>

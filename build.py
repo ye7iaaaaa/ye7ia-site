@@ -20,7 +20,7 @@ NAME = {"ar": "كوبون", "en": "Kobon"}
 EMAIL = "partners@kobon.is-a.si"
 YEAR = 2026
 TODAY = date.today().isoformat()
-ASSET_V = "5"
+ASSET_V = "6"
 
 COUNTRIES = [
     ("sa", "السعودية", "Saudi Arabia", "ر.س", "SAR"),
@@ -189,8 +189,8 @@ def strip_tags(s: str) -> str:
 
 
 CSP = ("default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; "
-       "img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; "
-       "base-uri 'self'; form-action 'self' mailto:; object-src 'none'; upgrade-insecure-requests")
+       "img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com https://formspree.io; "
+       "base-uri 'self'; form-action 'self' mailto: https://formspree.io; object-src 'none'; upgrade-insecure-requests")
 CF_BEACON_TOKEN = "b9eed0a7d3194a7d95be8f4a9be48102"
 BEACON = ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
           'data-cf-beacon=\'{"token": "' + CF_BEACON_TOKEN + '"}\'></script>') if CF_BEACON_TOKEN else ""
@@ -533,14 +533,18 @@ def band_html(lang: str) -> str:
 
 def news_html(lang: str) -> str:
     subj = t(lang, "اشتراك في تنبيهات العروض", "Subscribe to offer alerts")
+    ok = t(lang, "تم تسجيل بريدك، شكرًا لك.", "Your email is registered — thank you.")
+    err = t(lang, "تعذّر الإرسال. راسلنا على partners@kobon.is-a.si", "Couldn’t send. Email us at partners@kobon.is-a.si")
     return f'''<section class="section" id="alerts">
   <div class="wrap news">
-    <div><h2>{t(lang, 'كن أول من يعرف', 'Be the first to know')}</h2><p style="margin-top:.6rem">{t(lang, 'رسالة أسبوعية واحدة بأفضل العروض الرسمية. يمكنك إلغاء الاشتراك متى شئت.', 'One weekly email with the best official offers. Unsubscribe any time.')}</p></div>
-    <form class="js-mailto" data-to="{EMAIL}" data-subject="{esc(subj)}" method="get">
+    <div><h2>{t(lang, 'كن أول من يعرف', 'Be the first to know')}</h2><p style="margin-top:.6rem">{t(lang, 'سجّل بريدك لتصلك أهم العروض الرسمية عند توفرها. يمكنك إلغاء الاشتراك متى شئت.', 'Leave your email to get the most important official offers when they’re available. Unsubscribe any time.')}</p></div>
+    <form class="js-formspree" action="https://formspree.io/f/xzeelnna" method="POST" data-ok="{esc(ok)}" data-err="{esc(err)}">
       <label class="sr" for="news-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{t(lang, 'بريدك الإلكتروني', 'Your email')}</label>
-      <input type="hidden" name="subject" value="{esc(subj)}">
-      <input id="news-email" name="body" type="email" required placeholder="{t(lang, 'بريدك الإلكتروني', 'Your email')}" autocomplete="email" dir="ltr">
-      <button class="btn" style="background:var(--ink);color:#fff">{t(lang, 'اشترك', 'Subscribe')}</button>
+      <input type="hidden" name="_subject" value="{esc(subj)}">
+      <input type="text" name="_gotcha" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
+      <input id="news-email" name="email" type="email" required placeholder="{t(lang, 'بريدك الإلكتروني', 'Your email')}" autocomplete="email" dir="ltr">
+      <button type="submit" class="btn" style="background:var(--ink);color:#fff">{t(lang, 'اشترك', 'Subscribe')}</button>
+      <p class="form-status" role="status" aria-live="polite" style="margin:0;grid-column:1/-1"></p>
     </form>
   </div>
 </section>'''
@@ -702,7 +706,7 @@ MODELS = [
 ]
 
 TIMELINE = [
-    ("اليوم الأول", "Day one", "مكالمة تعارف", "Intro call", "نتعرّف على منتجك وجمهورك وأهدافك.", "We learn your product, audience and goals."),
+    ("اليوم الأول", "Day one", "استلام الطلب", "Request received", "نراجع علامتك ومنتجاتك وأهدافك.", "We review your brand, products and goals."),
     ("خلال 3 أيام", "Within 3 days", "خطة مكتوبة", "Written plan", "القنوات والعروض والجدول الزمني ومؤشرات النجاح.", "Channels, offers, timeline and success metrics."),
     ("الأسبوع الأول", "Week one", "الإطلاق", "Launch", "صفحتك وأكوادك وروابط التتبع جاهزة.", "Your page, codes and tracking links go live."),
     ("أسبوعيًا", "Every week", "تقرير وتحسين", "Report & optimise", "أرقام واضحة وخطوات الأسبوع التالي.", "Clear numbers and next week’s plan."),
@@ -739,15 +743,19 @@ def partner_form(lang: str) -> str:
     markets = [a("السعودية", "Saudi Arabia"), a("الإمارات", "UAE"), a("دول الخليج كلها", "All GCC markets"), a("الأسواق العالمية", "International markets"), a("الخليج والأسواق العالمية", "GCC + international")]
     models = [a("عمولة على المبيعات (CPS)", "Commission on sales (CPS)"), "CPA", a("هجين", "Hybrid"), a("لم نحدد بعد", "Not decided yet")]
     opt = lambda xs: "".join(f"<option>{esc(x)}</option>" for x in xs)
-    return f'''<form class="contact-card js-mailto" data-to="{EMAIL}" data-subject="{esc(subj)}" method="get" style="color:var(--ink)">
+    ok = a("تم الإرسال بنجاح، سنتواصل معك قريبًا.", "Sent successfully — we’ll be in touch soon.")
+    err = a("تعذّر الإرسال. راسلنا مباشرة على partners@kobon.is-a.si", "Couldn’t send. Email us directly at partners@kobon.is-a.si")
+    return f'''<form class="contact-card js-formspree" action="https://formspree.io/f/xljjyqqn" method="POST" data-ok="{esc(ok)}" data-err="{esc(err)}" style="color:var(--ink)">
       <h3 style="font-size:1.4rem">{a('طلب شراكة', 'Partnership request')}</h3>
-      <input type="hidden" name="subject" value="{esc(subj)}">
-      <div class="row2"><label class="field">{a('الاسم', 'Name')}<input name="{a('الاسم', 'Name')}" required placeholder="{a('اسمك الكامل', 'Your full name')}" autocomplete="name"></label><label class="field">{a('العلامة التجارية', 'Brand')}<input name="{a('العلامة التجارية', 'Brand')}" required placeholder="{a('اسم المتجر', 'Store name')}" autocomplete="organization"></label></div>
-      <div class="row2"><label class="field">{a('البريد الإلكتروني للعمل', 'Work email')}<input name="{a('البريد', 'Email')}" type="email" required placeholder="name@brand.com" dir="ltr" autocomplete="email"></label><label class="field">{a('الموقع الإلكتروني', 'Website')}<input name="{a('الموقع', 'Website')}" placeholder="brand.com" dir="ltr" autocomplete="url"></label></div>
-      <div class="row2"><label class="field">{a('الأسواق المستهدفة', 'Target markets')}<select name="{a('الأسواق', 'Markets')}">{opt(markets)}</select></label><label class="field">{a('النموذج المفضّل', 'Preferred model')}<select name="{a('النموذج', 'Model')}">{opt(models)}</select></label></div>
-      <label class="field">{a('هدفك الرئيسي', 'Main goal')}<textarea name="{a('الهدف', 'Goal')}" rows="3" placeholder="{a('مثال: عملاء جدد في السعودية خلال الجمعة البيضاء', 'e.g. new customers in Saudi Arabia over White Friday')}"></textarea></label>
-      <button class="btn btn-primary" style="justify-content:center">{a('أرسل الطلب ←', 'Send request →')}</button>
-      <small style="color:var(--muted)">{a('يفتح الزر تطبيق البريد برسالة جاهزة إلى', 'This opens your email app with a ready-to-send message to')} <a class="mail" href="mailto:{EMAIL}?subject={esc(subj)}">{EMAIL}</a>. {a('نستخدم بياناتك للرد عليك فقط.', 'We only use your details to reply to you.')}</small>
+      <input type="hidden" name="_subject" value="{esc(subj)}">
+      <input type="text" name="_gotcha" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
+      <div class="row2"><label class="field">{a('الاسم', 'Name')}<input name="name" required placeholder="{a('اسمك الكامل', 'Your full name')}" autocomplete="name"></label><label class="field">{a('العلامة التجارية', 'Brand')}<input name="brand" required placeholder="{a('اسم المتجر', 'Store name')}" autocomplete="organization"></label></div>
+      <div class="row2"><label class="field">{a('البريد الإلكتروني للعمل', 'Work email')}<input name="email" type="email" required placeholder="name@brand.com" dir="ltr" autocomplete="email"></label><label class="field">{a('الموقع الإلكتروني', 'Website')}<input name="website" placeholder="brand.com" dir="ltr" autocomplete="url"></label></div>
+      <div class="row2"><label class="field">{a('الأسواق المستهدفة', 'Target markets')}<select name="markets">{opt(markets)}</select></label><label class="field">{a('النموذج المفضّل', 'Preferred model')}<select name="model">{opt(models)}</select></label></div>
+      <label class="field">{a('هدفك الرئيسي', 'Main goal')}<textarea name="message" rows="3" placeholder="{a('مثال: عملاء جدد في السعودية خلال الجمعة البيضاء', 'e.g. new customers in Saudi Arabia over White Friday')}"></textarea></label>
+      <button type="submit" class="btn btn-primary" style="justify-content:center">{a('أرسل الطلب ←', 'Send request →')}</button>
+      <p class="form-status" role="status" aria-live="polite" style="margin:0"></p>
+      <small style="color:var(--muted)">{a('يُرسل طلبك مباشرة إلى فريقنا على', 'Your request is sent directly to our team at')} <a class="mail" href="mailto:{EMAIL}?subject={esc(subj)}">{EMAIL}</a>. {a('نستخدم بياناتك للرد عليك فقط.', 'We only use your details to reply to you.')}</small>
     </form>'''
 
 
@@ -771,7 +779,7 @@ def build_partners(lang: str) -> None:
       <span class="eyebrow light">✦ {a('للعلامات التجارية والمتاجر', 'For brands & online stores')}</span>
       <h1>{a('مبيعات قابلة للقياس.<br>تدفع مقابل <span style="color:var(--saffron)">النتائج</span>.', 'Measurable sales.<br>You pay for <span style="color:var(--saffron)">results</span>.')}</h1>
       <p class="lead">{a('كوبون فريق متخصص في التسويق بالعمولة والأداء، ومنصة عروض رسمية للمتسوقين في الخليج والأسواق العالمية.', 'Kobon is a performance and affiliate marketing team with an official-offers platform for shoppers in the Gulf and international markets.')}</p>
-      <div class="actions"><a class="btn btn-primary" href="#contact">{a('احجز مكالمة تعارف ←', 'Book an intro call →')}</a><a class="btn btn-outline-light" href="/media-kit.pdf">{a('الملف التعريفي (PDF)', 'Media kit (PDF)')}</a></div>
+      <div class="actions"><a class="btn btn-primary" href="#contact">{a('ابدأ الشراكة ←', 'Start a partnership →')}</a><a class="btn btn-outline-light" href="/media-kit.pdf">{a('الملف التعريفي (PDF)', 'Media kit (PDF)')}</a></div>
       <div class="facts"><span><b>{a('الدفع مقابل النتائج', 'Pay for results')}</b>CPS · CPA · {a('هجين', 'Hybrid')}</span><span><b>{a('الخليج ومصر والعالم', 'Gulf, Egypt & global')}</b>{a('أسواق خليجية ومصر وأسواق عالمية', 'GCC, Egypt + international')}</span><span><b>{a('بلغتين', 'Bilingual')}</b>{a('العربية والإنجليزية', 'Arabic & English')}</span></div>
     </div>
     {dashboard_svg(lang)}
@@ -893,7 +901,7 @@ def build_about(lang: str) -> None:
 </section>
 <section class="wrap two">
   <div class="path-card dark"><span class="eyebrow light">{a('للعلامات التجارية', 'For brands')}</span><h2 style="font-size:1.7rem">{a('لنعمل معًا', 'Let’s work together')}</h2><p>{a('عمولة على المبيعات، وقواعد واضحة لسلامة علامتك، وتقارير أسبوعية.', 'Commission on sales, clear brand-safety rules and weekly reports.')}</p><div class="actions"><a class="btn btn-primary" href="{L(lang, '/partners/')}">{a('اعرف المزيد ←', 'Learn more →')}</a></div></div>
-  <div class="path-card"><span class="eyebrow mint">{a('للمتسوقين', 'For shoppers')}</span><h2 style="font-size:1.7rem">{a('اشترك في التنبيهات', 'Get offer alerts')}</h2><p>{a('رسالة أسبوعية واحدة بأفضل العروض الرسمية.', 'One weekly email with the best official offers.')}</p><div class="actions"><a class="btn btn-ghost" href="{L(lang, '/#alerts')}">{a('اشترك', 'Subscribe')}</a></div></div>
+  <div class="path-card"><span class="eyebrow mint">{a('للمتسوقين', 'For shoppers')}</span><h2 style="font-size:1.7rem">{a('اشترك في التنبيهات', 'Get offer alerts')}</h2><p>{a('سجّل بريدك لتصلك أهم العروض الرسمية عند توفرها.', 'Leave your email for the most important official offers when available.')}</p><div class="actions"><a class="btn btn-ghost" href="{L(lang, '/#alerts')}">{a('اشترك', 'Subscribe')}</a></div></div>
 </section>'''
     render(lang, "/about/", a("من نحن: فريق تسويق بالعمولة في الخليج والأسواق العالمية | كوبون", "About Kobon: an affiliate marketing team for the Gulf and beyond | Kobon"),
            a("تعرّف على فريق كوبون المتخصص في التسويق بالعمولة في الخليج والأسواق العالمية، ومبادئنا: العروض الرسمية فقط، والشفافية، واحترام وقتك، وسلامة العلامة التجارية.",
@@ -1005,7 +1013,7 @@ LEGAL = {
 <h2>ملفات تعريف الارتباط</h2>
 <p>لا نضع ملفات تعريف ارتباط للتتبع أو للإعلانات. نستخدم Cloudflare Web Analytics لقياس عدد الزيارات والصفحات الأكثر قراءة بشكل إجمالي، وهي أداة لا تستخدم ملفات تعريف الارتباط ولا تتتبعك عبر المواقع.</p>
 <h2>النماذج والبريد</h2>
-<p>نموذج الشراكة ونموذج التنبيهات لا يرسلان بياناتك إلى خادم. يفتحان تطبيق البريد لديك برسالة جاهزة، وأنت من يقرر إرسالها. نستخدم ما تصلنا به من بيانات للرد عليك فقط.</p>
+<p>نموذج الشراكة ونموذج التنبيهات يُرسلان عبر Formspree إلى بريد فريقنا partners@kobon.is-a.si. نستخدم بياناتك للرد عليك فقط، ولا نبيعها.</p>
 <h2>روابط المتاجر</h2>
 <p>قد تكون بعض الروابط روابط عمولة. عند الضغط عليها تنتقل إلى متجر خارجي له سياسة خصوصية خاصة به. راجع <a href="/affiliate-disclosure/">الإفصاح عن العمولة</a> و<a href="/terms/">الشروط</a>.</p>
 <h2>التواصل</h2>
@@ -1015,7 +1023,7 @@ LEGAL = {
 <h2>Cookies</h2>
 <p>We don’t set tracking or advertising cookies. We use Cloudflare Web Analytics to count visits and see which pages are read most, in aggregate. It doesn’t use cookies or track you across sites.</p>
 <h2>Forms and email</h2>
-<p>The partnership and alerts forms don’t send your data to a server. They open your email app with a ready message, and you decide whether to send it. We only use what you send us to reply to you.</p>
+<p>The partnership and alerts forms are submitted via Formspree to our team inbox at partners@kobon.is-a.si. We only use your details to reply to you, and we don’t sell them.</p>
 <h2>Store links</h2>
 <p>Some links may be affiliate links. Clicking them takes you to an external store with its own privacy policy. See the <a href="/en/affiliate-disclosure/">affiliate disclosure</a> and <a href="/en/terms/">terms</a>.</p>
 <h2>Contact</h2>
@@ -2445,7 +2453,7 @@ def build_guides(lang: str) -> None:
         rel = [others[(idx + k) % len(others)] for k in range(3)]
         aside = f'''<aside class="guide-aside">
   <div class="card"><span class="eyebrow mint">{a("معيار كوبون", "The Kobon standard")}</span><p>{a("لا ننشر إلا العروض الصادرة من المتجر أو برنامج شريك معتمد، مع شروطها وتاريخ آخر تحقق.", "We only publish offers issued by the store or an approved partner programme, with full terms and a last-checked date.")}</p><a class="link" href="{L(lang, '/how-it-works/#standard')}">{a("كيف نتحقق ←", "How we check →")}</a></div>
-  <div class="card"><b>{a("كن أول من يعرف", "Be the first to know")}</b><p>{a("رسالة أسبوعية واحدة بأفضل العروض الرسمية.", "One weekly email with the best official offers.")}</p><a class="btn btn-primary" href="{L(lang, '/#alerts')}">{a("اشترك", "Subscribe")}</a></div>
+  <div class="card"><b>{a("كن أول من يعرف", "Be the first to know")}</b><p>{a("سجّل بريدك لتصلك أهم العروض الرسمية عند توفرها.", "Leave your email for the most important official offers when available.")}</p><a class="btn btn-primary" href="{L(lang, '/#alerts')}">{a("اشترك", "Subscribe")}</a></div>
 </aside>'''
         body = page_hero(lang, cr, esc(g["tag_" + lang]), esc(g["title_" + lang]), esc(g["desc_" + lang]), "", extra=meta) + f'''
 <section class="section"><div class="wrap" style="display:grid;gap:3rem">
