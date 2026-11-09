@@ -5,6 +5,9 @@
 2026-11-07 00:15 Cairo — Batch 3: lightweight cookie consent; WCAG polish (footer headings, focus styles, reduced-motion); WebPage/Breadcrumb schema across pages; ContactPage+Organization ContactPoint on partners/contact; /favicon.ico at root; stores ?q= client filter (keeps SearchAction); Qatar/Bahrain/Oman country pages; /brands/+/advertise/ → /partners/ redirects; data/affiliate-programs.md from public official join requirements only.
 # Changelog
 
+## 2026-11-09 — Media kit PDF refresh
+- Rebuilt /media-kit.pdf from kobon-build/mediakit/mk.html (Chromium/Playwright PDF): pay-for-results clarified, no newsletter claim, soft AI line, Egypt + honest site facts, no scarcity/intro-call, Contact us + partners@kobon.is-a.si.
+
 ## 2026-11-09 — Partners page review (AR/EN)
 - Wording: founding benefits without scarcity; Direct title; exclusive code for Kobon audience; SEO/AI soft claims; brand-safety rules; Egypt in title/meta/form; timeline «خلال ثلاثة أيام».
 - Trust: honest facts strip (new platform 2026, 7 markets + global, 10 guides, 2 languages, official offers only); pay-for-results clarified vs hybrid fee.
