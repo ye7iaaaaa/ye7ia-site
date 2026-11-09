@@ -414,7 +414,7 @@ def strip_html(lang: str) -> str:
         (CHECK.format(s=24, c="#FFC233"), t(lang, "عروض رسمية فقط", "Official offers only"), t(lang, "من المتجر أو برنامج شريك معتمد", "From the store or an approved programme")),
         ('<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', t(lang, "تاريخ آخر تحقق", "Last-checked date"), t(lang, "ظاهر على كل عرض", "Shown on every offer")),
         ('<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2"><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/><circle cx="12" cy="12" r="9"/></svg>', t(lang, "الخليج ومصر والعالم", "Gulf, Egypt & global"), t(lang, "دول الخليج ومصر والمتاجر العالمية", "GCC markets, Egypt and international stores")),
-        ('<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A99FFF" stroke-width="2"><path d="M4 5h16v11H8l-4 4z"/></svg>', t(lang, "بالعربية والإنجليزية", "Arabic & English"), t(lang, "محتوى واضح بلغتين", "Clear in both languages")),
+        ('<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A99FFF" stroke-width="2"><path d="M4 5h16v11H8l-4 4z"/></svg>', t(lang, "شروط العرض كاملة", "Full offer terms"), t(lang, "قبل ما تنسخ الكود", "Before you copy the code")),
     ]
     return '<div class="wrap"><div class="strip">' + "".join(
         f'<div><span class="ic">{ic}</span><span><b>{b}</b><small>{s}</small></span></div>' for ic, b, s in items
@@ -680,10 +680,10 @@ def dashboard_svg(lang: str) -> str:
 
 SERVICES = [
     ("bg-coral", "#FF5A36", '<path d="M4 7h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4z"/>',
-     ("صفحة متجر احترافية", "A professional store page"), ("صفحة لعلامتك بالعربية والإنجليزية تظهر في الفئات والمواسم والأسواق.", "A bilingual page for your brand, featured across categories, seasons and markets."),
+     ("صفحة متجر احترافية", "A professional store page"), ("صفحة لعلامتك تظهر في الفئات والمواسم والأسواق.", "A dedicated page for your brand, featured across categories, seasons and markets."),
      [("كود خصم حصري لجمهور كوبون", "An exclusive code for Kobon’s audience"), ("صفحة محسّنة لمحركات البحث", "A search-optimised page"), ("شروط واضحة لكل عرض", "Clear terms on every offer")]),
     ("bg-violet", "#6D5BFF", '<path d="M4 19V5M4 19h16M8 15l3-4 3 2 5-6"/>',
-     ("المحتوى والسيو", "Content & SEO"), ("محتوى عربي وإنجليزي يجيب عن أسئلة المتسوق ويقوده إلى الشراء.", "Arabic and English content that answers shoppers’ questions and leads to checkout."),
+     ("المحتوى والسيو", "Content & SEO"), ("محتوى يجيب عن أسئلة المتسوق ويقوده إلى الشراء.", "Content that answers shoppers’ questions and leads to checkout."),
      [("أدلة شراء ومقارنات", "Buying guides and comparisons"), ("صفحات مواسم تُنشر مبكرًا", "Season pages published early"), ("نحسّن فرص الظهور في محركات البحث وإجابات الذكاء الاصطناعي", "We improve the chance of appearing in search and AI answers")]),
     ("bg-mint", "#14B8A6", '<path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/>',
      ("البريد والتنبيهات", "Email & alerts"), ("نبلغ المتسوقين بعروضك الرسمية عند توفرها وفي المواسم.", "We notify shoppers of your official offers when available and in peak seasons."),
@@ -796,7 +796,7 @@ def build_partners(lang: str) -> None:
       <h1>{a('مبيعات قابلة للقياس.<br>تدفع مقابل <span style="color:var(--saffron)">النتائج</span>.', 'Measurable sales.<br>You pay for <span style="color:var(--saffron)">results</span>.')}</h1>
       <p class="lead">{a('كوبون منصة جديدة للتسويق بالعمولة والأداء، ومنصة عروض رسمية للمتسوقين في الخليج ومصر والأسواق العالمية. تدفع مقابل النتائج في نموذج العمولة؛ وفي النموذج الهجين تُضاف رسوم ظهور ثابتة.', 'Kobon is a new affiliate and performance platform with official offers for shoppers in the Gulf, Egypt and international markets. On the commission model you pay for results; the hybrid model adds a fixed placement fee.')}</p>
       <div class="actions"><a class="btn btn-primary" href="#contact">{a('ابدأ الشراكة ←', 'Start a partnership →')}</a><a class="btn btn-outline-light" href="/media-kit.pdf">{a('الملف التعريفي (PDF)', 'Media kit (PDF)')}</a></div>
-      <div class="facts"><span><b>{a('كوبون منصة جديدة', 'Kobon is a new platform')}</b>{a('أُطلقت في 2026', 'Launched in 2026')}</span><span><b>{len([c for c in COUNTRIES if c[0] != "global"])} {a('أسواق + عالمي', 'markets + global')}</b>{a('الخليج ومصر + متاجر عالمية', 'Gulf & Egypt + international stores')}</span><span><b>{len(GUIDES)} {a('أدلة منشورة', 'published guides')}</b>{a('العربية والإنجليزية', 'Arabic & English')}</span><span><b>{a('عروض رسمية فقط', 'Official offers only')}</b>CPS · CPA · {a('هجين', 'Hybrid')}</span></div>
+      <div class="facts"><span><b>{a('كوبون منصة جديدة', 'Kobon is a new platform')}</b>{a('أُطلقت في 2026', 'Launched in 2026')}</span><span><b>{len([c for c in COUNTRIES if c[0] != "global"])} {a('أسواق + عالمي', 'markets + global')}</b>{a('الخليج ومصر + متاجر عالمية', 'Gulf & Egypt + international stores')}</span><span><b>{len(GUIDES)} {a('أدلة منشورة', 'published guides')}</b>{a('أدلة شراء للمتسوقين', 'Buying guides for shoppers')}</span><span><b>{a('عروض رسمية فقط', 'Official offers only')}</b>CPS · CPA · {a('هجين', 'Hybrid')}</span></div>
     </div>
     {dashboard_svg(lang)}
   </div>
@@ -883,7 +883,7 @@ def build_about(lang: str) -> None:
     pr = "".join(f'<article class="card"><span class="ic {bg}">{CHECK.format(s=30, c=c)}</span><h3>{t(lang, *h)}</h3><p>{t(lang, *p)}</p></article>' for bg, c, h, p in principles)
     skills = [
         ("التسويق بالعمولة", "Affiliate marketing", "إدارة برامج العمولة مع المتاجر والشبكات بروابط وأكواد قابلة للتتبع.", "Running commission programmes with stores and networks, with trackable links and codes."),
-        ("السيو والمحتوى", "SEO & content", "صفحات وأدلة شراء بالعربية والإنجليزية تجيب عن أسئلة المتسوق.", "Arabic and English pages and buying guides that answer shoppers’ questions."),
+        ("السيو والمحتوى", "SEO & content", "صفحات وأدلة شراء تجيب عن أسئلة المتسوق.", "Pages and buying guides that answer shoppers’ questions."),
         ("البريد والتنبيهات", "Email & alerts", "تنبيهات عند توفر العروض وتنبيهات موسمية.", "Alerts when offers are available, plus seasonal alerts."),
         ("تحليل الأداء", "Analytics", "أسبوعيًا نقرات واستخدام الكود من كوبون؛ وشهريًا المبيعات من بيانات طلبات العلامة.", "Weekly clicks and code usage from Kobon; monthly sales from the brand’s order data."),
         ("إدارة حملات المواسم", "Seasonal campaigns", "خطط مبكرة للجمعة البيضاء ورمضان والعيد والأيام الوطنية.", "Early plans for White Friday, Ramadan, Eid and national days."),
