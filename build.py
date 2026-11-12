@@ -192,8 +192,14 @@ CSP = ("default-src 'self'; script-src 'self' https://static.cloudflareinsights.
        "img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com https://formspree.io; "
        "base-uri 'self'; form-action 'self' mailto: https://formspree.io; object-src 'none'; upgrade-insecure-requests")
 CF_BEACON_TOKEN = "b9eed0a7d3194a7d95be8f4a9be48102"
-BEACON = ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
-          'data-cf-beacon=\'{"token": "' + CF_BEACON_TOKEN + '"}\'></script>') if CF_BEACON_TOKEN else ""
+BEACON = ('<script>(function(){try{var q=location.search;'
+          'if(q.indexOf("notrack=1")>-1)localStorage.setItem("kobon_notrack","1");'
+          'if(q.indexOf("notrack=0")>-1)localStorage.removeItem("kobon_notrack");'
+          'if(localStorage.getItem("kobon_notrack")==="1")return;}catch(e){}'
+          'var s=document.createElement("script");s.defer=true;'
+          's.src="https://static.cloudflareinsights.com/beacon.min.js";'
+          's.setAttribute("data-cf-beacon",\'{"token": "' + CF_BEACON_TOKEN + '"}\');'
+          'document.head.appendChild(s);})();</script>') if CF_BEACON_TOKEN else ""
 
 
 NAV = [
